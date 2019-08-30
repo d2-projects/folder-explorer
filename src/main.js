@@ -7,7 +7,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './component'
-import Notify from './plugin/notify'
+import Notify from './plugin/vue.notify'
 import './assets/style/public.scss'
 
 Vue.use(Antd)

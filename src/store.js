@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import persistedState from 'vuex-persistedstate'
 import { ipcRenderer } from 'electron'
-import { notify } from './plugin/notify'
+import { notify } from './plugin/vue.notify'
 
 Vue.use(Vuex)
 
