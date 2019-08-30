@@ -18,7 +18,13 @@ export default {
   },
   methods: {
     onClick () {
-      console.log(this.value)
+      if (this.value === '') {
+        this.$notify({
+          type: 'warning',
+          title: '内容为空',
+          body: '请先扫描一个非空目录'
+        })
+      }
       this.$copyText(this.value)
         .then(() => {
           this.$notify({
