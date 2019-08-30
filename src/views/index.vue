@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
 .page-index {
+  height: 100%;
   .page-index--selector {
     padding: 10px;
     .ant-input {
@@ -17,14 +18,14 @@
 </style>
 
 <template>
-  <div flex="dir:top" class="page-index" ref="page-index">
+  <div flex="dir:top" class="page-index">
     <div flex="dir:left" class="page-index--selector">
       <a-input
         placeholder="选择目录"
         :value="SCAN_FOLDER_PATH"/>
       <a-button
         type="primary"
-        @click="onClickSelectDir">
+        @click="IPC_DIR_SELECT">
         选择目录
       </a-button>
     </div>
@@ -43,8 +44,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-import { ipcRenderer } from 'electron'
+import { mapState, mapActions } from 'vuex'
 import { translateToText } from '@/util/scanDataTranslate.js'
 import { scanResultDisplayTypesMenu } from '@/router.js'
 export default {
@@ -59,45 +59,10 @@ export default {
       'SCAN_FOLDER_PATH'
     ]),
   },
-  created () {
-    // 注册事件监听 [ 返回文件夹扫描结果 ]
-    ipcRenderer.on('IPC_DIR_SCAN_REPLY', (event, arg) => this.SCAN_RESULT_UPDATE(arg))
-  },
-  mounted () {
-    // 处理文件拖拽
-    this.$refs['page-index'].ondragenter = event => {
-      event.preventDefault()
-      console.log('ondragenter')
-    }
-    this.$refs['page-index'].ondragover = event => {
-      event.preventDefault()
-    }
-    this.$refs['page-index'].ondrop = event => {
-      event.preventDefault()
-      console.log(event.dataTransfer.files)
-    }
-  },
-  beforeDestroy () {
-    // 组件卸载之前取消事件监听 [ 返回文件夹扫描结果 ]
-    ipcRenderer.removeListener('IPC_DIR_SCAN_REPLY')
-  },
   methods: {
-    ...mapMutations([
-      'SCAN_RESULT_UPDATE',
-      'SCAN_FOLDER_PATH_UPDATE'
-    ]),
-    /**
-     * 点击选择文件夹按钮
-     */
-    onClickSelectDir () {
-      // 获得用户选择的文件夹路径
-      const folderPath = ipcRenderer.sendSync('IPC_DIR_SELECT')
-      if (folderPath) {
-        this.SCAN_FOLDER_PATH_UPDATE(folderPath)
-        // 发送扫描文件夹请求
-        ipcRenderer.send('IPC_DIR_SCAN', { folderPath })
-      }
-    }
+    ...mapActions([
+      'IPC_DIR_SELECT'
+    ])
   }
 }
 </script>

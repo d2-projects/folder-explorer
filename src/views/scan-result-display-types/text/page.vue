@@ -32,7 +32,7 @@
 import { mapState } from 'vuex'
 import { translateToText } from '@/util/scanDataTranslate.js'
 export default {
-  name: 'text',
+  name: 'doc',
   title: '文本',
   computed: {
     ...mapState([

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import persistedState from 'vuex-persistedstate'
+import { ipcRenderer } from 'electron'
 
 Vue.use(Vuex)
 
@@ -27,6 +28,18 @@ export default new Vuex.Store({
     // 更新 [ 扫描结果 ]
     SCAN_RESULT_UPDATE (state, data) {
       state.SCAN_RESULT = data
+    },
+    // IPC [ 发送扫描文件夹请求 ]
+    IPC_DIR_SCAN (state) {
+      ipcRenderer.send('IPC_DIR_SCAN', {
+        folderPath: state.SCAN_FOLDER_PATH
+      })
+    }
+  },
+  actions: {
+    // IPC [ 通过文件选择窗口选择一个文件夹 ]
+    IPC_DIR_SELECT () {
+      ipcRenderer.send('IPC_DIR_SELECT')
     }
   }
 })

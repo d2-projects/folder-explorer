@@ -4,9 +4,9 @@ import scan from '../util/scan'
 /**
  * 渲染进程请求选择文件
  */
-ipcMain.on('IPC_DIR_SELECT', (event, arg) => {
+ipcMain.on('IPC_DIR_SELECT', async (event, arg) => {
   const window = BrowserWindow.getFocusedWindow()
-  const path = dialog.showOpenDialogSync(window, {
+  const result = await dialog.showOpenDialog(window, {
     title: '选择目录',
     buttonLabel: '选择该目录',
     properties: [
@@ -15,7 +15,9 @@ ipcMain.on('IPC_DIR_SELECT', (event, arg) => {
     ],
     message: '请选择一个文件夹'
   })
-  event.returnValue = path ? path[0] : ''
+  if (result.canceled === false) {
+    event.reply('IPC_DIR_SELECT_REPLY', result.filePaths[0])
+  }
 })
 
 /**

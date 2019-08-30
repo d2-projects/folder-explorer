@@ -8,6 +8,7 @@ import router from './router'
 import store from './store'
 import './component'
 import Notify from './plugin/notify'
+import './assets/style/public.scss'
 
 Vue.use(Antd)
 Vue.use(VueClipboard)
