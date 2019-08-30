@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import reply from './ipc/reply'
 export default {
   data () {
@@ -55,13 +56,22 @@ export default {
     }
     this.$refs.app.ondrop = event => {
       event.preventDefault()
-      console.log(event.dataTransfer.files)
+      if (event.dataTransfer.files.length > 0) {
+        this.SCAN_FOLDER_PATH_UPDATE(event.dataTransfer.files[0].path)
+        this.IPC_DIR_SCAN()
+      }
       this.isDraging = false
     }
     this.$refs.app.onmouseout = event => {
       event.preventDefault()
       this.isDraging = false
     }
+  },
+  methods: {
+    ...mapMutations([
+      'SCAN_FOLDER_PATH_UPDATE',
+      'IPC_DIR_SCAN'
+    ])
   }
 }
 </script>

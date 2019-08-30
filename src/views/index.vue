@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import { translateToText } from '@/util/scanDataTranslate.js'
 import { scanResultDisplayTypesMenu } from '@/router.js'
 export default {
@@ -60,7 +60,7 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions([
+    ...mapMutations([
       'IPC_DIR_SELECT'
     ])
   }

@@ -6,9 +6,14 @@ var path = require('path')
  * @param {Object} param0 {String} folderPath 文件夹路径
  */
 async function scan ({
-	folderPath
+	folderPath,
+	needCheckFolder = false
 }) {
 	let result = []
+	// 防止拖拽导入的路径不是文件夹
+	// 这个判断只在递归的第一次触发
+	if (needCheckFolder && !await isFolder(folderPath)) return result
+	// 获得文件夹的内容
 	const files = await fs.readdirSync(folderPath)
 	for (const filename of files) {
 		const fileDirFull = path.join(folderPath, filename)
@@ -28,6 +33,15 @@ async function scan ({
 		})
 	}
 	return result
+}
+
+/**
+ * 检查是否为文件夹
+ * @param {String} folderPath 路径
+ */
+async function isFolder (folderPath) {
+	const stat = await fs.statSync(folderPath)
+	return stat.isDirectory()
 }
 
 function saveFile (fileName = '', text = '') {

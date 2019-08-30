@@ -1,4 +1,4 @@
-import { ipcMain, dialog, BrowserWindow, Notification } from 'electron'
+import { ipcMain, dialog, BrowserWindow, Notification, shell } from 'electron'
 import scan from '../util/scan'
 
 /**
@@ -24,7 +24,10 @@ ipcMain.on('IPC_DIR_SELECT', async (event, arg) => {
  * 渲染进程请求扫描文件夹
  */
 ipcMain.on('IPC_DIR_SCAN', async (event, { folderPath }) => {
-  event.reply('IPC_DIR_SCAN_REPLY', await scan({ folderPath }))
+  event.reply('IPC_DIR_SCAN_REPLY', await scan({
+    folderPath,
+    needCheckFolder: true
+  }))
 })
 
 /**
