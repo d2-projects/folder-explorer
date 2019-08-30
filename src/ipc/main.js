@@ -1,4 +1,4 @@
-import { ipcMain, dialog, BrowserWindow } from 'electron'
+import { ipcMain, dialog, BrowserWindow, Notification } from 'electron'
 import scan from '../util/scan'
 
 /**
@@ -23,4 +23,21 @@ ipcMain.on('IPC_DIR_SELECT', (event, arg) => {
  */
 ipcMain.on('IPC_DIR_SCAN', async (event, { folderPath }) => {
   event.reply('IPC_DIR_SCAN_REPLY', await scan({ folderPath }))
+})
+
+/**
+ * 渲染进程请求发送桌面通知
+ */
+ipcMain.on('IPC_SEND_NOTIFICATION', async (event, {
+  title = 'Folder Explorer',
+  body = ''
+}) => {
+  event.returnValue = Notification.isSupported()
+  if (Notification.isSupported()) {
+    const notification = new Notification({
+      title,
+      body
+    })
+    notification.show()
+  }
 })

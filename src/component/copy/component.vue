@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 export default {
   name: 'copy',
   props: {
@@ -20,14 +21,16 @@ export default {
       console.log(this.value)
       this.$copyText(this.value)
         .then(() => {
-          this.$notification.success({
-            message: '成功',
-            description: '复制成功'
+          this.$notify({
+            type: 'success',
+            title: '复制成功',
+            body: '内容已经复制到剪贴板'
           })
         }, () => {
-          this.$notification.error({
-            message: '错误',
-            description: '复制失败'
+          this.$notify({
+            type: 'error',
+            title: '失败',
+            body: '出现了一些小错误'
           })
         })
     }
