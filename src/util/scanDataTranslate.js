@@ -44,5 +44,5 @@ export function translateToText ({
   }
   let result = []
   maker(data, 1)
-  return result
+  return result.join('\n')
 }

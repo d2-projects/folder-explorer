@@ -1,16 +1,37 @@
+<style lang="scss" scoped>
+.page-index {
+  .page-index--selector {
+    margin: 10px;
+    .ant-input {
+      margin-right: 10px;
+    }
+  }
+  .page-index--tabbar {
+  }
+  .page-index--router-view {
+    margin: 10px;
+    padding: 10px;
+    overflow: auto;
+    border-radius: 4px;
+    border: 1px solid #d9d9d9;
+  }
+}
+</style>
+
 <template>
-  <div>
-    <a-button type="primary" @click="onClickSelectDir">选择目录</a-button>
-    <a-tabs
-      :defaultActiveKey="$route.name"
-      type="card"
-      @change="name => $router.replace({ name })">
-      <a-tab-pane
-        v-for="type of scanResultDisplayTypesMenu"
-        :tab="type.title"
-        :key="type.name"/>
-    </a-tabs>
-    <router-view/>
+  <div flex="dir:top" class="page-index">
+    <div flex="dir:left" class="page-index--selector">
+      <a-input placeholder="选择目录" :value="folderPath" @click="onClickSelectDir"/>
+      <a-button type="primary" @click="onClickSelectDir">选择目录</a-button>
+    </div>
+    <div flex="dir:left main:center" class="page-index--tabbar">
+      <a-radio-group :defaultValue="$route.name" buttonStyle="solid" @change="e => $router.replace({ name: e.target.value })">
+        <a-radio-button v-for="type of scanResultDisplayTypesMenu" :key="type.name" :value="type.name">{{type.title}}</a-radio-button>
+      </a-radio-group>
+    </div>
+    <div flex-box="1" class="page-index--router-view">
+      <router-view/>
+    </div>
   </div>
 </template>
 
