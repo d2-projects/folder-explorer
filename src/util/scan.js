@@ -3,28 +3,28 @@ var path = require('path')
 
 /**
  * 返回传入目录的子文件数据
- * @param {String} filePath 文件目录
+ * @param {Object} param0 {String} folderPath 文件夹路径
  */
-async function scan (filePath) {
+async function scan ({
+	folderPath
+}) {
 	let result = []
-	const files = await fs.readdirSync(filePath)
+	const files = await fs.readdirSync(folderPath)
 	for (const filename of files) {
-		const fileDirFull = path.join(filePath, filename)
+		const fileDirFull = path.join(folderPath, filename)
 		const stat = await fs.statSync(fileDirFull)
 		const isFile = stat.isFile()
 		const isDirectory = stat.isDirectory()
 		result.push({
 			nameFull: filename,
 			name: path.parse(filename).name,
-			...stat.isFile() ? {
-				ext: path.extname(filename)
-			} : {},
 			isFile,
+			ext: isFile ? path.extname(filename) : '',
 			isDirectory,
 			size: stat.size,
-			...stat.isDirectory() ? {
-				children: await scan(fileDirFull)
-			} : {}
+			children: isDirectory ? await scan({
+				folderPath: fileDirFull
+			}) : []
 		})
 	}
 	return result
