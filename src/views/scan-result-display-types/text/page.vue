@@ -21,7 +21,9 @@
       <pre v-for="(row, index) of display.split('\n')" :key="index">{{row}}</pre>
     </div>
     <template slot="footer">
-      <copy :value="display"/>
+      <div flex="main:center">
+        <copy :value="display"/>
+      </div>
     </template>
   </container>
 </template>
