@@ -17,7 +17,7 @@
 </style>
 
 <template>
-  <div flex="dir:top" class="page-index">
+  <div flex="dir:top" class="page-index" ref="page-index">
     <div flex="dir:left" class="page-index--selector">
       <a-input
         placeholder="选择目录"
@@ -62,6 +62,20 @@ export default {
   created () {
     // 注册事件监听 [ 返回文件夹扫描结果 ]
     ipcRenderer.on('IPC_DIR_SCAN_REPLY', (event, arg) => this.SCAN_RESULT_UPDATE(arg))
+  },
+  mounted () {
+    // 处理文件拖拽
+    this.$refs['page-index'].ondragenter = event => {
+      event.preventDefault()
+      console.log('ondragenter')
+    }
+    this.$refs['page-index'].ondragover = event => {
+      event.preventDefault()
+    }
+    this.$refs['page-index'].ondrop = event => {
+      event.preventDefault()
+      console.log(event.dataTransfer.files)
+    }
   },
   beforeDestroy () {
     // 组件卸载之前取消事件监听 [ 返回文件夹扫描结果 ]
