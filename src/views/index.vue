@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-button type="primary" @click="onSelectDir">选择目录</a-button>
+    <a-button type="primary" @click="onClickSelectDir">选择目录</a-button>
     <p>{{folderPath}}</p>
     <pre style="margin-bottom: -3px;" v-for="(row, index) in treeText" :key="index">{{row}}</pre>
   </div>
@@ -32,8 +32,13 @@ export default {
     ipcMain.removeListener('IPC_DIR_SCAN_REPLY')
   },
   methods: {
-    onSelectDir () {
+    /**
+     * 点击选择文件夹按钮
+     */
+    onClickSelectDir () {
+      // 获得用户选择的文件夹路径
       this.folderPath = ipcRenderer.sendSync('IPC_DIR_SELECT')
+      // 发送扫描文件夹请求
       ipcRenderer.send('IPC_DIR_SCAN', { folderPath: this.folderPath })
     }
   }
