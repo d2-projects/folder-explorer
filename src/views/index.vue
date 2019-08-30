@@ -1,37 +1,46 @@
 <template>
   <div>
     <a-button type="primary" @click="onClickSelectDir">选择目录</a-button>
-    <p>{{folderPath}}</p>
-    <pre style="margin-bottom: -3px;" v-for="(row, index) in treeText" :key="index">{{row}}</pre>
+    <a-tabs
+      :defaultActiveKey="$route.name"
+      type="card"
+      @change="name => $router.replace({ name })">
+      <a-tab-pane
+        v-for="type of scanResultDisplayTypesMenu"
+        :tab="type.title"
+        :key="type.name"/>
+    </a-tabs>
+    <router-view/>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import { ipcRenderer } from 'electron'
-import { translateToText } from '@/util/scanDataTranslate.js' 
+import { translateToText } from '@/util/scanDataTranslate.js'
+import { scanResultDisplayTypesMenu } from '@/router.js'
 export default {
   data () {
     return {
-      folderPath: '', // 选择的路径
-      scanResult: [] // 扫描结果
-    }
-  },
-  computed: {
-    treeText () {
-      return translateToText({
-        data: this.scanResult
-      })
+      // 支持的显示方式
+      scanResultDisplayTypesMenu,
+      // 选择的路径
+      folderPath: ''
     }
   },
   created () {
     // 注册事件监听 [ 返回文件夹扫描结果 ]
-    ipcRenderer.on('IPC_DIR_SCAN_REPLY', (event, arg) => this.scanResult = arg)
+    ipcRenderer.on('IPC_DIR_SCAN_REPLY', (event, arg) => this.SCAN_RESULT_UPDATE(arg))
   },
   beforeDestroy () {
     // 组件卸载之前取消事件监听 [ 返回文件夹扫描结果 ]
     ipcMain.removeListener('IPC_DIR_SCAN_REPLY')
   },
   methods: {
+    ...mapMutations([
+      // 更新扫描结果
+      'SCAN_RESULT_UPDATE'
+    ]),
     /**
      * 点击选择文件夹按钮
      */
