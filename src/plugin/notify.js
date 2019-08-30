@@ -12,24 +12,26 @@ import { notification } from 'ant-design-vue'
 // - warn: ƒ (args)
 // - warning: ƒ (args)
 
+export const notify = function ({
+  type = 'open',
+  title = '',
+  body = ''
+}) {
+  // https://electronjs.org/docs/api/notification
+  const canElectronSend = ipcRenderer.sendSync('IPC_SEND_NOTIFICATION', {
+    title,
+    body
+  })
+  if (!canElectronSend) {
+    notification[type]({
+      message: title,
+      description: body
+    })
+  }
+}
+
 export default {
   install: function (Vue, options) {
-    Vue.prototype.$notify = function ({
-      type = 'open',
-      title = '',
-      body = ''
-    }) {
-      // https://electronjs.org/docs/api/notification
-      const canElectronSend = ipcRenderer.sendSync('IPC_SEND_NOTIFICATION', {
-        title,
-        body
-      })
-      if (!canElectronSend) {
-        notification[type]({
-          message: title,
-          description: body
-        })
-      }
-    }
+    Vue.prototype.$notify = notify
   }
 }

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import persistedState from 'vuex-persistedstate'
 import { ipcRenderer } from 'electron'
+import { notify } from './plugin/notify'
 
 Vue.use(Vuex)
 
@@ -28,6 +29,11 @@ export default new Vuex.Store({
     // 更新 [ 扫描结果 ]
     SCAN_RESULT_UPDATE (state, data) {
       state.SCAN_RESULT = data
+      notify({
+        type: 'success',
+        title: '成功',
+        body: '文件扫描结束'
+      })
     },
     // IPC [ 发送扫描文件夹请求 ]
     IPC_DIR_SCAN (state) {
