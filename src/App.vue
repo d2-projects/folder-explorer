@@ -7,5 +7,6 @@
 <style lang="scss">
 html, body, #app, #app>div {
   height: 100%;
+  background-color: transparent;
 }
 </style>

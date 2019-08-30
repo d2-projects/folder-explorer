@@ -1,17 +1,29 @@
 <style lang="scss" scoped>
 .page-scan-result-display-types-text {
+  margin: 10px;
   pre {
     margin-bottom: 0px;
-    font-size: 18px;
-    line-height: 23px;
+    font-size: 16px;
+    line-height: 18px;
+    border-radius: 2px;
+    cursor: pointer;
+    &:hover {
+      background-color: #1890FF;
+      color: #FFF;
+    }
   }
 }
 </style>
 
 <template>
-  <div class="page-scan-result-display-types-text">
-    <pre>{{display}}</pre>
-  </div>
+  <container>
+    <div class="page-scan-result-display-types-text">
+      <pre v-for="(row, index) of display.split('\n')" :key="index">{{row}}</pre>
+    </div>
+    <template slot="footer">
+      <copy :value="display"/>
+    </template>
+  </container>
 </template>
 
 <script>

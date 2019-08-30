@@ -1,19 +1,17 @@
 <style lang="scss" scoped>
 .page-index {
   .page-index--selector {
-    margin: 10px;
+    padding: 10px;
     .ant-input {
       margin-right: 10px;
     }
   }
   .page-index--tabbar {
+    margin-bottom: 10px;
   }
   .page-index--router-view {
-    margin: 10px;
-    padding: 10px;
     overflow: auto;
-    border-radius: 4px;
-    border: 1px solid #d9d9d9;
+    border-top: 1px solid #D9D9D9;
   }
 }
 </style>
@@ -21,11 +19,20 @@
 <template>
   <div flex="dir:top" class="page-index">
     <div flex="dir:left" class="page-index--selector">
-      <a-input placeholder="选择目录" :value="folderPath" @click="onClickSelectDir"/>
-      <a-button type="primary" @click="onClickSelectDir">选择目录</a-button>
+      <a-input
+        placeholder="选择目录"
+        :value="SCAN_FOLDER_PATH"/>
+      <a-button
+        type="primary"
+        @click="onClickSelectDir">
+        选择目录
+      </a-button>
     </div>
     <div flex="dir:left main:center" class="page-index--tabbar">
-      <a-radio-group :defaultValue="$route.name" buttonStyle="solid" @change="e => $router.replace({ name: e.target.value })">
+      <a-radio-group
+        :defaultValue="$route.name"
+        buttonStyle="solid"
+        @change="e => $router.replace({ name: e.target.value })">
         <a-radio-button v-for="type of scanResultDisplayTypesMenu" :key="type.name" :value="type.name">{{type.title}}</a-radio-button>
       </a-radio-group>
     </div>
@@ -36,7 +43,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import { ipcRenderer } from 'electron'
 import { translateToText } from '@/util/scanDataTranslate.js'
 import { scanResultDisplayTypesMenu } from '@/router.js'
@@ -44,10 +51,13 @@ export default {
   data () {
     return {
       // 支持的显示方式
-      scanResultDisplayTypesMenu,
-      // 选择的路径
-      folderPath: ''
+      scanResultDisplayTypesMenu
     }
+  },
+  computed: {
+    ...mapState([
+      'SCAN_FOLDER_PATH'
+    ]),
   },
   created () {
     // 注册事件监听 [ 返回文件夹扫描结果 ]
@@ -55,21 +65,24 @@ export default {
   },
   beforeDestroy () {
     // 组件卸载之前取消事件监听 [ 返回文件夹扫描结果 ]
-    ipcMain.removeListener('IPC_DIR_SCAN_REPLY')
+    ipcRenderer.removeListener('IPC_DIR_SCAN_REPLY')
   },
   methods: {
     ...mapMutations([
-      // 更新扫描结果
-      'SCAN_RESULT_UPDATE'
+      'SCAN_RESULT_UPDATE',
+      'SCAN_FOLDER_PATH_UPDATE'
     ]),
     /**
      * 点击选择文件夹按钮
      */
     onClickSelectDir () {
       // 获得用户选择的文件夹路径
-      this.folderPath = ipcRenderer.sendSync('IPC_DIR_SELECT')
-      // 发送扫描文件夹请求
-      ipcRenderer.send('IPC_DIR_SCAN', { folderPath: this.folderPath })
+      const folderPath = ipcRenderer.sendSync('IPC_DIR_SELECT')
+      if (folderPath) {
+        this.SCAN_FOLDER_PATH_UPDATE(folderPath)
+        // 发送扫描文件夹请求
+        ipcRenderer.send('IPC_DIR_SCAN', { folderPath })
+      }
     }
   }
 }

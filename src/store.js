@@ -9,6 +9,8 @@ export default new Vuex.Store({
     persistedState()
   ],
   state: {
+    // 扫描的文件夹地址
+    SCAN_FOLDER_PATH: '',
     // 扫描结果
     SCAN_RESULT: [],
     // 设置
@@ -18,7 +20,11 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    // 更新扫描结果
+    // 更新 [ 扫描的文件夹地址 ]
+    SCAN_FOLDER_PATH_UPDATE (state, data) {
+      state.SCAN_FOLDER_PATH = data
+    },
+    // 更新 [ 扫描结果 ]
     SCAN_RESULT_UPDATE (state, data) {
       state.SCAN_RESULT = data
     }
