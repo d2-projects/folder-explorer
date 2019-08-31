@@ -1,5 +1,6 @@
-var fs = require('fs')
-var path = require('path')
+import fs from 'fs'
+import path from 'path'
+import { BrowserWindow, dialog } from 'electron'
 
 /**
  * 返回传入目录的子文件数据
@@ -12,7 +13,14 @@ async function scan ({
 	let result = []
 	// 防止拖拽导入的路径不是文件夹
 	// 这个判断只在递归的第一次触发
-	if (needCheckFolder && !await isFolder(folderPath)) return result
+	if (needCheckFolder && !await isFolder(folderPath)) {
+		dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+			type: 'error',
+			message: '检测到非文件夹输入',
+			detail: '请选择文件夹或者将文件夹拖入程序窗口'
+		})
+		return result
+	}
 	// 获得文件夹的内容
 	const files = await fs.readdirSync(folderPath)
 	for (const filename of files) {
