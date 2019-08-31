@@ -1,6 +1,7 @@
 <style lang="scss" scoped>
 #app {
   position: relative;
+  overflow: hidden;
   .app--layer {
     position: absolute;
     top: 0px;
