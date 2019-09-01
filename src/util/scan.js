@@ -8,12 +8,11 @@ import { BrowserWindow, dialog } from 'electron'
  */
 async function scan ({
 	folderPath,
-	needCheckFolder = false
+	needCheckIsFolder = false
 }) {
 	let result = []
-	// 防止拖拽导入的路径不是文件夹
-	// 这个判断只在递归的第一次触发
-	if (needCheckFolder && !await isFolder(folderPath)) {
+	// 防止拖拽导入的路径不是文件夹，这个判断只在递归的第一次触发
+	if (needCheckIsFolder && !await fs.statSync(folderPath).isDirectory()) {
 		dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
 			type: 'error',
 			message: '检测到非文件夹输入',
@@ -41,15 +40,6 @@ async function scan ({
 		})
 	}
 	return result
-}
-
-/**
- * 检查是否为文件夹
- * @param {String} folderPath 路径
- */
-async function isFolder (folderPath) {
-	const stat = await fs.statSync(folderPath)
-	return stat.isDirectory()
 }
 
 function saveFile (fileName = '', text = '') {

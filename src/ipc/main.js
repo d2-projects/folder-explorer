@@ -26,7 +26,7 @@ ipcMain.on('IPC_DIR_SELECT', async (event, arg) => {
 ipcMain.on('IPC_DIR_SCAN', async (event, { folderPath }) => {
   event.reply('IPC_DIR_SCAN_REPLY', await scan({
     folderPath,
-    needCheckFolder: true
+    needCheckIsFolder: true
   }))
 })
 
