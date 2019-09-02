@@ -1,16 +1,16 @@
 <style lang="scss" scoped>
-.page-index {
+.page {
   height: 100%;
-  .page-index--selector {
-    padding: 10px;
+  .page--selector {
+    padding: 5px;
     .ant-input {
-      margin-right: 10px;
+      margin-right: 5px;
     }
   }
-  .page-index--tabbar {
-    margin-bottom: 10px;
+  .page--tabbar {
+    margin-bottom: 5px;
   }
-  .page-index--router-view {
+  .page--router-view {
     overflow: auto;
     border-top: 1px solid #D9D9D9;
   }
@@ -18,8 +18,8 @@
 </style>
 
 <template>
-  <div flex="dir:top" class="page-index">
-    <div flex="dir:left" class="page-index--selector">
+  <div flex="dir:top" class="page">
+    <div flex="dir:left" class="page--selector">
       <a-input
         placeholder="选择目录"
         :value="SCAN_FOLDER_PATH"/>
@@ -29,7 +29,7 @@
         选择目录
       </a-button>
     </div>
-    <div flex="dir:left main:center" class="page-index--tabbar">
+    <div flex="dir:left main:center" class="page--tabbar">
       <a-radio-group
         :defaultValue="$route.name"
         buttonStyle="solid"
@@ -37,7 +37,7 @@
         <a-radio-button v-for="type of scanResultDisplayTypesMenu" :key="type.name" :value="type.name">{{type.title}}</a-radio-button>
       </a-radio-group>
     </div>
-    <div flex-box="1" class="page-index--router-view">
+    <div flex-box="1" class="page--router-view">
       <router-view/>
     </div>
   </div>

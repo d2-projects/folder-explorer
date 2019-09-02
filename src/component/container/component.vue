@@ -2,7 +2,7 @@
 .container {
   height: 100%;
   .container--header {
-    padding: 10px;
+    padding: 5px;
     border-bottom: 1px solid #D9D9D9;
   }
   .container--body {
@@ -10,7 +10,7 @@
     position: relative;
   }
   .container--footer {
-    padding: 10px;
+    padding: 5px;
     border-top: 1px solid #D9D9D9;
   }
 }

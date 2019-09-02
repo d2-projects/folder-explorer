@@ -4,14 +4,14 @@
 
 <template>
   <container>
-    <div class="page-result-text">
+    <div class="page">
       <!-- 虚拟滚动 -->
       <recycle-scroller
         :items="display.split('\n').map((e, index) => ({ id: index, value: e }))"
         :item-size="18"
         key-field="id"
         v-slot="{ item }"
-        style="height: 100%;">
+        class="page--recycle-scroller">
         <pre>{{item.value}}</pre>
       </recycle-scroller>
     </div>
