@@ -7,6 +7,7 @@
   }
   .container--body {
     overflow: auto;
+    position: relative;
   }
   .container--footer {
     padding: 10px;

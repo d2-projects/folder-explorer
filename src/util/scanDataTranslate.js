@@ -4,8 +4,7 @@
  * @param {Object} param0 {Object} setting 设置
  */
 export function translateToText ({
-  data,
-  setting
+  data
 }) {
   function treeRowMaker ({ level, isFirst, isLast, parentTree }) {
     let body = ''
