@@ -25,15 +25,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import { RecycleScroller } from 'vue-virtual-scroller'
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import { translateToText } from '@/util/scanDataTranslate.js'
 export default {
   name: 'doc',
   title: '文本',
-  components: {
-    RecycleScroller
-  },
   computed: {
     ...mapState([
       'SCAN_RESULT'
