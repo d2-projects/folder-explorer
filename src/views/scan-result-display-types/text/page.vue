@@ -1,23 +1,5 @@
 <style lang="scss" scoped>
-.page-scan-result-display-types-text {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  pre {
-    margin-bottom: 0px;
-    font-size: 16px;
-    line-height: 18px;
-    height: 18px;
-    border-radius: 2px;
-    cursor: pointer;
-    &:hover {
-      background-color: #1890FF;
-      color: #FFF;
-    }
-  }
-}
+@import './style';
 </style>
 
 <template>
