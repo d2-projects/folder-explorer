@@ -45,7 +45,6 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { translateToText } from '@/util/scanDataTranslate.js'
 import { scanResultDisplayTypesMenu } from '@/router.js'
 export default {
   data () {

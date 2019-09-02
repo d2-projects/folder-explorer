@@ -4,7 +4,7 @@
 
 <template>
   <container>
-    <div class="page-scan-result-display-types-text">
+    <div class="page-result-text">
       <!-- 虚拟滚动 -->
       <recycle-scroller
         :items="display.split('\n').map((e, index) => ({ id: index, value: e }))"
@@ -25,7 +25,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { translateToText } from '@/util/scanDataTranslate.js'
+import translate from '@/util/scanDataTranslate.js'
 export default {
   name: 'doc',
   title: '文本',
@@ -34,7 +34,7 @@ export default {
       'SCAN_RESULT'
     ]),
     display () {
-      return translateToText({
+      return translate({
         data: this.SCAN_RESULT
       })
     }

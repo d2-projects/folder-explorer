@@ -3,7 +3,7 @@
  * @param {Object} param0 {Object} data 扫描结果
  * @param {Object} param0 {Object} setting 设置
  */
-export function translateToText ({
+export default function ({
   data
 }) {
   function treeRowMaker ({ level, isFirst, isLast, parentTree }) {
@@ -34,7 +34,7 @@ export function translateToText ({
         parentTree
       })
       // 添加一行
-      result.push(treeBody.join('') + fileOrDir.nameFull)
+      result.push(treeBody.join('') + fileOrDir.name)
       // 如果是文件夹的话，遍历文件夹内容
       if (fileOrDir.isDirectory) {
         maker(fileOrDir.children, level + 1, treeBody)

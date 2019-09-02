@@ -28,7 +28,6 @@ async function scan ({
 		const isFile = stat.isFile()
 		const isDirectory = stat.isDirectory()
 		result.push({
-			nameFull: filename,
 			name: path.parse(filename).name,
 			isFile,
 			ext: isFile ? path.extname(filename) : '',

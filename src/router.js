@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const req = context => context.keys().map(context)
-const scanResultDisplayTypes = req(require.context('@/views/scan-result-display-types', true, /page\.vue$/)).map(e => e.default)
+const scanResultDisplayTypes = req(require.context('@/views/result', true, /page\.vue$/)).map(e => e.default)
 
 Vue.use(Router)
 

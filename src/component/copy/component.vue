@@ -1,7 +1,10 @@
 <template>
   <a-tooltip placement="top" >
     <span slot="title">复制到剪贴板</span>
-    <a-button @click="onClick" icon="copy"></a-button>
+    <a-button
+      @click="onClick"
+      size="small"
+      icon="copy"/>
   </a-tooltip>
 </template>
 
