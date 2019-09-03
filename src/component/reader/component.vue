@@ -67,9 +67,16 @@
           <span class="row-info" flex="">
             <pre class="row-info-name">{{item.data.filePathRelativeParsed.name}}</pre>
             <pre class="row-info-ext" v-if="item.data.filePathRelativeParsed.ext">{{item.data.filePathRelativeParsed.ext}}</pre>
-            <span class="row-info-icon" flex="main:center cross:center">
-              <a-icon type="folder-open"/>
-            </span>
+            <a-tooltip
+              placement="top"
+              title="在文件夹中显示"
+              :destroy-tooltip-on-hide="true"
+              :mouse-enter-delay="0.3"
+              :mouse-leave-delay="0">
+              <span class="row-info-icon" flex="main:center cross:center">
+                <a-icon type="folder-open"/>
+              </span>
+            </a-tooltip>
           </span>
         </div>
       </recycle-scroller>
