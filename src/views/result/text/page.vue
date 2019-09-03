@@ -11,7 +11,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import translate from '@/util/translate.tree.text.js'
+import translate from '@/util/translate.tree.data.js'
 export default {
   name: 'doc',
   title: '文本',
@@ -20,7 +20,7 @@ export default {
       'SCAN_RESULT'
     ]),
     translate () {
-      return translate(this.SCAN_RESULT)
+      return translate(this.SCAN_RESULT).map(e => e.text).join('\n')
     }
   }
 }

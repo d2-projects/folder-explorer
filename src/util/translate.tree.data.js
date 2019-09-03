@@ -1,7 +1,6 @@
 /**
- * 将扫描结果转换成文本
+ * 将扫描结果转换成展示需要的数据
  * @param {Object} param0 {Object} data 扫描结果
- * @param {Object} param0 {Object} setting 设置
  */
 export default function (data) {
   function treeRowMaker ({ level, isFirst, isLast, parentTree }) {
@@ -23,7 +22,7 @@ export default function (data) {
     return [...body, end]
   }
   function maker (dataArray, level, parentTree = []) {
-    dataArray.forEach((fileOrDir, index) => {
+    dataArray.forEach((item, index) => {
       // 文字前面的树枝
       const treeBody = treeRowMaker({
         level,
@@ -32,10 +31,14 @@ export default function (data) {
         parentTree
       })
       // 添加一行
-      result.push(treeBody.join('') + fileOrDir.filePathRelativeParsed.name)
+      result.push({
+        id: item.filePathFull,
+        text: treeBody.join('') + item.filePathRelativeParsed.name,
+        data: item
+      })
       // 如果是文件夹的话，遍历文件夹内容
-      if (fileOrDir.stat.isDirectory) {
-        maker(fileOrDir.children, level + 1, treeBody)
+      if (item.stat.isDirectory) {
+        maker(item.children, level + 1, treeBody)
       }
     })
   }

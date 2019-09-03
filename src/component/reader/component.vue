@@ -16,12 +16,12 @@
 
 <template>
   <recycle-scroller
-    :items="display.map((e, index) => ({ id: index, value: e }))"
+    :items="display"
     :item-size="18"
     key-field="id"
     v-slot="{ item }"
     class="reader">
-    <pre>{{item.value}}</pre>
+    <pre>{{item.text}}</pre>
   </recycle-scroller>
 </template>
 

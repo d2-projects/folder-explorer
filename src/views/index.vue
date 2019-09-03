@@ -20,7 +20,7 @@
           size="small"
           icon="folder-open"
           @click="IPC_DIR_SELECT">
-          打开  
+          打开
         </a-button>
       </div>
       <!-- center -->
