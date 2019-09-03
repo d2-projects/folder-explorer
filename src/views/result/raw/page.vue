@@ -11,7 +11,7 @@
 import { mapState } from 'vuex'
 export default {
   name: 'raw',
-  title: '原始数据',
+  title: '数据',
   computed: {
     ...mapState([
       'SCAN_RESULT'

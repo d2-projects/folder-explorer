@@ -12,7 +12,6 @@ async function scan ({
 	needCheckIsFolder = false,
 	rootFolderPath = folderPath
 }) {
-	console.log(rootFolderPath)
 	let result = []
 	// 防止拖拽导入的路径不是文件夹，这个判断只在递归的第一次触发
 	if (needCheckIsFolder && !await fs.statSync(folderPath).isDirectory()) {

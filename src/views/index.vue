@@ -1,14 +1,8 @@
 <style lang="scss" scoped>
 .page {
   height: 100%;
-  .page--selector {
-    padding: 5px;
-    .ant-input {
-      margin-right: 5px;
-    }
-  }
   .page--tabbar {
-    margin-bottom: 5px;
+    margin: 5px;
   }
   .page--router-view {
     overflow: auto;
@@ -19,23 +13,31 @@
 
 <template>
   <div flex="dir:top" class="page">
-    <div flex="dir:left" class="page--selector">
-      <a-input
-        placeholder="选择目录"
-        :value="SCAN_FOLDER_PATH"/>
-      <a-button
-        type="primary"
-        @click="IPC_DIR_SELECT">
-        选择目录
-      </a-button>
-    </div>
-    <div flex="dir:left main:center" class="page--tabbar">
+    <div flex="dir:left main:justify" class="page--tabbar">
+      <!-- left -->
+      <div style="width: 70px;" flex="main:left">
+        <a-button
+          size="small"
+          icon="folder-open"
+          @click="IPC_DIR_SELECT">
+          打开  
+        </a-button>
+      </div>
+      <!-- center -->
       <a-radio-group
+        size="small"
         :defaultValue="$route.name"
         buttonStyle="solid"
         @change="e => $router.replace({ name: e.target.value })">
         <a-radio-button v-for="type of scanResultDisplayTypesMenu" :key="type.name" :value="type.name">{{type.title}}</a-radio-button>
       </a-radio-group>
+      <!-- right -->
+      <div style="width: 70px;" flex="main:right">
+        <a-button
+          size="small"
+          icon="setting">
+      </a-button>
+      </div>
     </div>
     <div flex-box="1" class="page--router-view">
       <router-view/>
