@@ -26,16 +26,19 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import translate from '@/util/translate.tree.text.js'
+import translate from '@/util/translate.tree.data.js'
 export default {
   name: 'reader',
+  props: {
+    value: {
+      type: Array,
+      default: () => [],
+      required: false
+    }
+  },
   computed: {
-    ...mapState([
-      'SCAN_RESULT'
-    ]),
     display () {
-      return translate(this.SCAN_RESULT)
+      return translate(this.value)
     }
   }
 }
