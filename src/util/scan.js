@@ -5,11 +5,14 @@ import { BrowserWindow, dialog } from 'electron'
 /**
  * 返回传入目录的子文件数据
  * @param {Object} param0 {String} folderPath 文件夹路径
+ * @param {Object} param0 {Boolean} needCheckIsFolder 判断传入的是否为文件夹
  */
 async function scan ({
 	folderPath,
-	needCheckIsFolder = false
+	needCheckIsFolder = false,
+	rootFolderPath = folderPath
 }) {
+	console.log(rootFolderPath)
 	let result = []
 	// 防止拖拽导入的路径不是文件夹，这个判断只在递归的第一次触发
 	if (needCheckIsFolder && !await fs.statSync(folderPath).isDirectory()) {
@@ -23,18 +26,29 @@ async function scan ({
 	// 获得文件夹的内容
 	const files = await fs.readdirSync(folderPath)
 	for (const filename of files) {
-		const fileDirFull = path.join(folderPath, filename)
-		const stat = await fs.statSync(fileDirFull)
+		// path
+		const filePathFull = path.join(folderPath, filename)
+		const filePathRelative = filePathFull.replace(rootFolderPath, '')
+		// stat
+		const stat = await fs.statSync(filePathFull)
 		const isFile = stat.isFile()
 		const isDirectory = stat.isDirectory()
 		result.push({
-			name: path.parse(filename).name,
-			isFile,
-			ext: isFile ? path.extname(filename) : '',
-			isDirectory,
-			size: stat.size,
+			// stat
+			stat: {
+				...stat,
+				isFile,
+				isDirectory
+			},
+			// path
+			filePathRelative,
+			filePathRelativeParsed: path.parse(filePathRelative),
+			filePathFull,
+			filePathFullParsed: path.parse(filePathFull),
+			// 如果是文件夹，其子文件或者子文件夹
 			children: isDirectory ? await scan({
-				folderPath: fileDirFull
+				folderPath: filePathFull,
+				rootFolderPath
 			}) : []
 		})
 	}

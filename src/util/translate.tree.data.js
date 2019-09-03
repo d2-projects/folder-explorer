@@ -32,14 +32,14 @@ export default function (data) {
         parentTree
       })
       // 添加一行
-      result.push(treeBody.join('') + fileOrDir.name)
+      result.push(treeBody.join('') + fileOrDir.filePathRelativeParsed.name)
       // 如果是文件夹的话，遍历文件夹内容
-      if (fileOrDir.isDirectory) {
+      if (fileOrDir.stat.isDirectory) {
         maker(fileOrDir.children, level + 1, treeBody)
       }
     })
   }
   let result = []
   maker(data, 1)
-  return result.join('\n')
+  return result
 }

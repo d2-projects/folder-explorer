@@ -16,7 +16,7 @@
 
 <template>
   <recycle-scroller
-    :items="display.split('\n').map((e, index) => ({ id: index, value: e }))"
+    :items="display.map((e, index) => ({ id: index, value: e }))"
     :item-size="18"
     key-field="id"
     v-slot="{ item }"
