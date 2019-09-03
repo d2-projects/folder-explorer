@@ -2,8 +2,8 @@
 .reader {
   height: 100%;
   .reader-info {
-    line-height: 18px;
-    font-size: 12px;
+    line-height: 14px;
+    font-size: 10px;
     background-color: #D9D9D9;
     color: #333;
     padding-left: 5px;
@@ -16,6 +16,7 @@
     .row {
       pre {
         margin-bottom: 0px;
+        font-size: 14px;
       }
       .row-tree {
 
@@ -67,16 +68,17 @@
           <span class="row-info" flex="">
             <pre class="row-info-name">{{item.data.filePathRelativeParsed.name}}</pre>
             <pre class="row-info-ext" v-if="item.data.filePathRelativeParsed.ext">{{item.data.filePathRelativeParsed.ext}}</pre>
-            <a-tooltip
+            <!-- <a-tooltip
               placement="top"
               title="在文件夹中显示"
               :destroy-tooltip-on-hide="true"
               :mouse-enter-delay="0.3"
               :mouse-leave-delay="0">
-              <span class="row-info-icon" flex="main:center cross:center">
+              
+            </a-tooltip> -->
+            <span class="row-info-icon" flex="main:center cross:center" @click="showItemInFinder(item.data.filePathFull)">
                 <a-icon type="folder-open"/>
               </span>
-            </a-tooltip>
           </span>
         </div>
       </recycle-scroller>
@@ -88,6 +90,7 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 import translate from '@/util/translate.tree.data.js'
 export default {
   name: 'reader',
@@ -106,6 +109,13 @@ export default {
   computed: {
     display () {
       return translate(this.value)
+    }
+  },
+  methods: {
+    showItemInFinder (itemPath) {
+      ipcRenderer.send('IPC_SHOW_ITEM_IN_FOLDER', {
+        itemPath
+      })
     }
   }
 }

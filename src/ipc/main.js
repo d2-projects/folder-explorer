@@ -46,3 +46,12 @@ ipcMain.on('IPC_SEND_NOTIFICATION', async (event, {
     notification.show()
   }
 })
+
+/**
+ * 渲染进程请求发送桌面通知
+ */
+ipcMain.on('IPC_SHOW_ITEM_IN_FOLDER', async (event, {
+  itemPath
+}) => {
+  shell.showItemInFolder(itemPath)
+})
