@@ -33,7 +33,9 @@ export default function (data) {
       // 添加一行
       result.push({
         id: item.filePathFull,
-        text: treeBody.join('') + item.filePathRelativeParsed.name,
+        tree: {
+          text: treeBody.join('')
+        },
         data: item
       })
       // 如果是文件夹的话，遍历文件夹内容

@@ -1,6 +1,6 @@
 <template>
   <container>
-    <div class="full is-p-5">
+    <div class="full">
       <reader :value="SCAN_RESULT"/>
     </div>
     <div slot="footer" flex="main:center">
@@ -20,7 +20,9 @@ export default {
       'SCAN_RESULT'
     ]),
     translate () {
-      return translate(this.SCAN_RESULT).map(e => e.text).join('\n')
+      return translate(this.SCAN_RESULT).map(e => {
+        return `${e.tree.text}${e.data.filePathRelativeParsed.name}`
+      }).join('\n')
     }
   }
 }
