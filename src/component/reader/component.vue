@@ -69,14 +69,6 @@
           <span class="row-info" flex="">
             <pre class="row-info-name">{{item.data.filePathRelativeParsed.name}}</pre>
             <pre class="row-info-ext" v-if="item.data.filePathRelativeParsed.ext">{{item.data.filePathRelativeParsed.ext}}</pre>
-            <!-- <a-tooltip
-              placement="top"
-              title="在文件夹中显示"
-              :destroy-tooltip-on-hide="true"
-              :mouse-enter-delay="0.3"
-              :mouse-leave-delay="0">
-              
-            </a-tooltip> -->
             <span class="row-info-icon" flex="main:center cross:center" @click="showItemInFinder(item.data.filePathFull)">
                 <a-icon type="folder-open"/>
               </span>
