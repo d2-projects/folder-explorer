@@ -17,6 +17,7 @@
       pre {
         margin-bottom: 0px;
         font-size: 14px;
+        line-height: 18px;
       }
       .row-tree {
 
@@ -44,7 +45,7 @@
           .row-info-icon {
             display: flex;
             width: 21px;
-            color: darken(#458DF8, 30%);
+            color: darken(#458DF8, 50%);
             &:hover {
               color: #FFF;
               background-color: darken(#458DF8, 20%);
