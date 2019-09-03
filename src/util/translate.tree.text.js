@@ -3,9 +3,7 @@
  * @param {Object} param0 {Object} data 扫描结果
  * @param {Object} param0 {Object} setting 设置
  */
-export default function ({
-  data
-}) {
+export default function (data) {
   function treeRowMaker ({ level, isFirst, isLast, parentTree }) {
     let body = ''
     let end = '├─'
