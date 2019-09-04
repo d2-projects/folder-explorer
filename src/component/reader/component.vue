@@ -14,19 +14,32 @@
     cursor: pointer;
     user-select: none;
     .row {
+      color: #606266;
       pre {
         margin-bottom: 0px;
         font-size: 14px;
         line-height: 18px;
       }
-      .row-tree {
-
-      }
+      .row-tree {}
       .row-info {
-        .row-info-name { }
-        .row-info-ext { }
+        .row-info-name {
+          color: #303133;
+        }
+        .row-info-ext {
+          color: #909399;
+        }
         .row-info-icon {
           display: none;
+          width: 21px;
+          color: darken(#458DF8, 50%);
+          &:hover {
+            color: #FFF;
+            background-color: darken(#458DF8, 20%);
+          }
+        }
+        .row-info-note-pre {}
+        .row-info-note {
+          color: #909399;
         }
       }
       &:hover {
@@ -35,21 +48,24 @@
         border-radius: 2px;
         .row-info {
           .row-info-name {
+            color: #FFF;
             background-color: darken(#458DF8, 30%);
             padding: 0 5px;
           }
           .row-info-ext {
+            color: #FFF;
             background-color: darken(#458DF8, 10%);
             padding: 0 5px;
           }
           .row-info-icon {
             display: flex;
-            width: 21px;
+          }
+          .row-info-note-pre {
+            display: none;
+          }
+          .row-info-note {
             color: darken(#458DF8, 50%);
-            &:hover {
-              color: #FFF;
-              background-color: darken(#458DF8, 20%);
-            }
+            padding: 0 5px;
           }
         }
       }
@@ -61,17 +77,22 @@
 <template>
   <div class="reader" flex="dir:top main:justify box:last">
     <div class="is-pl-5 is-pr-5">
-      <recycle-scroller :items="display" :item-size="18" key-field="id" v-slot="{ item }" class="list">
+      <recycle-scroller :items="currentValue" :item-size="18" key-field="id" v-slot="{ item, index }" class="list">
         <div flex="cross:center" class="row" @mouseover="info = item.data.filePathFull">
+          <!-- tree -->
           <span class="row-tree">
             <pre>{{item.tree.text}}</pre>
           </span>
+          <!-- 文件信息 -->
           <span class="row-info" flex="">
             <pre class="row-info-name">{{item.data.filePathRelativeParsed.name}}</pre>
             <pre class="row-info-ext" v-if="item.data.filePathRelativeParsed.ext">{{item.data.filePathRelativeParsed.ext}}</pre>
-            <span class="row-info-icon" flex="main:center cross:center" @click="showItemInFinder(item.data.filePathFull)">
-                <a-icon type="folder-open"/>
-              </span>
+            <show-item-in-folder :path="item.data.filePathFull"/>
+            <add-note
+              v-model="currentValue[index].note"
+              :file-name="item.data.filePathFullParsed.base"/>
+            <pre class="row-info-note-pre" v-if="item.note"> // </pre>
+            <pre class="row-info-note" v-if="item.note">{{item.note}}</pre>
           </span>
         </div>
       </recycle-scroller>
@@ -83,10 +104,15 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
+import addNote from './component/add-note'
+import showItemInFolder from './component/show-item-in-folder'
 import translate from '@/util/translate.tree.data.js'
 export default {
   name: 'reader',
+  components: {
+    addNote,
+    showItemInFolder
+  },
   props: {
     value: {
       type: Array,
@@ -96,19 +122,16 @@ export default {
   },
   data () {
     return {
-      info: ''
+      info: '',
+      currentValue: []
     }
   },
-  computed: {
-    display () {
-      return translate(this.value)
-    }
-  },
-  methods: {
-    showItemInFinder (itemPath) {
-      ipcRenderer.send('IPC_SHOW_ITEM_IN_FOLDER', {
-        itemPath
-      })
+  watch: {
+    value: {
+      handler (value) {
+        this.currentValue = translate(this.value)
+      },
+      immediate: true
     }
   }
 }

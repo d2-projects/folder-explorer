@@ -36,6 +36,7 @@ export default function (data) {
         tree: {
           text: treeBody.join('')
         },
+        note: '',
         data: item
       })
       // 如果是文件夹的话，遍历文件夹内容
