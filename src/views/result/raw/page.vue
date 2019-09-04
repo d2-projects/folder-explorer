@@ -3,7 +3,7 @@
     <highlight :value="code"/>
     <div slot="footer" flex="main:center">
       <export-copy :value="code"/>
-      <export-file :value="code" name="export.json"/>
+      <export-file :value="code" name="FolderTreeExport.json"/>
     </div>
   </container>
 </template>

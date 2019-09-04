@@ -5,7 +5,7 @@
     </div>
     <div slot="footer" flex="main:center">
       <export-copy :value="exportValue"/>
-      <export-file :value="exportValue" name="export.txt"/>
+      <export-file :value="exportValue" name="FolderTreeExport.txt"/>
     </div>
   </container>
 </template>
