@@ -101,7 +101,7 @@
               v-if="item.data.filePathRelativeParsed.ext">{{item.data.filePathRelativeParsed.ext}}</pre>
             <show-item-in-folder :path="item.data.filePathFull"/>
             <add-note
-              :value="SCAN_RESULT_FLAT[index].note"
+              :value="item.note"
               @input="note => onNoteChange({ index, note })"
               :file-name="item.data.filePathFullParsed.base"/>
             <pre class="row-info-note-pre" v-if="item.note"> // </pre>
