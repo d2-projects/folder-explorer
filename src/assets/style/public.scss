@@ -20,9 +20,9 @@
 }
 
 // 边距相关
-$sizes: (0, 5, 10, 15, 20);
+$sizes: (0, 2, 5, 10, 15, 20);
 
-@for $index from 1 to 6 {
+@for $index from 1 to 7 {
   .is-m-#{nth($sizes, $index)} { margin: #{nth($sizes, $index)}px !important; }
   .is-mt-#{nth($sizes, $index)} { margin-top: #{nth($sizes, $index)}px !important; }
   .is-mr-#{nth($sizes, $index)} { margin-right: #{nth($sizes, $index)}px !important; }

@@ -2,7 +2,8 @@
   <container>
     <highlight :value="code"/>
     <div slot="footer" flex="main:center">
-      <copy :value="code"/>
+      <export-copy :value="code"/>
+      <export-file :value="code" name="export.json"/>
     </div>
   </container>
 </template>

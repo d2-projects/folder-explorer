@@ -4,7 +4,8 @@
       <reader :value="SCAN_RESULT"/>
     </div>
     <div slot="footer" flex="main:center">
-      <copy :value="translate"/>
+      <export-copy :value="translate"/>
+      <export-file :value="translate" name="export.txt"/>
     </div>
   </container>
 </template>

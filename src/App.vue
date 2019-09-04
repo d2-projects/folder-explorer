@@ -43,7 +43,7 @@ export default {
     }
   },
   created () {
-    reply()
+    reply(this)
   },
   mounted () {
     // 处理文件拖拽

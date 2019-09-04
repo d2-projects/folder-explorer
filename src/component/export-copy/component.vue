@@ -2,15 +2,16 @@
   <a-tooltip placement="top" >
     <span slot="title">复制到剪贴板</span>
     <a-button
-      @click="onClick"
+      class="is-ml-2 is-mr-2"
       size="small"
-      icon="copy"/>
+      icon="copy"
+      @click="onClick"/>
   </a-tooltip>
 </template>
 
 <script>
 export default {
-  name: 'copy',
+  name: 'export-copy',
   props: {
     value: {
       type: String,
