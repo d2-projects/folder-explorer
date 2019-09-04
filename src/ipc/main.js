@@ -3,12 +3,6 @@ import path from 'path'
 import { ipcMain, dialog, BrowserWindow, Notification, shell } from 'electron'
 import scan from '../util/scan'
 
-async function saveFile ({ filePath, fileName, value }) {
-  const writeData = new Uint8Array(Buffer.from(value))
-  const filePathName = path.join(filePath, fileName)
-  await fs.writeFileSync(filePathName, writeData)
-}
-
 /**
  * 渲染进程请求选择扫描的文件夹
  */
@@ -33,22 +27,13 @@ ipcMain.on('IPC_DIR_SELECT', async (event, arg) => {
  */
 ipcMain.on('IPC_EXPORT', async (event, { name, value }) => {
   const window = BrowserWindow.getFocusedWindow()
-  const result = await dialog.showOpenDialog(window, {
-    title: '选择目录',
-    buttonLabel: '确定',
-    properties: [
-      'openDirectory',
-      'createDirectory'
-    ],
+  const result = await dialog.showSaveDialog(window, {
+    defaultPath: name,
     message: '需要将导出的文件放置在哪个位置'
   })
   if (result.canceled === false) {
-    await saveFile({
-      filePath: result.filePaths[0],
-      fileName: name,
-      value
-    })
-    shell.showItemInFolder(path.join(result.filePaths[0], name))
+    await fs.writeFileSync(result.filePath, new Uint8Array(Buffer.from(value)))
+    shell.showItemInFolder(result.filePath)
     event.reply('IPC_EXPORT_REPLY')
   }
 })
