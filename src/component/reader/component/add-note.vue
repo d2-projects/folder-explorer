@@ -8,10 +8,8 @@
       title="编辑注释"
       cancel-text="取消"
       ok-text="确定"
-      width="400px"
       :closable="false"
       :mask-closable="false"
-      centered
       v-model="editing"
       @ok="onOk"
     >
