@@ -1,5 +1,5 @@
 <template>
-  <a-tooltip placement="top" >
+  <a-tooltip :placement="placement">
     <span slot="title">导出为文件</span>
     <a-button
       class="is-ml-2 is-mr-2"
@@ -22,6 +22,11 @@ export default {
     value: {
       type: String,
       default: '',
+      required: false
+    },
+    placement: {
+      type: String,
+      default: 'bottom',
       required: false
     }
   },

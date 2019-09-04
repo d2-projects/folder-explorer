@@ -20,6 +20,11 @@ export default new Router({
         name: `scan-result-type-${e.name}`,
         component: e
       }))
+    },
+    {
+      path: '/setting',
+      name: 'setting',
+      component: () => import('@/views/setting/index.vue')
     }
   ]
 })

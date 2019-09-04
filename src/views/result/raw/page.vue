@@ -1,10 +1,10 @@
 <template>
   <container>
-    <highlight :value="code"/>
-    <div slot="footer" flex="main:center">
+    <div slot="header-right" flex="main:center">
       <export-copy :value="code"/>
-      <export-file :value="code" name="FolderTreeExport.json"/>
+      <export-file :value="code" name="FolderTreeExport.json" placement="bottomRight"/>
     </div>
+    <highlight :value="code"/>
   </container>
 </template>
 

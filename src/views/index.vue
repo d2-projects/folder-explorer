@@ -19,6 +19,7 @@
         <a-button
           size="small"
           icon="folder-open"
+          type="primary"
           @click="IPC_DIR_SELECT">
           打开
         </a-button>
@@ -35,8 +36,9 @@
       <div style="width: 70px;" flex="main:right">
         <a-button
           size="small"
-          icon="setting">
-      </a-button>
+          icon="setting"
+          @click="$router.replace('/setting')">
+        </a-button>
       </div>
     </div>
     <div flex-box="1" class="page--router-view">

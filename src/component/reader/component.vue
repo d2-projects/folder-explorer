@@ -78,7 +78,7 @@
   <div
     class="reader"
     flex="dir:top main:justify box:last">
-    <div class="is-pl-5 is-pr-5">
+    <div class="is-p-5">
       <recycle-scroller
         :items="SCAN_RESULT_FLAT"
         :item-size="18"

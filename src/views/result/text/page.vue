@@ -1,11 +1,14 @@
 <template>
   <container>
+    <span slot="header-left">
+      {{ SCAN_RESULT_FLAT.length }} 个结果
+    </span>
+    <div slot="header-right" flex="main:center">
+      <export-copy :value="exportValue"/>
+      <export-file :value="exportValue" name="FolderTreeExport.txt" placement="bottomRight"/>
+    </div>
     <div class="full">
       <reader/>
-    </div>
-    <div slot="footer" flex="main:center">
-      <export-copy :value="exportValue"/>
-      <export-file :value="exportValue" name="FolderTreeExport.txt"/>
     </div>
   </container>
 </template>
