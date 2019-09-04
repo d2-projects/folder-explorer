@@ -48,6 +48,7 @@ ipcMain.on('IPC_EXPORT', async (event, { name, value }) => {
       fileName: name,
       value
     })
+    shell.showItemInFolder(path.join(result.filePaths[0], name))
     event.reply('IPC_EXPORT_REPLY')
   }
 })
@@ -80,7 +81,7 @@ ipcMain.on('IPC_SEND_NOTIFICATION', async (event, {
 })
 
 /**
- * 渲染进程请求发送桌面通知
+ * 渲染进程请求在文件管理器中显示指定的文件
  */
 ipcMain.on('IPC_SHOW_ITEM_IN_FOLDER', async (event, {
   itemPath
