@@ -1,5 +1,6 @@
 import { ipcRenderer } from 'electron'
 import store from '../store'
+import translateFlat from '@/util/translate.flat.js'
 
 export default function (instance) {
   // 接收文件夹选择的结果
@@ -13,7 +14,10 @@ export default function (instance) {
   // 接收返回的扫描结果
   ipcRenderer.on(
     'IPC_DIR_SCAN_REPLY',
-    (event, arg) => store.commit('SCAN_RESULT_UPDATE', arg)
+    (event, arg) => {
+      store.commit('SCAN_RESULT_UPDATE', arg)
+      store.commit('SCAN_RESULT_FLAT_UPDATE', translateFlat(arg))
+    }
   )
   // 接收导出文件的返回结果
   ipcRenderer.on(

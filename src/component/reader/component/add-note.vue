@@ -5,15 +5,21 @@
     @click="edit">
     <a-icon type="tag"/>
     <a-modal
-      :title="`添加注释到 ${fileName}`"
+      title="编辑注释"
       cancel-text="取消"
       ok-text="确定"
+      width="400px"
       :closable="false"
       :mask-closable="false"
       centered
       v-model="editing"
-      :onOk="onOk"
+      @ok="onOk"
     >
+      <a-alert
+        message="文件名"
+        :description="fileName"
+        type="info"
+        class="is-mb-10"/>
       <a-input
         v-model="currentValue"
         placeholder="注释内容 回车确认"
@@ -43,6 +49,14 @@ export default {
     return {
       editing: false,
       currentValue: ''
+    }
+  },
+  watch: {
+    value: {
+      handler (value) {
+        this.currentValue = value
+      },
+      immediate: true
     }
   },
   methods: {

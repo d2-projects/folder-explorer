@@ -39,7 +39,7 @@
         }
         .row-info-note-pre {}
         .row-info-note {
-          color: #909399;
+          color: #1890FF;
         }
       }
       &:hover {
@@ -75,10 +75,20 @@
 </style>
 
 <template>
-  <div class="reader" flex="dir:top main:justify box:last">
+  <div
+    class="reader"
+    flex="dir:top main:justify box:last">
     <div class="is-pl-5 is-pr-5">
-      <recycle-scroller :items="currentValue" :item-size="18" key-field="id" v-slot="{ item, index }" class="list">
-        <div flex="cross:center" class="row" @mouseover="info = item.data.filePathFull">
+      <recycle-scroller
+        :items="SCAN_RESULT_FLAT"
+        :item-size="18"
+        key-field="id"
+        v-slot="{ item, index }"
+        class="list">
+        <div
+          flex="cross:center"
+          class="row"
+          @mouseover="info = item.data.filePathFull">
           <!-- tree -->
           <span class="row-tree">
             <pre>{{item.tree.text}}</pre>
@@ -86,10 +96,13 @@
           <!-- 文件信息 -->
           <span class="row-info" flex="">
             <pre class="row-info-name">{{item.data.filePathRelativeParsed.name}}</pre>
-            <pre class="row-info-ext" v-if="item.data.filePathRelativeParsed.ext">{{item.data.filePathRelativeParsed.ext}}</pre>
+            <pre
+              class="row-info-ext"
+              v-if="item.data.filePathRelativeParsed.ext">{{item.data.filePathRelativeParsed.ext}}</pre>
             <show-item-in-folder :path="item.data.filePathFull"/>
             <add-note
-              v-model="currentValue[index].note"
+              :value="SCAN_RESULT_FLAT[index].note"
+              @input="note => onNoteChange({ index, note })"
               :file-name="item.data.filePathFullParsed.base"/>
             <pre class="row-info-note-pre" v-if="item.note"> // </pre>
             <pre class="row-info-note" v-if="item.note">{{item.note}}</pre>
@@ -104,34 +117,40 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 import addNote from './component/add-note'
 import showItemInFolder from './component/show-item-in-folder'
-import translate from '@/util/translate.tree.data.js'
 export default {
   name: 'reader',
   components: {
     addNote,
     showItemInFolder
   },
-  props: {
-    value: {
-      type: Array,
-      default: () => [],
-      required: false
-    }
-  },
   data () {
     return {
-      info: '',
-      currentValue: []
+      info: ''
     }
   },
-  watch: {
-    value: {
-      handler (value) {
-        this.currentValue = translate(this.value)
-      },
-      immediate: true
+  computed: {
+    ...mapState([
+      'SCAN_RESULT_FLAT'
+    ])
+  },
+  methods: {
+    ...mapMutations([
+      'SCAN_RESULT_FLAT_UPDATE_ITEM'
+    ]),
+    /**
+     * 变更注释
+     */
+    onNoteChange ({ index, note }) {
+      this.SCAN_RESULT_FLAT_UPDATE_ITEM({
+        index,
+        item: {
+          ...this.SCAN_RESULT_FLAT[index],
+          note
+        }
+      })
     }
   }
 }

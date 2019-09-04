@@ -5,12 +5,12 @@
       class="is-ml-2 is-mr-2"
       size="small"
       icon="download"
-      @click="onClick"/>
+      @click="IPC_EXPORT({ name, value })"/>
   </a-tooltip>
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
+import { mapMutations } from 'vuex'
 export default {
   name: 'export-file',
   props: {
@@ -26,6 +26,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'IPC_EXPORT'
+    ]),
     onClick () {
       if (this.value === '') {
         this.$notify({
@@ -34,10 +37,6 @@ export default {
           body: '请先扫描一个非空目录'
         })
       }
-      ipcRenderer.send('IPC_EXPORT', {
-        name: this.name,
-        value: this.value
-      })
     }
   }
 }
