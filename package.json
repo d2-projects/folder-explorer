@@ -16,6 +16,7 @@
     "core-js": "^2.6.5",
     "flex.css": "^1.1.7",
     "highlight.js": "^9.15.10",
+    "lodash.groupby": "^4.6.0",
     "vue": "^2.6.10",
     "vue-clipboard2": "^0.3.0",
     "vue-router": "^3.0.3",
