@@ -64,7 +64,7 @@
           <setting-scan-ignore-file class="is-mb-20"/>
           <h2>忽略以 " . " 开头的文件</h2>
           <p>这类文件在 Linux 和 MacOS 上是默认隐藏的文件</p>
-          <setting-scan-ignore-dot-start/>
+          <setting-scan-ignore-dot-start-file/>
         </setting-container>
       </div>
     </div>

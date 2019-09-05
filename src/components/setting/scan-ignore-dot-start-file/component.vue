@@ -1,13 +1,13 @@
 <template>
   <div>
-    <a-switch :checked="SETTING.SCAN.IGNORE_DOT_START" @change='onChange'/>
+    <a-switch :checked="SETTING.SCAN.IGNORE_DOT_START_FILE" @change='onChange'/>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
 export default {
-  name: 'setting-scan-ignore-dot-start',
+  name: 'setting-scan-ignore-dot-start-file',
   computed: {
     ...mapState([
       'SETTING'
@@ -19,7 +19,7 @@ export default {
     ]),
     onChange (value) {
       this.SETTING_UPDATE({
-        path: 'SCAN.IGNORE_DOT_START',
+        path: 'SCAN.IGNORE_DOT_START_FILE',
         value
       })
     }
