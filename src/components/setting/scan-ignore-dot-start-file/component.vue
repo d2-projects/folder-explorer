@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <a-switch :checked="SETTING.SCAN.IGNORE_DOT_START_FILE" @change='onChange'/>
+  <div class="setting-component">
+    <a-switch
+      :checked="SETTING.SCAN.IGNORE_DOT_START_FILE"
+      @change='onChange'/>
   </div>
 </template>
 

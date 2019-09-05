@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="setting-component">
     <a-input-number
       :min="0"
       :max="10"

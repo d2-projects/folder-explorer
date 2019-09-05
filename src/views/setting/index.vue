@@ -52,19 +52,22 @@
         <setting-container id="section-scan" title="扫描">
           <h2>忽略的文件 / 文件夹</h2>
           <p>不必要的文件夹扫描会导致性能损失甚至程序失去响应，例如 node_modules</p>
-          <setting-scan-ignore-path class="is-mb-20"/>
+          <setting-scan-ignore-path/>
           <h2>忽略的文件类型</h2>
           <p>设置您希望过滤掉的文件类型</p>
-          <setting-scan-ignore-ext class="is-mb-20"/>
+          <setting-scan-ignore-ext/>
           <h2>扫描深度</h2>
           <p>设置扫描目录的层级数，设置为 0 等于无限</p>
-          <setting-scan-deep class="is-mb-20"/>
+          <setting-scan-deep/>
           <h2>忽略文件</h2>
           <p>如果打开，将只扫描目录</p>
-          <setting-scan-ignore-file class="is-mb-20"/>
+          <setting-scan-ignore-file/>
           <h2>忽略以 " . " 开头的文件</h2>
           <p>这类文件在 Linux 和 MacOS 上是默认隐藏的文件</p>
           <setting-scan-ignore-dot-start-file/>
+          <h2>忽略以 " . " 开头的文件夹</h2>
+          <p>这类文件夹在 Linux 和 MacOS 上是默认隐藏的文件夹</p>
+          <setting-scan-ignore-dot-start-folder/>
         </setting-container>
       </div>
     </div>

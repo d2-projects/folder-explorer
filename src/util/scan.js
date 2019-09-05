@@ -14,6 +14,7 @@ async function scan ({
 	ignoreExt,
 	ignoreFile,
 	ignoreDotStartFile,
+	ignoreDotStartFolder,
 	deep,
 	levelCurrent = 1,
 	needCheckIsFolder = false,
@@ -53,6 +54,8 @@ async function scan ({
 		const filePathFullParsed = path.parse(filePathFull)
 		// 忽略点开头的文件
 		if (isFile && ignoreDotStartFile && filePathParsed.name[0] === '.') continue
+		// 忽略点开头的文件夹
+		if (isDirectory && ignoreDotStartFolder && filePathParsed.name[0] === '.') continue
 		// 是文件的话 判断是否根文件类型忽略
 		if (isFile && ignoreExt.indexOf(filePathParsed.ext) >= 0) continue
 		result.push({
@@ -74,6 +77,7 @@ async function scan ({
 				ignoreExt,
 				ignoreFile,
 				ignoreDotStartFile,
+				ignoreDotStartFolder,
 				deep,
 				levelCurrent: levelCurrent + 1,
 				rootFolderPath

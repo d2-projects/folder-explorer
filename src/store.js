@@ -37,6 +37,8 @@ export default new Vuex.Store({
         IGNORE_FILE: false,
         // 忽略点开头的文件
         IGNORE_DOT_START_FILE: false,
+        // 忽略点开头的文件夹
+        IGNORE_DOT_START_FOLDER: false,
         // 扫描深度 0 为没有限制
         DEEP: 0
       }
@@ -145,6 +147,7 @@ export default new Vuex.Store({
         ignoreExt: state.SETTING.SCAN.IGNORE_EXT,
         ignoreFile: state.SETTING.SCAN.IGNORE_FILE,
         ignoreDotStartFile: state.SETTING.SCAN.IGNORE_DOT_START_FILE,
+        ignoreDotStartFolder: state.SETTING.SCAN.IGNORE_DOT_START_FOLDER,
         deep: state.SETTING.SCAN.DEEP
       })
     },

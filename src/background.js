@@ -21,8 +21,8 @@ function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
     icon: path.join(__static, 'icon.png'),
-    width: 800,
-    height: 600,
+    width: 1000,
+    height: 800,
     // vibrancy: 'medium-light',
     // titleBarStyle: 'hiddenInset',
     webPreferences: {

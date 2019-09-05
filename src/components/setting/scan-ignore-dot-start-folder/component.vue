@@ -1,13 +1,15 @@
 <template>
   <div class="setting-component">
-    <a-switch :checked="SETTING.SCAN.IGNORE_FILE" @change='onChange'/>
+    <a-switch
+      :checked="SETTING.SCAN.IGNORE_DOT_START_FOLDER"
+      @change='onChange'/>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
 export default {
-  name: 'setting-scan-ignore-file',
+  name: 'setting-scan-ignore-dot-start-folder',
   computed: {
     ...mapState([
       'SETTING'
@@ -19,7 +21,7 @@ export default {
     ]),
     onChange (value) {
       this.SETTING_UPDATE({
-        path: 'SCAN.IGNORE_FILE',
+        path: 'SCAN.IGNORE_DOT_START_FOLDER',
         value
       })
     }

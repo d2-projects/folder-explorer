@@ -1,8 +1,14 @@
-<style lang="scss" scoped>
+<style lang="scss">
 .setting-container {
   max-width: 600px;
   margin: 0 auto;
   padding: 10px;
+  .setting-component {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0px;
+    }
+  }
 }
 </style>
 

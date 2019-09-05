@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="setting-component">
     <a-select
       :value="SETTING.SCAN.IGNORE_EXT"
       mode="tags"
