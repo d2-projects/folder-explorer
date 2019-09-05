@@ -1,7 +1,21 @@
 <template>
   <container>
     <span slot="header-left">
-      {{ SCAN_RESULT_FLAT.length }} 个项目
+      <a-tag color="purple">
+        <a-icon type="database" />
+        {{ SCAN_RESULT_FLAT.length }}
+        总计
+      </a-tag>
+      <a-tag color="green">
+        <a-icon type="file" />
+        {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.file }}
+        文件
+      </a-tag>
+      <a-tag color="cyan">
+        <a-icon type="folder" />
+        {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.folder }}
+        目录
+      </a-tag>
     </span>
     <div slot="header-right" flex="main:center">
       <export-copy :value="exportValue"/>
@@ -17,13 +31,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'doc',
   title: '文本',
   computed: {
     ...mapState([
       'SCAN_RESULT_FLAT'
+    ]),
+    ...mapGetters([
+      'SCAN_RESULT_FILE_AND_FOLDER_NUM'
     ]),
     exportValue () {
       // 是否存在注释

@@ -40,6 +40,18 @@ export default new Vuex.Store({
   },
   getters: {
     /**
+     * 文件名字
+     */
+    SCAN_RESULT_FILE_AND_FOLDER_NUM: state => {
+      const grouped = groupby(state.SCAN_RESULT_FLAT, item => {
+        return item.data.stat.isFile ? 'file' : 'folder'
+      })
+      return {
+        file: (grouped.file || []).length,
+        folder: (grouped.folder || []).length
+      }
+    },
+    /**
      * 文件类型统计
      */
     SCAN_RESULT_STATISTIC_EXT: state => {
