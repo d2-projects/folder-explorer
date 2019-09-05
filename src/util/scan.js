@@ -11,12 +11,13 @@ import { BrowserWindow, dialog } from 'electron'
 async function scan ({
 	folderPath,
 	ignorePath,
+	ignoreExt,
 	needCheckIsFolder = false,
 	rootFolderPath = folderPath
 }) {
 	let result = []
 	// 检查该路径是否忽略
-	function isIgnore (value) {
+	function isIgnoreByPath (value) {
 		let result = false
 		for (const ignoreText of ignorePath) {
 			if (contains(value, ignoreText)) {
@@ -41,11 +42,15 @@ async function scan ({
 		const filePathFull = path.join(folderPath, filename)
 		const filePath = filePathFull.replace(rootFolderPath, '')
 		// 判断是否根据路径忽略
-		if (isIgnore(filePath)) continue
-		// stat
+		if (isIgnoreByPath(filePath)) continue
+		// 是否为文件或者文件夹
 		const stat = await fs.statSync(filePathFull)
 		const isFile = stat.isFile()
 		const isDirectory = stat.isDirectory()
+		const filePathParsed = path.parse(filePath)
+		const filePathFullParsed = path.parse(filePathFull)
+		// 是文件的话 判断是否根文件类型忽略
+		if (isFile && ignoreExt.indexOf(filePathParsed.ext) >= 0) continue
 		result.push({
 			// stat
 			stat: {
@@ -55,13 +60,14 @@ async function scan ({
 			},
 			// path
 			filePath,
-			filePathParsed: path.parse(filePath),
+			filePathParsed,
 			filePathFull,
-			filePathFullParsed: path.parse(filePathFull),
+			filePathFullParsed,
 			// 如果是文件夹，其子文件或者子文件夹
 			children: isDirectory ? await scan({
 				folderPath: filePathFull,
 				ignorePath,
+				ignoreExt,
 				rootFolderPath
 			}) : []
 		})

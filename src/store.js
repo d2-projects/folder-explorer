@@ -28,6 +28,10 @@ export default new Vuex.Store({
           '.DS_Store',
           'node_modules',
           '/dist'
+        ],
+        // 忽略的文件类型
+        IGNORE_EXT: [
+          '.md'
         ]
       }
     }
@@ -50,7 +54,7 @@ export default new Vuex.Store({
       return result
     },
     /**
-     * 忽略列表的建议选项
+     * 设置建议选项 [ 忽略的文件夹路径 ]
      */
     SETTING_SCAN_IGNORE_PATH_OPTIONS: state => {
       let result = []
@@ -67,6 +71,13 @@ export default new Vuex.Store({
       }
       isFolderAndPush(state.SCAN_RESULT)
       return result
+    },
+    /**
+     * 设置建议选项 [ 忽略的文件类型 ]
+     */
+    SETTING_SCAN_IGNORE_EXT_OPTIONS: state => {
+      const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.filePathFullParsed.ext')
+      return Object.keys(grouped)
     }
   },
   mutations: {
@@ -106,7 +117,8 @@ export default new Vuex.Store({
     IPC_DIR_SCAN (state) {
       ipcRenderer.send('IPC_DIR_SCAN', {
         folderPath: state.SCAN_FOLDER_PATH,
-        ignorePath: state.SETTING.SCAN.IGNORE_PATH
+        ignorePath: state.SETTING.SCAN.IGNORE_PATH,
+        ignoreExt: state.SETTING.SCAN.IGNORE_EXT
       })
     },
     /**

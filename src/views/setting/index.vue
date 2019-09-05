@@ -44,7 +44,9 @@
       <div class="page--main-content" ref="container">
         <setting-container id="section-scan" title="扫描">
           <p>忽略的文件 / 文件夹</p>
-          <setting-scan-ignore-path/>
+          <setting-scan-ignore-path class="is-mb-20"/>
+          <p>忽略的文件类型</p>
+          <setting-scan-ignore-ext/>
         </setting-container>
       </div>
     </div>
