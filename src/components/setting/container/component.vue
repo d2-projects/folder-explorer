@@ -16,6 +16,7 @@
 
 <script>
 export default {
+  name: 'setting-container',
   props: {
     title: {
       type: String,

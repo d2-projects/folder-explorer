@@ -61,7 +61,7 @@ export default {
   computed: {
     ...mapState([
       'SCAN_FOLDER_PATH'
-    ]),
+    ])
   },
   methods: {
     ...mapMutations([

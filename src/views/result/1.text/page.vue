@@ -29,7 +29,7 @@ export default {
       let itemLengthMax = 0
       if (hasNote) {
         this.SCAN_RESULT_FLAT.forEach(e => {
-          const item = `${e.tree.text}${e.data.filePathRelativeParsed.name}`
+          const item = `${e.tree.text}${e.data.filePathParsed.name}`
           if (item.length > itemLengthMax) {
             itemLengthMax = item.length
           }
@@ -37,7 +37,7 @@ export default {
       }
       // 导出的文本
       return this.SCAN_RESULT_FLAT.map(e => {
-        const item = `${e.tree.text}${e.data.filePathRelativeParsed.name}`
+        const item = `${e.tree.text}${e.data.filePathParsed.name}`
         const hasNoteInCurrentRow = e.note !== ''
         return hasNoteInCurrentRow ? `${item.padEnd(itemLengthMax, ' ')} // ${e.note}` : item
       }).join('\n')

@@ -2947,6 +2947,14 @@ contains-path@^0.1.0:
   resolved "https://registry.npm.taobao.org/contains-path/download/contains-path-0.1.0.tgz#fe8cf184ff6670b6baef01a9d4861a5cbec4120a"
   integrity sha1-/ozxhP9mcLa67wGp1IYaXL7EEgo=
 
+contains-path@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/contains-path/-/contains-path-1.0.0.tgz#3458b332185603e8eed18f518d4a10888a3abc91"
+  integrity sha1-NFizMhhWA+ju0Y9RjUoQiIo6vJE=
+  dependencies:
+    normalize-path "^2.1.1"
+    path-starts-with "^1.0.0"
+
 content-disposition@0.5.3:
   version "0.5.3"
   resolved "https://registry.npm.taobao.org/content-disposition/download/content-disposition-0.5.3.tgz#e130caf7e7279087c5616c2007d0485698984fbd"
@@ -6411,6 +6419,11 @@ lodash.merge@^4.6.1:
   resolved "https://registry.npm.taobao.org/lodash.merge/download/lodash.merge-4.6.2.tgz?cache=0&sync_timestamp=1562718935617&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flodash.merge%2Fdownload%2Flodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha1-VYqlO0O2YeGSWgr9+japoQhf5Xo=
 
+lodash.set@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
+  integrity sha1-2HV7HagH3eJIFrDWqEvqGnYjCyM=
+
 lodash.toarray@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.toarray/-/lodash.toarray-4.4.0.tgz#24c4bfcd6b2fba38bfd0594db1179d8e9b656561"
@@ -7597,6 +7610,13 @@ path-parse@^1.0.6:
   version "1.0.6"
   resolved "https://registry.npm.taobao.org/path-parse/download/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
   integrity sha1-1i27VnlAXXLEc37FhgDp3c8G0kw=
+
+path-starts-with@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/path-starts-with/-/path-starts-with-1.0.0.tgz#b28243015e8b138de572682ac52da42e646ad84e"
+  integrity sha1-soJDAV6LE43lcmgqxS2kLmRq2E4=
+  dependencies:
+    normalize-path "^2.1.1"
 
 path-to-regexp@0.1.7:
   version "0.1.7"

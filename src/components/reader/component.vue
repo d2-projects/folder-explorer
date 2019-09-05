@@ -95,10 +95,10 @@
           </span>
           <!-- 文件信息 -->
           <span class="row-info" flex="">
-            <pre class="row-info-name">{{item.data.filePathRelativeParsed.name}}</pre>
+            <pre class="row-info-name">{{item.data.filePathParsed.name}}</pre>
             <pre
               class="row-info-ext"
-              v-if="item.data.filePathRelativeParsed.ext">{{item.data.filePathRelativeParsed.ext}}</pre>
+              v-if="item.data.filePathParsed.ext">{{item.data.filePathParsed.ext}}</pre>
             <show-item-in-folder :path="item.data.filePathFull"/>
             <add-note
               :value="item.note"

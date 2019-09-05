@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import contains from 'contains-path'
 import { BrowserWindow, dialog } from 'electron'
 
 /**
@@ -9,10 +10,21 @@ import { BrowserWindow, dialog } from 'electron'
  */
 async function scan ({
 	folderPath,
+	ignorePath,
 	needCheckIsFolder = false,
 	rootFolderPath = folderPath
 }) {
 	let result = []
+	// 检查该路径是否忽略
+	function isIgnore (value) {
+		let result = false
+		for (const ignoreText of ignorePath) {
+			if (contains(value, ignoreText)) {
+				result = true
+			}
+		}
+		return result
+	}
 	// 防止拖拽导入的路径不是文件夹，这个判断只在递归的第一次触发
 	if (needCheckIsFolder && !await fs.statSync(folderPath).isDirectory()) {
 		dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
@@ -27,7 +39,9 @@ async function scan ({
 	for (const filename of files) {
 		// path
 		const filePathFull = path.join(folderPath, filename)
-		const filePathRelative = filePathFull.replace(rootFolderPath, '')
+		const filePath = filePathFull.replace(rootFolderPath, '')
+		// 判断是否根据路径忽略
+		if (isIgnore(filePath)) continue
 		// stat
 		const stat = await fs.statSync(filePathFull)
 		const isFile = stat.isFile()
@@ -40,13 +54,14 @@ async function scan ({
 				isDirectory
 			},
 			// path
-			filePathRelative,
-			filePathRelativeParsed: path.parse(filePathRelative),
+			filePath,
+			filePathParsed: path.parse(filePath),
 			filePathFull,
 			filePathFullParsed: path.parse(filePathFull),
 			// 如果是文件夹，其子文件或者子文件夹
 			children: isDirectory ? await scan({
 				folderPath: filePathFull,
+				ignorePath,
 				rootFolderPath
 			}) : []
 		})

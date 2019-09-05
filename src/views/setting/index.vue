@@ -15,7 +15,7 @@
     .page--main-content {
       overflow: auto;
       background-color: #FAFAFA;
-      padding: 20px 0;
+      padding: 20px 10px;
     }
   }
 }
@@ -39,15 +39,12 @@
       <div class="page--main-side">
         <a-anchor :get-container="getContainer">
           <a-anchor-link href="#section-scan" title="扫描"/>
-          <a-anchor-link href="#1" title="文本导出"/>
-          <a-anchor-link href="#1" title="JSON导出"/>
-          <a-anchor-link href="#1" title="表格导出"/>
-          <a-anchor-link href="#1" title="重置"/>
         </a-anchor>
       </div>
       <div class="page--main-content" ref="container">
         <setting-container id="section-scan" title="扫描">
-          扫描
+          <p>忽略的文件 / 文件夹</p>
+          <setting-scan-ignore-path/>
         </setting-container>
       </div>
     </div>
@@ -55,11 +52,7 @@
 </template>
 
 <script>
-import settingContainer from './components/setting-container'
 export default {
-  components: {
-    settingContainer
-  },
   methods: {
     getContainer () {
       return this.$refs.container

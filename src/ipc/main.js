@@ -41,10 +41,11 @@ ipcMain.on('IPC_EXPORT', async (event, { name, value }) => {
 /**
  * 渲染进程请求扫描文件夹
  */
-ipcMain.on('IPC_DIR_SCAN', async (event, { folderPath }) => {
+ipcMain.on('IPC_DIR_SCAN', async (event, { folderPath, ignorePath }) => {
   event.reply('IPC_DIR_SCAN_REPLY', await scan({
     folderPath,
-    needCheckIsFolder: true
+    needCheckIsFolder: true,
+    ignorePath
   }))
 })
 

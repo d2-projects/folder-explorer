@@ -4,7 +4,7 @@
       <export-copy :value="code"/>
       <export-file :value="code" name="FolderTreeExport.json" placement="bottomRight"/>
     </div>
-    <highlight :value="code"/>
+    <!-- <highlight :value="code"/> -->
   </container>
 </template>
 
