@@ -20,6 +20,8 @@ async function scan ({
 	let result = []
 	// 层级检测
 	if (deep !== 0 && levelCurrent > deep) return result
+	// 防止拖拽导入的路径不是文件夹，这个判断只在递归的第一次触发
+	if (needCheckIsFolder && !await fs.statSync(folderPath).isDirectory()) return result
 	// 检查该路径是否忽略
 	function isIgnoreByPath (value) {
 		let result = false
@@ -28,15 +30,6 @@ async function scan ({
 				result = true
 			}
 		}
-		return result
-	}
-	// 防止拖拽导入的路径不是文件夹，这个判断只在递归的第一次触发
-	if (needCheckIsFolder && !await fs.statSync(folderPath).isDirectory()) {
-		dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-			type: 'error',
-			message: '检测到非文件夹输入',
-			detail: '请选择文件夹或者将文件夹拖入程序窗口'
-		})
 		return result
 	}
 	// 获得文件夹的内容
