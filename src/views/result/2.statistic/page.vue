@@ -1,6 +1,11 @@
 <template>
   <container>
-    <ve-pie :data="chartData"></ve-pie>
+    <ve-pie
+      height="100%"
+      :data="chartData"
+      :settings="chartSettings"
+      :extend="chartExtend">
+    </ve-pie>
   </container>
 </template>
 
@@ -12,6 +17,34 @@ export default {
   title: '统计',
   components: {
     VePie
+  },
+  data () {
+    return {
+      chartSettings: {
+        hoverAnimation: false,
+        label: {
+          formatter: '{b}: {c}'
+        }
+      },
+      chartExtend: {
+        color: [
+          '#1890FF', '#73C9E6', '#13C2C2', '#6CD9B3', 
+          '#2FC25B', '#9DD96C', '#FACC14', '#E6965C',
+          '#F04864', '#D66BCA', '#8543E0', '#8E77ED',
+          '#3436C7', '#737EE6', '#223273', '#7EA2E6'
+        ],
+        legend: {
+          bottom: 0,
+          padding: [ 0, 20, 20, 20 ],
+          itemWidth: 8,
+          itemHeight: 8
+        },
+        series: {
+          center: [ '50%', '45%' ],
+          minAngle: 1
+        }
+      }
+    }
   },
   computed: {
     ...mapGetters([
