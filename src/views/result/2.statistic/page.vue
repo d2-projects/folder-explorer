@@ -1,11 +1,13 @@
 <template>
   <container>
     <ve-pie
+      v-if="HAS_SCAN_DATA"
       height="100%"
       :data="chartData"
       :settings="chartSettings"
       :extend="chartExtend">
     </ve-pie>
+    <empty v-else/>
   </container>
 </template>
 
@@ -49,6 +51,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'HAS_SCAN_DATA',
       'SCAN_RESULT_STATISTIC_EXT'
     ]),
     chartData () {

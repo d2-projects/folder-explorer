@@ -42,6 +42,12 @@ export default new Vuex.Store({
   },
   getters: {
     /**
+     * 当前是否有扫描结果
+     */
+    HAS_SCAN_DATA: state => {
+      return state.SCAN_RESULT.length !== 0
+    },
+    /**
      * 文件名字
      */
     SCAN_RESULT_FILE_AND_FOLDER_NUM: state => {

@@ -1,32 +1,35 @@
 <template>
   <container>
-    <span slot="header-left">
-      <a-tag color="purple">
-        <a-icon type="database" />
-        {{ SCAN_RESULT_FLAT.length }}
-        总计
-      </a-tag>
-      <a-tag color="green">
-        <a-icon type="file" />
-        {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.file }}
-        文件
-      </a-tag>
-      <a-tag color="cyan">
-        <a-icon type="folder" />
-        {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.folder }}
-        目录
-      </a-tag>
-    </span>
-    <div slot="header-right" flex="main:center">
-      <export-copy :value="exportValue"/>
-      <export-file
-        :value="exportValue"
-        name="FolderTreeExport.txt"
-        placement="bottomRight"/>
-    </div>
-    <div class="full">
-      <reader/>
-    </div>
+    <template v-if="HAS_SCAN_DATA">
+      <span slot="header-left">
+        <a-tag color="purple">
+          <a-icon type="database" />
+          总计
+          {{ SCAN_RESULT_FLAT.length }}
+        </a-tag>
+        <a-tag color="green">
+          <a-icon type="file" />
+          文件
+          {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.file }}
+        </a-tag>
+        <a-tag color="cyan">
+          <a-icon type="folder" />
+          目录
+          {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.folder }}
+        </a-tag>
+      </span>
+      <div slot="header-right" flex="main:center">
+        <export-copy :value="exportValue"/>
+        <export-file
+          :value="exportValue"
+          name="FolderTreeExport.txt"
+          placement="bottomRight"/>
+      </div>
+      <div class="full">
+        <reader/>
+      </div>
+    </template>
+    <empty v-else/>
   </container>
 </template>
 
@@ -41,6 +44,7 @@ export default {
       'SCAN_RESULT_FLAT'
     ]),
     ...mapGetters([
+      'HAS_SCAN_DATA',
       'SCAN_RESULT_FILE_AND_FOLDER_NUM'
     ]),
     exportValue () {
