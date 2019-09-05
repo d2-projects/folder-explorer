@@ -34,7 +34,9 @@ export default new Vuex.Store({
           '.md'
         ],
         // 扫描深度 0 为没有限制
-        DEEP: 0
+        DEEP: 0,
+        // 扫描文件
+        SCAN_FILE: true
       }
     }
   },
@@ -133,7 +135,8 @@ export default new Vuex.Store({
         folderPath: state.SCAN_FOLDER_PATH,
         ignorePath: state.SETTING.SCAN.IGNORE_PATH,
         ignoreExt: state.SETTING.SCAN.IGNORE_EXT,
-        deep: state.SETTING.SCAN.DEEP
+        deep: state.SETTING.SCAN.DEEP,
+        scanFile: state.SETTING.SCAN.SCAN_FILE
       })
     },
     /**

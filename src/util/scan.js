@@ -13,6 +13,7 @@ async function scan ({
 	ignorePath,
 	ignoreExt,
 	deep,
+	scanFile,
 	levelCurrent = 1,
 	needCheckIsFolder = false,
 	rootFolderPath = folderPath
@@ -38,12 +39,15 @@ async function scan ({
 		// path
 		const filePathFull = path.join(folderPath, filename)
 		const filePath = filePathFull.replace(rootFolderPath, '')
-		// 判断是否根据路径忽略
-		if (isIgnoreByPath(filePath)) continue
 		// 是否为文件或者文件夹
 		const stat = await fs.statSync(filePathFull)
 		const isFile = stat.isFile()
 		const isDirectory = stat.isDirectory()
+		// 是文件的话 如果设置不扫描文件 跳过这个文件
+		if (isFile && !scanFile) continue
+		// 判断是否根据路径忽略
+		if (isIgnoreByPath(filePath)) continue
+		// 解析路径
 		const filePathParsed = path.parse(filePath)
 		const filePathFullParsed = path.parse(filePathFull)
 		// 是文件的话 判断是否根文件类型忽略
@@ -66,6 +70,7 @@ async function scan ({
 				ignorePath,
 				ignoreExt,
 				deep,
+				scanFile,
 				levelCurrent: levelCurrent + 1,
 				rootFolderPath
 			}) : []

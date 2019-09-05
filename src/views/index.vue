@@ -16,13 +16,20 @@
   <div flex="dir:top" class="page">
     <div flex="dir:left main:justify" class="page--tabbar">
       <!-- left -->
-      <div style="width: 70px;" flex="main:left">
+      <div style="width: 100px;" flex="main:left cross:center">
         <a-button
           size="small"
           icon="folder-open"
           type="primary"
+          class="is-mr-5"
           @click="IPC_FOLDER_SELECT">
           打开
+        </a-button>
+        <a-button
+          size="small"
+          icon="setting"
+          @click="$router.replace('/setting')">
+          偏好设置
         </a-button>
       </div>
       <!-- center -->
@@ -43,13 +50,7 @@
         </a-tooltip>
       </a-radio-group>
       <!-- right -->
-      <div style="width: 70px;" flex="main:right">
-        <a-button
-          size="small"
-          icon="setting"
-          @click="$router.replace('/setting')">
-        </a-button>
-      </div>
+      <div style="width: 100px;" flex="main:left cross:center"></div>
     </div>
     <div flex-box="1" class="page--router-view">
       <router-view/>
