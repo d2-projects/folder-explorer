@@ -7,7 +7,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 export default {
-  name: 'setting-scan-file',
+  name: 'setting-scan-ignore-file',
   computed: {
     ...mapState([
       'SETTING'

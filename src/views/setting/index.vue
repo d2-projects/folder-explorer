@@ -61,7 +61,7 @@
           <setting-scan-deep class="is-mb-20"/>
           <h2>忽略文件</h2>
           <p>如果打开，将只扫描目录</p>
-          <setting-scan-file/>
+          <setting-scan-ignore-file/>
         </setting-container>
       </div>
     </div>
