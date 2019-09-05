@@ -2,9 +2,13 @@
   <container>
     <div slot="header-right" flex="main:center">
       <export-copy :value="code"/>
-      <export-file :value="code" name="FolderTreeExport.json" placement="bottomRight"/>
+      <export-file
+        :value="code"
+        name="FolderTreeExport.json"
+        placement="bottomRight"/>
     </div>
     <!-- <highlight :value="code"/> -->
+    <pre>{{code}}</pre>
   </container>
 </template>
 
