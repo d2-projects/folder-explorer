@@ -53,6 +53,6 @@
 
 <script>
 export default {
-  name: 'container'
+  name: 'result-container'
 }
 </script>

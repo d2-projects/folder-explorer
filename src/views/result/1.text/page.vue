@@ -1,5 +1,5 @@
 <template>
-  <container>
+  <result-container>
     <template v-if="HAS_SCAN_DATA">
       <span slot="header-left">
         <a-tag color="purple">
@@ -30,7 +30,7 @@
       </div>
     </template>
     <empty v-else/>
-  </container>
+  </result-container>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <container>
+  <result-container>
     <ve-pie
       v-if="HAS_SCAN_DATA"
       height="100%"
@@ -8,7 +8,7 @@
       :extend="chartExtend">
     </ve-pie>
     <empty v-else/>
-  </container>
+  </result-container>
 </template>
 
 <script>

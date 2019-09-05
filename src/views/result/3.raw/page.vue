@@ -1,5 +1,5 @@
 <template>
-  <container>
+  <result-container>
     <template v-if="HAS_SCAN_DATA">
       <div slot="header-right" flex="main:center">
         <export-copy :value="code"/>
@@ -11,7 +11,7 @@
       <highlight :value="code"/>
     </template>
     <empty v-else/>
-  </container>
+  </result-container>
 </template>
 
 <script>
