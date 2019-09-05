@@ -12,10 +12,14 @@ async function scan ({
 	folderPath,
 	ignorePath,
 	ignoreExt,
+	deep,
+	levelCurrent = 1,
 	needCheckIsFolder = false,
 	rootFolderPath = folderPath
 }) {
 	let result = []
+	// 层级检测
+	if (deep !== 0 && levelCurrent > deep) return result
 	// 检查该路径是否忽略
 	function isIgnoreByPath (value) {
 		let result = false
@@ -68,6 +72,8 @@ async function scan ({
 				folderPath: filePathFull,
 				ignorePath,
 				ignoreExt,
+				deep,
+				levelCurrent: levelCurrent + 1,
 				rootFolderPath
 			}) : []
 		})

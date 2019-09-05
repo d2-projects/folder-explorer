@@ -32,7 +32,9 @@ export default new Vuex.Store({
         // 忽略的文件类型
         IGNORE_EXT: [
           '.md'
-        ]
+        ],
+        // 扫描深度 0 为没有限制
+        DEEP: 0
       }
     }
   },
@@ -118,7 +120,8 @@ export default new Vuex.Store({
       ipcRenderer.send('IPC_DIR_SCAN', {
         folderPath: state.SCAN_FOLDER_PATH,
         ignorePath: state.SETTING.SCAN.IGNORE_PATH,
-        ignoreExt: state.SETTING.SCAN.IGNORE_EXT
+        ignoreExt: state.SETTING.SCAN.IGNORE_EXT,
+        deep: state.SETTING.SCAN.DEEP
       })
     },
     /**

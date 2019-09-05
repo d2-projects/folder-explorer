@@ -16,6 +16,13 @@
       overflow: auto;
       background-color: #FAFAFA;
       padding: 20px 10px;
+      h2 {
+        font-size: 16px;
+        color: #606266;
+      }
+      p {
+        color: #909399;
+      }
     }
   }
 }
@@ -43,10 +50,15 @@
       </div>
       <div class="page--main-content" ref="container">
         <setting-container id="section-scan" title="扫描">
-          <p>忽略的文件 / 文件夹</p>
+          <h2>忽略的文件 / 文件夹</h2>
+          <p>不必要的文件夹扫描会导致性能损失甚至程序失去响应，例如 node_modules</p>
           <setting-scan-ignore-path class="is-mb-20"/>
-          <p>忽略的文件类型</p>
-          <setting-scan-ignore-ext/>
+          <h2>忽略的文件类型</h2>
+          <p>设置您希望过滤掉的文件类型</p>
+          <setting-scan-ignore-ext class="is-mb-20"/>
+          <h2>扫描深度</h2>
+          <p>设置扫描目录的层级数，设置为 0 等于无限</p>
+          <setting-scan-deep/>
         </setting-container>
       </div>
     </div>
