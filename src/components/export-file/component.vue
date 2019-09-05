@@ -1,6 +1,5 @@
 <template>
-  <a-tooltip :placement="placement">
-    <span slot="title">导出为文件</span>
+  <a-tooltip :placement="placement" title="导出为文件">
     <a-button
       class="is-ml-2 is-mr-2"
       size="small"

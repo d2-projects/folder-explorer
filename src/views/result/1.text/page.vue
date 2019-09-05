@@ -35,6 +35,7 @@ import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'doc',
   title: '文本',
+  icon: 'cluster',
   computed: {
     ...mapState([
       'SCAN_RESULT_FLAT'

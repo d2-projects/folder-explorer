@@ -1,6 +1,5 @@
 <template>
-  <a-tooltip :placement="placement">
-    <span slot="title">复制到剪贴板</span>
+  <a-tooltip :placement="placement" title="复制到剪贴板">
     <a-button
       class="is-ml-2 is-mr-2"
       size="small"

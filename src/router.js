@@ -31,5 +31,6 @@ export default new Router({
 
 export const scanResultDisplayTypesMenu = scanResultDisplayTypes.map(e => ({
   name: `scan-result-type-${e.name}`,
-  title: e.title
+  title: e.title,
+  icon: e.icon
 }))

@@ -15,6 +15,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'statistic',
   title: '统计',
+  icon: 'pie-chart',
   components: {
     VePie
   },
