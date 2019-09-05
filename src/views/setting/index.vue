@@ -61,7 +61,10 @@
           <setting-scan-deep class="is-mb-20"/>
           <h2>忽略文件</h2>
           <p>如果打开，将只扫描目录</p>
-          <setting-scan-ignore-file/>
+          <setting-scan-ignore-file class="is-mb-20"/>
+          <h2>忽略以 " . " 开头的文件</h2>
+          <p>这类文件在 Linux 和 MacOS 上是默认隐藏的文件</p>
+          <setting-scan-ignore-dot-start/>
         </setting-container>
       </div>
     </div>
