@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import settingContainer from './component/setting-container'
+import settingContainer from './components/setting-container'
 export default {
   components: {
     settingContainer

@@ -118,8 +118,8 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import addNote from './component/add-note'
-import showItemInFolder from './component/show-item-in-folder'
+import addNote from './components/add-note'
+import showItemInFolder from './components/show-item-in-folder'
 export default {
   name: 'reader',
   components: {

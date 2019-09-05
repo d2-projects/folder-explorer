@@ -24,11 +24,10 @@ export default new Vuex.Store({
       const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.filePathFullParsed.ext')
       let result = []
       for (const key in grouped) {
-        if (grouped.hasOwnProperty(key)) {
-          const group = grouped[key]
+        if (key !== '' && grouped.hasOwnProperty(key)) {
           result.push({
-            ext: key,
-            value: group.length
+            name: key.replace(/^./, ''),
+            value: grouped[key].length
           })
         }
       }

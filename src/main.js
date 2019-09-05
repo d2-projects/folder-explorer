@@ -8,7 +8,7 @@ import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import './component'
+import './components'
 import Notify from './plugin/vue.notify'
 import './assets/style/public.scss'
 
