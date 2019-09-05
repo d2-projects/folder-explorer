@@ -1,5 +1,4 @@
 import fs from 'fs'
-import path from 'path'
 import { ipcMain, dialog, BrowserWindow, Notification, shell } from 'electron'
 import scan from '../util/scan'
 
@@ -9,13 +8,10 @@ import scan from '../util/scan'
 ipcMain.on('IPC_DIR_SELECT', async (event, arg) => {
   const window = BrowserWindow.getFocusedWindow()
   const result = await dialog.showOpenDialog(window, {
-    title: '选择目录',
-    buttonLabel: '确定',
     properties: [
       'openDirectory',
       'createDirectory'
-    ],
-    message: '请选择一个需要扫描的文件夹'
+    ]
   })
   if (result.canceled === false) {
     event.reply('IPC_DIR_SELECT_REPLY', result.filePaths[0])
