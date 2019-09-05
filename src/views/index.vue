@@ -21,7 +21,7 @@
           size="small"
           icon="folder-open"
           type="primary"
-          @click="IPC_DIR_SELECT">
+          @click="IPC_FOLDER_SELECT">
           打开
         </a-button>
       </div>
@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'IPC_DIR_SELECT'
+      'IPC_FOLDER_SELECT'
     ])
   }
 }

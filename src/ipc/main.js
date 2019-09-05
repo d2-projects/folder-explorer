@@ -5,7 +5,7 @@ import scan from '../util/scan'
 /**
  * 渲染进程请求选择扫描的文件夹
  */
-ipcMain.on('IPC_DIR_SELECT', async (event, arg) => {
+ipcMain.on('IPC_FOLDER_SELECT', async (event, arg) => {
   const window = BrowserWindow.getFocusedWindow()
   const result = await dialog.showOpenDialog(window, {
     properties: [
@@ -14,7 +14,7 @@ ipcMain.on('IPC_DIR_SELECT', async (event, arg) => {
     ]
   })
   if (result.canceled === false) {
-    event.reply('IPC_DIR_SELECT_REPLY', result.filePaths[0])
+    event.reply('IPC_FOLDER_SELECT_REPLY', result.filePaths[0])
   }
 })
 
@@ -37,8 +37,8 @@ ipcMain.on('IPC_EXPORT', async (event, { name, value }) => {
 /**
  * 渲染进程请求扫描文件夹
  */
-ipcMain.on('IPC_DIR_SCAN', async (event, arg) => {
-  event.reply('IPC_DIR_SCAN_REPLY', await scan({
+ipcMain.on('IPC_FOLDER_SCAN', async (event, arg) => {
+  event.reply('IPC_FOLDER_SCAN_REPLY', await scan({
     ...arg,
     needCheckIsFolder: true
   }))

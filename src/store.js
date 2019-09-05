@@ -60,14 +60,14 @@ export default new Vuex.Store({
      */
     SETTING_SCAN_IGNORE_PATH_OPTIONS: state => {
       let result = []
-      function isFolderAndPush (fileOrFolderArray, level = 1) {
+      function isFolderAndPush (itemArray, level = 1) {
         if (level > 3) {
           return
         }
-        for (const fileOrFolder of fileOrFolderArray) {
-          if (fileOrFolder.stat.isDirectory) {
-            result.push(fileOrFolder.filePath)
-            isFolderAndPush(fileOrFolder.children, level + 1)
+        for (const item of itemArray) {
+          if (item.stat.isDirectory) {
+            result.push(item.filePath)
+            isFolderAndPush(item.children, level + 1)
           }
         }
       }
@@ -116,8 +116,8 @@ export default new Vuex.Store({
     /**
      * ELECTRON IPC [ 发送扫描文件夹请求 ]
      */
-    IPC_DIR_SCAN (state) {
-      ipcRenderer.send('IPC_DIR_SCAN', {
+    IPC_FOLDER_SCAN (state) {
+      ipcRenderer.send('IPC_FOLDER_SCAN', {
         folderPath: state.SCAN_FOLDER_PATH,
         ignorePath: state.SETTING.SCAN.IGNORE_PATH,
         ignoreExt: state.SETTING.SCAN.IGNORE_EXT,
@@ -127,8 +127,8 @@ export default new Vuex.Store({
     /**
      * ELECTRON IPC [ 通过文件选择窗口选择一个文件夹 ]
      */
-    IPC_DIR_SELECT () {
-      ipcRenderer.send('IPC_DIR_SELECT')
+    IPC_FOLDER_SELECT () {
+      ipcRenderer.send('IPC_FOLDER_SELECT')
     },
     /**
      * ELECTRON IPC [ 导出文件 ]

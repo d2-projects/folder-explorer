@@ -59,7 +59,7 @@ export default {
       event.preventDefault()
       if (event.dataTransfer.files.length > 0) {
         this.SCAN_FOLDER_PATH_UPDATE(event.dataTransfer.files[0].path)
-        this.IPC_DIR_SCAN()
+        this.IPC_FOLDER_SCAN()
       }
       this.isDraging = false
     }
@@ -71,7 +71,7 @@ export default {
   methods: {
     ...mapMutations([
       'SCAN_FOLDER_PATH_UPDATE',
-      'IPC_DIR_SCAN'
+      'IPC_FOLDER_SCAN'
     ])
   }
 }
