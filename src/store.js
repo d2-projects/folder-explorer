@@ -33,10 +33,10 @@ export default new Vuex.Store({
         IGNORE_EXT: [
           '.md'
         ],
-        // 扫描深度 0 为没有限制
-        DEEP: 0,
         // 扫描文件
-        SCAN_FILE: true
+        IGNORE_FILE: false,
+        // 扫描深度 0 为没有限制
+        DEEP: 0
       }
     }
   },
@@ -136,7 +136,7 @@ export default new Vuex.Store({
         ignorePath: state.SETTING.SCAN.IGNORE_PATH,
         ignoreExt: state.SETTING.SCAN.IGNORE_EXT,
         deep: state.SETTING.SCAN.DEEP,
-        scanFile: state.SETTING.SCAN.SCAN_FILE
+        ignoreFile: state.SETTING.SCAN.IGNORE_FILE
       })
     },
     /**

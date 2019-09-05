@@ -59,8 +59,8 @@
           <h2>扫描深度</h2>
           <p>设置扫描目录的层级数，设置为 0 等于无限</p>
           <setting-scan-deep class="is-mb-20"/>
-          <h2>扫描文件</h2>
-          <p>如果关闭，将只扫描目录</p>
+          <h2>忽略文件</h2>
+          <p>如果打开，将只扫描目录</p>
           <setting-scan-file/>
         </setting-container>
       </div>

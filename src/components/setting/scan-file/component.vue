@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-switch :checked="SETTING.SCAN.SCAN_FILE" @change='onChange'/>
+    <a-switch :checked="SETTING.SCAN.IGNORE_FILE" @change='onChange'/>
   </div>
 </template>
 
@@ -19,7 +19,7 @@ export default {
     ]),
     onChange (value) {
       this.SETTING_UPDATE({
-        path: 'SCAN.SCAN_FILE',
+        path: 'SCAN.IGNORE_FILE',
         value
       })
     }

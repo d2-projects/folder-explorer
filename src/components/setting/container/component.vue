@@ -2,7 +2,7 @@
 .setting-container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 10px 0;
+  padding: 10px;
 }
 </style>
 

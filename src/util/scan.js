@@ -13,7 +13,7 @@ async function scan ({
 	ignorePath,
 	ignoreExt,
 	deep,
-	scanFile,
+	ignoreFile,
 	levelCurrent = 1,
 	needCheckIsFolder = false,
 	rootFolderPath = folderPath
@@ -44,7 +44,7 @@ async function scan ({
 		const isFile = stat.isFile()
 		const isDirectory = stat.isDirectory()
 		// 是文件的话 如果设置不扫描文件 跳过这个文件
-		if (isFile && !scanFile) continue
+		if (isFile && ignoreFile) continue
 		// 判断是否根据路径忽略
 		if (isIgnoreByPath(filePath)) continue
 		// 解析路径
@@ -70,7 +70,7 @@ async function scan ({
 				ignorePath,
 				ignoreExt,
 				deep,
-				scanFile,
+				ignoreFile,
 				levelCurrent: levelCurrent + 1,
 				rootFolderPath
 			}) : []
