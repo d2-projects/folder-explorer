@@ -35,11 +35,7 @@ export default {
     ]),
     onClick () {
       if (this.value === '') {
-        this.$notify({
-          type: 'warning',
-          title: '内容为空',
-          body: '请先扫描一个非空目录'
-        })
+        this.$message.warning('请先扫描一个非空目录')
       }
     }
   }

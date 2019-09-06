@@ -26,25 +26,13 @@ export default {
   methods: {
     onClick () {
       if (this.value === '') {
-        this.$notify({
-          type: 'warning',
-          title: '内容为空',
-          body: '请先扫描一个非空目录'
-        })
+        this.$message.warning('请先扫描一个非空目录')
       }
       this.$copyText(this.value)
         .then(() => {
-          this.$notify({
-            type: 'success',
-            title: '复制成功',
-            body: '内容已经复制到剪贴板'
-          })
+          this.$message.success('内容已经复制到剪贴板')
         }, () => {
-          this.$notify({
-            type: 'error',
-            title: '失败',
-            body: '出现了一些小错误'
-          })
+          this.$message.error('出现了一些小错误')
         })
     }
   }

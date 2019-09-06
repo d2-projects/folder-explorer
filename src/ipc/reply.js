@@ -23,11 +23,7 @@ export default function (instance) {
   ipcRenderer.on(
     'IPC_EXPORT_REPLY',
     (event, arg) => {
-      instance.$notify({
-        type: 'success',
-        title: '导出成功',
-        body: '内容已经导出'
-      })
+      instance.$message.success('内容已经导出')
     }
   )
 }

@@ -9,12 +9,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './components'
-import Notify from './plugin/vue.notify'
 import './assets/style/public.scss'
 
 Vue.use(Antd)
 Vue.use(VueClipboard)
-Vue.use(Notify)
 Vue.use(VueVirtualScroller)
 
 Vue.config.productionTip = false

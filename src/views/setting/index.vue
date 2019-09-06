@@ -46,6 +46,7 @@
       <div class="page--main-side">
         <a-anchor :get-container="getContainer">
           <a-anchor-link href="#section-scan" title="扫描"/>
+          <a-anchor-link href="#section-restore" title="重置"/>
         </a-anchor>
       </div>
       <div class="page--main-content" ref="container">
@@ -69,6 +70,11 @@
           <p>这类文件夹在 Linux 和 MacOS 上是默认隐藏的文件夹</p>
           <setting-scan-ignore-dot-start-folder/>
         </setting-container>
+         <setting-container id="section-restore" title="重置">
+          <h2>重置软件</h2>
+          <p>恢复软件为初始状态</p>
+          <setting-retore/>
+         </setting-container>
       </div>
     </div>
   </div>

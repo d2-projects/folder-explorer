@@ -7,43 +7,45 @@ import set from 'lodash.set'
 
 Vue.use(Vuex)
 
+const stateDefault = {
+  // 扫描的文件夹地址
+  SCAN_FOLDER_PATH: '',
+  // 扫描结果
+  SCAN_RESULT: [],
+  // 扫描结果 扁平化
+  SCAN_RESULT_FLAT: [],
+  // 设置
+  SETTING: {
+    // 扫描相关
+    SCAN: {
+      // 忽略的文件夹
+      IGNORE_PATH: [
+        '.git',
+        '.DS_Store',
+        'node_modules',
+        '/dist'
+      ],
+      // 忽略的文件类型
+      IGNORE_EXT: [
+        '.md'
+      ],
+      // 忽略文件
+      IGNORE_FILE: false,
+      // 忽略点开头的文件
+      IGNORE_DOT_START_FILE: false,
+      // 忽略点开头的文件夹
+      IGNORE_DOT_START_FOLDER: false,
+      // 扫描深度 0 为没有限制
+      DEEP: 0
+    }
+  }
+}
+
 export default new Vuex.Store({
   plugins: [
     persistedState()
   ],
-  state: {
-    // 扫描的文件夹地址
-    SCAN_FOLDER_PATH: '',
-    // 扫描结果
-    SCAN_RESULT: [],
-    // 扫描结果 扁平化
-    SCAN_RESULT_FLAT: [],
-    // 设置
-    SETTING: {
-      // 扫描相关
-      SCAN: {
-        // 忽略的文件夹
-        IGNORE_PATH: [
-          '.git',
-          '.DS_Store',
-          'node_modules',
-          '/dist'
-        ],
-        // 忽略的文件类型
-        IGNORE_EXT: [
-          '.md'
-        ],
-        // 忽略文件
-        IGNORE_FILE: false,
-        // 忽略点开头的文件
-        IGNORE_DOT_START_FILE: false,
-        // 忽略点开头的文件夹
-        IGNORE_DOT_START_FOLDER: false,
-        // 扫描深度 0 为没有限制
-        DEEP: 0
-      }
-    }
-  },
+  state: stateDefault,
   getters: {
     /**
      * 当前是否有扫描结果
@@ -165,6 +167,17 @@ export default new Vuex.Store({
         name,
         value
       })
+    },
+    /**
+     * 重置
+     */
+    RESTORE (state) {
+      for (const key in stateDefault) {
+        if (stateDefault.hasOwnProperty(key)) {
+          const value = stateDefault[key]
+          state[key] = value
+        }
+      }
     }
   }
 })
