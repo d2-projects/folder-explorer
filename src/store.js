@@ -200,6 +200,16 @@ export default new Vuex.Store({
         name: 'FOLDER_EXPLORER_BACKUP.json',
         value: JSON.stringify(exportData, null, 2)
       })
+    },
+    /**
+     * 导入之前的备份
+     */
+    STORE_IMPORT (state, { data = {} }) {
+      for (const key in state) {
+        if (data.hasOwnProperty(key)) {
+          state[key] = data[key]
+        }
+      }
     }
   }
 })

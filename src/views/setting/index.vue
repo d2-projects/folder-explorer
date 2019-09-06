@@ -75,6 +75,9 @@
           <h2>导出</h2>
           <p>将软件当前的状态导出为文件</p>
           <setting-export/>
+          <h2>导入数据</h2>
+          <p>导入您之前导出的备份</p>
+          <setting-import/>
         </setting-container>
         <setting-container id="section-restore" title="重置">
           <h2>重置软件</h2>

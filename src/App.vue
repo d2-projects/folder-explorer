@@ -18,13 +18,13 @@
       class="app--layer"
       style="z-index: 100;"
       :style="{
-        opacity: isDraging ? '0.1' : '1'
+        opacity: ($route.meta.draggable && isDraging) ? '0.1' : '1'
       }">
       <router-view/>
     </div>
     <transition name="fade-scale">
       <div
-        v-show="isDraging"
+        v-show="$route.meta.draggable && isDraging"
         class="app--layer"
         style="z-index: 101;">
         <draging/>
@@ -57,7 +57,7 @@ export default {
     }
     this.$refs.app.ondrop = event => {
       event.preventDefault()
-      if (event.dataTransfer.files.length > 0) {
+      if (this.$route.meta.draggable && event.dataTransfer.files.length > 0) {
         this.SCAN_FOLDER_PATH_UPDATE(event.dataTransfer.files[0].path)
         this.IPC_FOLDER_SCAN()
       }

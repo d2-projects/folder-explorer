@@ -18,7 +18,10 @@ export default new Router({
       children: scanResultDisplayTypes.map(e => ({
         path: `scan-result-type/${e.name}`,
         name: `scan-result-type-${e.name}`,
-        component: e
+        component: e,
+        meta: {
+          draggable: true
+        }
       }))
     },
     {
