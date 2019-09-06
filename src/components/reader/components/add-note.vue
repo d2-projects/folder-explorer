@@ -1,9 +1,9 @@
 <template>
   <span
-    class="row-info-icon"
+    class="row-info-button"
     flex="main:center cross:center"
     @click="edit">
-    <a-icon type="tag"/>
+    编辑注释
     <a-modal
       title="编辑注释"
       cancel-text="取消"

@@ -24,14 +24,18 @@
       .row-info {
         .row-info-name {
           color: #303133;
+          padding: 0 3px;
         }
         .row-info-ext {
           color: #909399;
+          margin-left: -3px;
+          padding-right: 3px;
         }
-        .row-info-icon {
+        .row-info-button {
           display: none;
-          width: 21px;
-          color: darken(#458DF8, 50%);
+          font-size: 12px;
+          color: lighten(#458DF8, 30%);
+          padding: 0 5px;
           &:hover {
             color: #FFF;
             background-color: darken(#458DF8, 20%);
@@ -50,22 +54,19 @@
           .row-info-name {
             color: #FFF;
             background-color: darken(#458DF8, 30%);
-            padding: 0 5px;
           }
           .row-info-ext {
             color: #FFF;
-            background-color: darken(#458DF8, 10%);
-            padding: 0 5px;
+            background-color: darken(#458DF8, 30%);
           }
-          .row-info-icon {
+          .row-info-button {
             display: flex;
           }
           .row-info-note-pre {
             display: none;
           }
           .row-info-note {
-            color: darken(#458DF8, 50%);
-            padding: 0 5px;
+            display: none;
           }
         }
       }
@@ -89,17 +90,21 @@
           flex="cross:center"
           class="row"
           @mouseover="info = item.data.filePathFull">
-          <!-- tree -->
+          <!-- 树枝 -->
           <span class="row-tree">
             <pre>{{item.tree.text}}</pre>
           </span>
           <!-- 文件信息 -->
           <span class="row-info" flex="">
+            <!-- 文件名 -->
             <pre class="row-info-name">{{item.data.filePathParsed.name}}</pre>
+            <!-- 扩展名 -->
             <pre
               class="row-info-ext"
               v-if="item.data.filePathParsed.ext">{{item.data.filePathParsed.ext}}</pre>
+            <!-- 打开目录 -->
             <show-item-in-folder :path="item.data.filePathFull"/>
+            <!-- 编辑注释 -->
             <add-note
               :value="item.note"
               @input="note => onNoteChange({ index, note })"

@@ -1,9 +1,9 @@
 <template>
   <span
-    class="row-info-icon"
+    class="row-info-button"
     flex="main:center cross:center"
     @click="showItemInFolder">
-    <a-icon type="folder-open"/>
+    打开目录
   </span>
 </template>
 
