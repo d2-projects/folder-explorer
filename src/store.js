@@ -178,6 +178,28 @@ export default new Vuex.Store({
           state[key] = value
         }
       }
+    },
+    /**
+     * 导出当前状态
+     */
+    STORE_EXPORT (state, {
+      data = true,
+      setting = true
+    } = {}) {
+      const {
+        SCAN_FOLDER_PATH,
+        SCAN_RESULT,
+        SCAN_RESULT_FLAT,
+        SETTING
+      } = state
+      const exportData = {
+        ...data ? { SCAN_FOLDER_PATH, SCAN_RESULT, SCAN_RESULT_FLAT } : {},
+        ...setting ? { SETTING } : {}
+      }
+      this.commit('IPC_EXPORT', {
+        name: 'FOLDER_EXPLORER_BACKUP.json',
+        value: JSON.stringify(exportData, null, 2)
+      })
     }
   }
 })
