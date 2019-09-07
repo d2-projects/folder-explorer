@@ -19,16 +19,9 @@ const stateDefault = {
     // 扫描相关
     SCAN: {
       // 忽略的文件夹
-      IGNORE_PATH: [
-        '.git',
-        '.DS_Store',
-        'node_modules',
-        '/dist'
-      ],
+      IGNORE_PATH: [ '.git', '.DS_Store', 'node_modules', '/dist' ],
       // 忽略的文件类型
-      IGNORE_EXT: [
-        '.md'
-      ],
+      IGNORE_EXT: [ '.md' ],
       // 忽略文件
       IGNORE_FILE: false,
       // 忽略点开头的文件
