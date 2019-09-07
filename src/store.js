@@ -50,16 +50,12 @@ export default new Vuex.Store({
     /**
      * 当前是否有扫描结果
      */
-    HAS_SCAN_DATA: state => {
-      return state.SCAN_RESULT.length !== 0
-    },
+    HAS_SCAN_DATA: state => state.SCAN_RESULT.length !== 0,
     /**
      * 文件名字
      */
     SCAN_RESULT_FILE_AND_FOLDER_NUM: state => {
-      const grouped = groupby(state.SCAN_RESULT_FLAT, item => {
-        return item.data.stat.isFile ? 'file' : 'folder'
-      })
+      const grouped = groupby(state.SCAN_RESULT_FLAT, item => item.data.stat.isFile ? 'file' : 'folder')
       return {
         file: (grouped.file || []).length,
         folder: (grouped.folder || []).length
@@ -87,9 +83,7 @@ export default new Vuex.Store({
     SETTING_SCAN_IGNORE_PATH_OPTIONS: state => {
       let result = []
       function isFolderAndPush (itemArray, level = 1) {
-        if (level > 3) {
-          return
-        }
+        if (level > 3) return
         for (const item of itemArray) {
           if (item.stat.isDirectory) {
             result.push(item.filePath)
