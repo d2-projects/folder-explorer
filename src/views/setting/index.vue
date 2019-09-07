@@ -56,6 +56,9 @@
           <h2>导出后打开位置</h2>
           <p>开启此设置在每次导出文件后自动打开导出目录</p>
           <setting-boolean-simple path="APP.OPEN_FOLDER_AFTER_EXPORT"/>
+          <h2>删除确认</h2>
+          <p>在每次删除文件之前弹出确认框</p>
+          <setting-boolean-simple path="APP.DELETE_CONFIRM"/>
         </setting-container>
         <setting-container id="section-scan" title="扫描" icon="file-search">
           <h2>忽略的文件 / 文件夹</h2>
