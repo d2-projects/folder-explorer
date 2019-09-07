@@ -5,9 +5,6 @@
   .container--header {
     padding: 5px;
     padding-bottom: 0px;
-    user-select: none;
-    .container--header-left {}
-    .container--header-right {}
   }
   .container--body {
     overflow: auto;
@@ -20,7 +17,6 @@
   .container--footer {
     padding: 5px;
     padding-top: 0px;
-    user-select: none;
   }
 }
 </style>

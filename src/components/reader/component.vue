@@ -12,7 +12,6 @@
   .list {
     height: 100%;
     cursor: pointer;
-    user-select: none;
     .row {
       color: #606266;
       border-radius: 2px;

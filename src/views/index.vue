@@ -3,7 +3,6 @@
   height: 100%;
   .page--tabbar {
     margin: 5px;
-    user-select: none;
   }
   .page--router-view {
     overflow: auto;

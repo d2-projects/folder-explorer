@@ -1,7 +1,6 @@
 <style lang="scss" scoped>
 .draging {
   height: 100%;
-  user-select: none;
   cursor: pointer;
 }
 </style>

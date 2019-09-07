@@ -2,6 +2,7 @@
 #app {
   position: relative;
   overflow: hidden;
+  user-select: none;
   .app--layer {
     position: absolute;
     top: 0px;

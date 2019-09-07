@@ -3,7 +3,6 @@
   font-size: 200px;
   color: #D9D9D9;
   cursor: pointer;
-  user-select: none;
   &:hover {
     font-size: 200px;
     color: #2593FC;
