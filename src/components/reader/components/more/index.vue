@@ -102,7 +102,7 @@ export default {
       menu.append(new remote.MenuItem({ type: 'separator'}))
       // 删除
       menu.append(new remote.MenuItem({
-        label: '移到废纸篓',
+        label: `将${this.value.data.stat.isFile ? '文件' : '文件夹'}移动到废纸篓`,
         click: this.moveItemToTrash
       }))
       menu.popup(remote.BrowserWindow.getFocusedWindow())
