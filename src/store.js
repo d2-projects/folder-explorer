@@ -65,7 +65,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计文件类型分布
      */
     SCAN_RESULT_STATISTIC_EXT: state => {
-      const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.filePathFullParsed.ext')
+      const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.filePathParsed.ext')
       let result = []
       for (const key in grouped) {
         if (key !== '' && grouped.hasOwnProperty(key)) {
@@ -98,7 +98,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计设置建议选项 [ 忽略的文件类型 ]
      */
     SETTING_SCAN_IGNORE_EXT_OPTIONS: state => {
-      const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.filePathFullParsed.ext')
+      const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.filePathParsed.ext')
       return Object.keys(grouped)
     }
   },

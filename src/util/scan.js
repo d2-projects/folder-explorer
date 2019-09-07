@@ -51,7 +51,6 @@ async function scan ({
 		if (isIgnoreByPath(filePath)) continue
 		// 解析路径
 		const filePathParsed = path.parse(filePath)
-		const filePathFullParsed = path.parse(filePathFull)
 		// 忽略点开头的文件
 		if (isFile && ignoreDotStartFile && filePathParsed.name[0] === '.') continue
 		// 忽略点开头的文件夹
@@ -69,7 +68,6 @@ async function scan ({
 			filePath,
 			filePathParsed,
 			filePathFull,
-			filePathFullParsed,
 			// 如果是文件夹，其子文件或者子文件夹
 			children: isDirectory ? await scan({
 				folderPath: filePathFull,
