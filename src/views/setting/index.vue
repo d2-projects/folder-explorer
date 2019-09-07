@@ -55,7 +55,7 @@
         <setting-container id="section-app" title="通用" icon="home">
           <h2>导出后打开位置</h2>
           <p>开启此设置在每次导出文件后自动打开导出目录</p>
-          <setting-app-open-folder-after-export/>
+          <setting-boolean-simple path="APP.OPEN_FOLDER_AFTER_EXPORT"/>
         </setting-container>
         <setting-container id="section-scan" title="扫描" icon="file-search">
           <h2>忽略的文件 / 文件夹</h2>
@@ -69,13 +69,13 @@
           <setting-scan-deep/>
           <h2>忽略文件</h2>
           <p>如果打开，将只扫描目录</p>
-          <setting-scan-ignore-file/>
+          <setting-boolean-simple path="SCAN.IGNORE_FILE"/>
           <h2>忽略以 " . " 开头的文件</h2>
           <p>这类文件在 Linux 和 MacOS 上是默认隐藏的文件</p>
-          <setting-scan-ignore-dot-start-file/>
+          <setting-boolean-simple path="SCAN.IGNORE_DOT_START_FILE"/>
           <h2>忽略以 " . " 开头的文件夹</h2>
           <p>这类文件夹在 Linux 和 MacOS 上是默认隐藏的文件夹</p>
-          <setting-scan-ignore-dot-start-folder/>
+          <setting-boolean-simple path="SCAN.IGNORE_DOT_START_FOLDER"/>
         </setting-container>
         <setting-container id="section-export-import" title="备份和恢复" icon="sync">
           <h2>导出</h2>

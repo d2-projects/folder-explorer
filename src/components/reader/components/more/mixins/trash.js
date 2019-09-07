@@ -8,8 +8,8 @@ export default {
     ]),
     moveItemToTrash () {
       this.$confirm({
-        title: '删除',
-        content: `删除这个${this.value.data.stat.isFile ? '文件' : '文件夹'}？`,
+        title: '确认',
+        content: `删除${this.value.data.stat.isFile ? '文件' : '文件夹'} ${this.value.data.filePathParsed.base}`,
         cancelText: '取消',
         okText: '删除',
         okType: 'danger',
