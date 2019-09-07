@@ -24,7 +24,7 @@ export default {
       if (this.SETTING.APP.DELETE_CONFIRM) {
         this.$confirm({
           title: '确认',
-          content: `删除${this.value.data.stat.isFile ? '文件' : '文件夹'} ${this.value.data.filePathParsed.base}`,
+          content: `删除${this.value.data.isFile ? '文件' : '文件夹'} ${this.value.data.base}`,
           cancelText: '取消',
           okText: '删除',
           okType: 'danger',

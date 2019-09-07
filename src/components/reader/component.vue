@@ -55,9 +55,9 @@
           <!-- 文件信息 -->
           <span class="row-info" flex="cross:center">
             <!-- 文件名 -->
-            <pre class="row-info-name">{{item.data.filePathParsed.name}}</pre>
+            <pre class="row-info-name">{{item.data.name}}</pre>
             <!-- 扩展名 -->
-            <pre class="row-info-ext" v-if="item.data.filePathParsed.ext">{{item.data.filePathParsed.ext}}</pre>
+            <pre class="row-info-ext" v-if="item.data.ext">{{item.data.ext}}</pre>
             <!-- 备注 -->
             <pre v-if="item.note" class="row-info-note"> // {{item.note}}</pre>
             <!-- 操作 -->

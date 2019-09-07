@@ -24,6 +24,7 @@ ipcMain.on('IPC_FOLDER_SELECT', async (event, arg) => {
 ipcMain.on('IPC_EXPORT', async (event, {
   name,
   value,
+  openAfterExport,
   openFolderAfterExport
 }) => {
   const window = BrowserWindow.getFocusedWindow()
@@ -33,7 +34,9 @@ ipcMain.on('IPC_EXPORT', async (event, {
   })
   if (result.canceled === false) {
     await fs.writeFileSync(result.filePath, new Uint8Array(Buffer.from(value)))
-    if (openFolderAfterExport) {
+    if (openAfterExport) {
+      shell.openItem(result.filePath)
+    } else if (openFolderAfterExport) {
       shell.showItemInFolder(result.filePath)
     }
     event.reply('IPC_EXPORT_REPLY')

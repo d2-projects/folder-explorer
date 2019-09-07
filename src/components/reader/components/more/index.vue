@@ -92,7 +92,7 @@ export default {
       // 打开
       menu.append(new remote.MenuItem({
         label: '打开文件',
-        enabled: this.value.data.stat.isFile,
+        enabled: this.value.data.isFile,
         click: this.openFile
       }))
       menu.append(new remote.MenuItem({
@@ -102,7 +102,7 @@ export default {
       menu.append(new remote.MenuItem({ type: 'separator'}))
       // 删除
       menu.append(new remote.MenuItem({
-        label: `将${this.value.data.stat.isFile ? '文件' : '文件夹'}移动到废纸篓`,
+        label: `将${this.value.data.isFile ? '文件' : '文件夹'}移动到废纸篓`,
         click: this.moveItemToTrash
       }))
       menu.popup(remote.BrowserWindow.getFocusedWindow())

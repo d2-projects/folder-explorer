@@ -40,7 +40,7 @@ export default function (data) {
         data: item
       })
       // 如果是文件夹的话，遍历文件夹内容
-      if (item.stat.isDirectory) {
+      if (item.isDirectory) {
         maker(item.children, level + 1, treeBody)
       }
     })

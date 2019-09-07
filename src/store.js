@@ -18,10 +18,21 @@ const stateDefault = {
   SETTING: {
     // 通用
     APP: {
+      // 在导出之后打开文件
+      OPEN_AFTER_EXPORT: true,
       // 在导出之后打开文件位置
-      OPEN_FOLDER_AFTER_EXPORT: true,
+      OPEN_FOLDER_AFTER_EXPORT: false,
       // 删除文件前确认
       DELETE_CONFIRM: true
+    },
+    // 导出相关的设置
+    EXPORT: {
+      TREE_TEXT: {
+        FILE_NAME: 'FolderExplorerExport'
+      },
+      TREE_JSON: {
+        FILE_NAME: 'FolderExplorerExport'
+      }
     },
     // 扫描相关
     SCAN: {
@@ -55,7 +66,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计文件和文件夹的数量
      */
     SCAN_RESULT_FILE_AND_FOLDER_NUM: state => {
-      const grouped = groupby(state.SCAN_RESULT_FLAT, item => item.data.stat.isFile ? 'file' : 'folder')
+      const grouped = groupby(state.SCAN_RESULT_FLAT, item => item.data.isFile ? 'file' : 'folder')
       return {
         file: (grouped.file || []).length,
         folder: (grouped.folder || []).length
@@ -65,7 +76,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计文件类型分布
      */
     SCAN_RESULT_STATISTIC_EXT: state => {
-      const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.filePathParsed.ext')
+      const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.ext')
       let result = []
       for (const key in grouped) {
         if (key !== '' && grouped.hasOwnProperty(key)) {
@@ -85,7 +96,7 @@ export default new Vuex.Store({
       function isFolderAndPush (itemArray, level = 1) {
         if (level > 3) return
         for (const item of itemArray) {
-          if (item.stat.isDirectory) {
+          if (item.isDirectory) {
             result.push(item.filePath)
             isFolderAndPush(item.children, level + 1)
           }
@@ -98,7 +109,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计设置建议选项 [ 忽略的文件类型 ]
      */
     SETTING_SCAN_IGNORE_EXT_OPTIONS: state => {
-      const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.filePathParsed.ext')
+      const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.ext')
       return Object.keys(grouped)
     }
   },
@@ -160,6 +171,7 @@ export default new Vuex.Store({
       ipcRenderer.send('IPC_EXPORT', {
         name,
         value,
+        openAfterExport: state.SETTING.APP.OPEN_AFTER_EXPORT,
         openFolderAfterExport: state.SETTING.APP.OPEN_FOLDER_AFTER_EXPORT
       })
     },
@@ -220,7 +232,7 @@ export default new Vuex.Store({
       let itemLengthMax = 0
       if (hasNote) {
         state.SCAN_RESULT_FLAT.forEach(e => {
-          const item = `${e.tree.text}${e.data.filePathParsed.name}`
+          const item = `${e.tree.text}${e.data.name}`
           if (item.length > itemLengthMax) {
             itemLengthMax = item.length
           }
@@ -228,13 +240,13 @@ export default new Vuex.Store({
       }
       // 导出的文本
       const text = state.SCAN_RESULT_FLAT.map(e => {
-        const item = `${e.tree.text}${e.data.filePathParsed.name}`
+        const item = `${e.tree.text}${e.data.name}`
         const hasNoteInCurrentRow = e.note !== ''
         return hasNoteInCurrentRow ? `${item.padEnd(itemLengthMax, ' ')} // ${e.note}` : item
       }).join('\n')
       // 导出
       this.commit('IPC_EXPORT', {
-        name: 'DEMO.txt',
+        name: `${state.SETTING.EXPORT.TREE_TEXT.FILE_NAME}.txt`,
         value: text
       })
     },
@@ -245,7 +257,7 @@ export default new Vuex.Store({
       const text = JSON.stringify(state.SCAN_RESULT, null, 2)
       // 导出
       this.commit('IPC_EXPORT', {
-        name: 'DEMO.json',
+        name: `${state.SETTING.EXPORT.TREE_JSON.FILE_NAME}.json`,
         value: text
       })
     }

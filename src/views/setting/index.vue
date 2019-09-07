@@ -53,8 +53,11 @@
       </div>
       <div class="page--main-content" ref="container">
         <setting-container id="section-app" title="通用" icon="home">
-          <h2>导出后打开位置</h2>
-          <p>开启此设置在每次导出文件后自动打开导出目录</p>
+          <h2>导出后打开</h2>
+          <p>每次导出文件后自动打开</p>
+          <setting-boolean-simple path="APP.OPEN_AFTER_EXPORT"/>
+          <h2>导出后打开文件夹</h2>
+          <p>每次导出文件后自动打开所在目录（如果开启了“导出后打开”，此设置将忽略）</p>
           <setting-boolean-simple path="APP.OPEN_FOLDER_AFTER_EXPORT"/>
           <h2>删除确认</h2>
           <p>在每次删除文件之前弹出确认框</p>

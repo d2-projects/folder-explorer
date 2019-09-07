@@ -59,15 +59,13 @@ async function scan ({
 		if (isFile && ignoreExt.indexOf(filePathParsed.ext) >= 0) continue
 		result.push({
 			// stat
-			stat: {
-				...stat,
-				isFile,
-				isDirectory
-			},
+			...stat,
+			isFile,
+			isDirectory,
 			// path
 			filePath,
-			filePathParsed,
 			filePathFull,
+			...filePathParsed,
 			// 如果是文件夹，其子文件或者子文件夹
 			children: isDirectory ? await scan({
 				folderPath: filePathFull,
