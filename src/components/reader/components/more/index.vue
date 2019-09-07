@@ -77,12 +77,26 @@ export default {
     onActive (e) {
       const menu = new remote.Menu()
       // 注释
-      menu.append(new remote.MenuItem({ label: '编辑注释', click: this.noteEditOnEdit }))
-      menu.append(new remote.MenuItem({ label: '删除注释', enabled: this.value.note !== '', click: () => { this.noteEditOnOk({ note: '' }) } }))
-      menu.append(new remote.MenuItem({ type: 'separator' }))
+      menu.append(new remote.MenuItem({
+        label: `${this.value.note === '' ? '添加' : '修改'}注释`,
+        click: this.noteEditOnEdit
+      }))
+      menu.append(new remote.MenuItem({
+        label: '删除注释',
+        enabled: this.value.note !== '',
+        click: () => { this.noteEditOnOk({ note: '' }) }
+      }))
+      menu.append(new remote.MenuItem({ type: 'separator'}))
       // 打开
-      menu.append(new remote.MenuItem({ label: '打开文件', enabled: this.value.data.stat.isFile, click: this.openFile }))
-      menu.append(new remote.MenuItem({ label: '在 Finder 中显示', click: this.openFileInFolder }))
+      menu.append(new remote.MenuItem({
+        label: '打开文件',
+        enabled: this.value.data.stat.isFile,
+        click: this.openFile
+      }))
+      menu.append(new remote.MenuItem({
+        label: '在 Finder 中显示',
+        click: this.openFileInFolder
+      }))
       menu.popup(remote.BrowserWindow.getFocusedWindow())
       e.stopPropagation()
     }
