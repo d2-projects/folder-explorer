@@ -186,14 +186,18 @@ export default new Vuex.Store({
       data = true,
       setting = true
     } = {}) {
-      const {
-        SCAN_FOLDER_PATH,
-        SCAN_RESULT,
-        SCAN_RESULT_FLAT,
-        SETTING
-      } = state
+      // 除了设置之外的字段
+      let DATA = {}
+      Object.keys(state).filter(e => {
+        return e !== 'SETTING' && e !== ''
+      }).forEach(key => {
+        DATA[key] = state[key]
+      })
+      // 设置
+      const { SETTING } = state 
+      // 导出的数据
       const exportData = {
-        ...data ? { SCAN_FOLDER_PATH, SCAN_RESULT, SCAN_RESULT_FLAT } : {},
+        ...data ? DATA : {},
         ...setting ? { SETTING } : {}
       }
       this.commit('IPC_EXPORT', {
