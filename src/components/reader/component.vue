@@ -58,7 +58,7 @@
             <pre class="row-info-name">{{item.data.filePathParsed.name}}</pre>
             <!-- 扩展名 -->
             <pre class="row-info-ext" v-if="item.data.filePathParsed.ext">{{item.data.filePathParsed.ext}}</pre>
-            <!-- 注释 -->
+            <!-- 备注 -->
             <pre v-if="item.note" class="row-info-note"> // {{item.note}}</pre>
             <!-- 操作 -->
             <more :value="item" @note-change="note => onNoteChange({ index, note })"/>
@@ -93,7 +93,7 @@ export default {
       'SCAN_RESULT_FLAT_UPDATE_ITEM'
     ]),
     /**
-     * 变更注释
+     * 变更备注
      */
     onNoteChange ({ index, note }) {
       this.SCAN_RESULT_FLAT_UPDATE_ITEM({

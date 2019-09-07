@@ -26,23 +26,21 @@
     class="container"
     flex="dir:top main:justify">
     <div
-      v-if="$slots['header-left'] || $slots['header-right']"
-      flex="main:justify cross:center"
+      v-if="$slots['header-left'] || $slots['header-center'] || $slots['header-right']"
+      flex="main:justify cross:center box:mean"
       class="container--header">
-      <div class="container--header-left">
-        <slot name="header-left"></slot>
-      </div>
-      <div class="container--header-right">
-        <slot name="header-right"></slot>
-      </div>
+      <div flex="cross:center"><slot name="header-left"></slot></div>
+      <div flex="main:right cross:center"><slot name="header-right"></slot></div>
     </div>
     <div class="container--body" flex-box="1">
       <slot></slot>
     </div>
     <div
-      v-if="$slots.footer"
+      v-if="$slots['footer-left'] || $slots['footer-center'] || $slots['footer-right']"
+      flex="main:justify cross:center box:mean"
       class="container--footer">
-      <slot name="footer"></slot>
+      <div flex="cross:center"><slot name="footer-left"></slot></div>
+      <div flex="main:right cross:center"><slot name="footer-right"></slot></div>
     </div>
   </div>
 </template>

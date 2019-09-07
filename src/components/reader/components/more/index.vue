@@ -36,9 +36,9 @@
       <span></span>
       <span></span>
     </span>
-    <!-- 编辑注释 -->
+    <!-- 编辑备注 -->
     <a-modal
-      title="编辑注释"
+      title="编辑备注"
       cancel-text="取消"
       ok-text="确定"
       :closable="false"
@@ -47,13 +47,13 @@
       @ok="noteEditOnOk">
       <a-input
         v-model="noteEdit.currentNote"
-        placeholder="注释内容 回车确认"
+        placeholder="备注内容 回车确认"
         ref="noteEditInput"
         @pressEnter="noteEditOnOk">
         <a-icon slot="prefix" type="tag" />
       </a-input>
     </a-modal>
-    <!-- 编辑注释 结束 -->
+    <!-- 编辑备注 结束 -->
   </span>
 </template>
 
@@ -78,13 +78,13 @@ export default {
   methods: {
     onActive (e) {
       const menu = new remote.Menu()
-      // 注释
+      // 备注
       menu.append(new remote.MenuItem({
-        label: `${this.value.note === '' ? '添加' : '修改'}注释`,
+        label: `${this.value.note === '' ? '添加' : '修改'}备注`,
         click: this.noteEditOnEdit
       }))
       menu.append(new remote.MenuItem({
-        label: '删除注释',
+        label: '删除备注',
         enabled: this.value.note !== '',
         click: () => { this.noteEditOnOk({ note: '' }) }
       }))

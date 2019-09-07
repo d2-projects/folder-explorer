@@ -1,35 +1,47 @@
+<style lang="scss" scoped>
+.page-result-text--folder-path {
+  font-size: 12px;
+  color: #606266;
+  margin-left: 2px;
+}
+</style>
+
 <template>
   <result-container>
     <template v-if="HAS_SCAN_DATA">
-      <span slot="header-left">
-        <a-tag color="purple">
-          <a-icon type="database" />
-          总计
-          {{ SCAN_RESULT_FLAT.length }}
-        </a-tag>
-        <a-tag color="green">
-          <a-icon type="file" />
-          文件
-          {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.file }}
-        </a-tag>
-        <a-tag color="cyan">
-          <a-icon type="folder" />
-          目录
-          {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.folder }}
-        </a-tag>
+      <span
+        v-if="SCAN_FOLDER_PATH"
+        slot="header-left"
+        class="page-result-text--folder-path">
+        {{ SCAN_FOLDER_PATH }}
       </span>
       <div slot="header-right" flex="main:center">
-        <export-copy :value="exportValue"/>
+        <share title="导出当前树型数据"/>
+        <!-- <export-copy :value="exportValue"/>
         <export-file
           :value="exportValue"
           name="FolderTreeExport.txt"
-          placement="bottomRight"/>
+          placement="bottomRight"/> -->
       </div>
       <div class="full">
         <reader/>
       </div>
     </template>
     <empty v-else/>
+    <span slot="footer-left">
+      <a-tag color="purple" class="is-mr-5">
+        <a-icon type="database"/>
+        总计 {{ SCAN_RESULT_FLAT.length }}
+      </a-tag>
+      <a-tag color="green" class="is-mr-5">
+        <a-icon type="file"/>
+        文件 {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.file }}
+      </a-tag>
+      <a-tag color="cyan" class="is-mr-5">
+        <a-icon type="folder"/>
+        目录 {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.folder }}
+      </a-tag>
+    </span>
   </result-container>
 </template>
 
@@ -41,6 +53,7 @@ export default {
   icon: 'cluster',
   computed: {
     ...mapState([
+      'SCAN_FOLDER_PATH',
       'SCAN_RESULT_FLAT'
     ]),
     ...mapGetters([
@@ -48,7 +61,7 @@ export default {
       'SCAN_RESULT_FILE_AND_FOLDER_NUM'
     ]),
     exportValue () {
-      // 是否存在注释
+      // 是否存在备注
       const hasNote = this.SCAN_RESULT_FLAT.find(e => e.note !== '')
       // 找最大文件名称长度
       let itemLengthMax = 0
