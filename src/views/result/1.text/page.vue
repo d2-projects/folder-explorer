@@ -11,7 +11,7 @@
     <template v-if="HAS_SCAN_DATA">
       <span
         v-if="SCAN_FOLDER_PATH"
-        slot="header-left"
+        slot="header"
         class="page-result-text--folder-path">
         {{ SCAN_FOLDER_PATH }}
       </span>

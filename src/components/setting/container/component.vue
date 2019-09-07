@@ -1,6 +1,6 @@
 <style lang="scss">
 .setting-container {
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 10px;
   h1 {

@@ -52,7 +52,7 @@ export default new Vuex.Store({
      */
     HAS_SCAN_DATA: state => state.SCAN_RESULT.length !== 0,
     /**
-     * 文件名字
+     * 根据扫描结果统计文件和文件夹的数量
      */
     SCAN_RESULT_FILE_AND_FOLDER_NUM: state => {
       const grouped = groupby(state.SCAN_RESULT_FLAT, item => item.data.stat.isFile ? 'file' : 'folder')
@@ -62,7 +62,7 @@ export default new Vuex.Store({
       }
     },
     /**
-     * 文件类型统计
+     * 根据扫描结果统计文件类型分布
      */
     SCAN_RESULT_STATISTIC_EXT: state => {
       const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.filePathFullParsed.ext')
@@ -78,7 +78,7 @@ export default new Vuex.Store({
       return result
     },
     /**
-     * 设置建议选项 [ 忽略的文件夹路径 ]
+     * 根据扫描结果统计设置建议选项 [ 忽略的文件夹路径 ]
      */
     SETTING_SCAN_IGNORE_PATH_OPTIONS: state => {
       let result = []
@@ -95,7 +95,7 @@ export default new Vuex.Store({
       return result
     },
     /**
-     * 设置建议选项 [ 忽略的文件类型 ]
+     * 根据扫描结果统计设置建议选项 [ 忽略的文件类型 ]
      */
     SETTING_SCAN_IGNORE_EXT_OPTIONS: state => {
       const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.filePathFullParsed.ext')

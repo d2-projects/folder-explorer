@@ -21,9 +21,9 @@ function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
     icon: path.join(__static, 'icon.png'),
-    width: 1000,
+    width: 800,
     height: 600,
-    minWidth: 1000,
+    minWidth: 800,
     minHeight: 600,
     webPreferences: {
       nodeIntegration: true

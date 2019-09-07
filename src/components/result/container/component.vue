@@ -28,12 +28,8 @@
   <div
     class="container"
     flex="dir:top main:justify">
-    <div
-      v-if="$slots['header-left'] || $slots['header-right']"
-      flex="main:justify cross:center"
-      class="container--header">
-      <div flex="cross:center"><slot name="header-left"></slot></div>
-      <div flex="main:right cross:center"><slot name="header-right"></slot></div>
+    <div v-if="$slots['header']" class="container--header" flex="cross:center">
+      <slot name="header"></slot>
     </div>
     <div class="container--body" flex-box="1">
       <slot></slot>
