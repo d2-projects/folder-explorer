@@ -1,0 +1,89 @@
+<style lang="scss" scoped>
+.row-more {
+  .row-more--button {
+    height: 14px;
+    width: 22px;
+    background-color: #FAFAFA;
+    border: 1px solid #D9D9D9;
+    border-radius: 2px;
+    span {
+      height: 2px;
+      width: 2px;
+      border-radius: 1px;
+      background-color: #D9D9D9;
+      margin-right: 2px;
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+    &:hover {
+      border: 1px solid #909399;
+      span {
+        background-color: #909399;
+      }
+    }
+  }
+}
+</style>
+
+<template>
+  <span class="row-more" flex="main:center cross:center" @click="onActive">
+    <!-- 按钮 -->
+    <span class="row-more--button" flex="main:center cross:center">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <!-- 编辑注释 -->
+    <a-modal
+      title="编辑注释"
+      cancel-text="取消"
+      ok-text="确定"
+      :closable="false"
+      :mask-closable="false"
+      v-model="noteEdit.editing"
+      @ok="noteEditOnOk">
+      <a-input
+        v-model="noteEdit.currentNote"
+        placeholder="注释内容 回车确认"
+        ref="noteEditInput"
+        @pressEnter="noteEditOnOk">
+        <a-icon slot="prefix" type="tag" />
+      </a-input>
+    </a-modal>
+    <!-- 编辑注释 结束 -->
+  </span>
+</template>
+
+<script>
+import { remote } from 'electron'
+import noteEdit from './mixins/noteEdit'
+import showItemInFolder from './mixins/showItemInFolder'
+export default {
+  mixins: [
+    noteEdit,
+    showItemInFolder
+  ],
+  props: {
+    path: {
+      type: String,
+      default: '',
+      required: false
+    },
+    note: {
+      type: String,
+      default: '',
+      required: false
+    }
+  },
+  methods: {
+    onActive (e) {
+      const menu = new remote.Menu()
+      menu.append(new remote.MenuItem({ label: '编辑注释', click: this.noteEditOnEdit }))
+      menu.append(new remote.MenuItem({ label: '打开目录', click: this.showItemInFolder }))
+      menu.popup(remote.BrowserWindow.getFocusedWindow())
+      e.stopPropagation()
+    }
+  }
+}
+</script>

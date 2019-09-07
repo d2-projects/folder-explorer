@@ -1,58 +1,79 @@
+<style lang="scss" scoped>
+.reader {
+  height: 100%;
+  .reader-info {
+    line-height: 14px;
+    font-size: 10px;
+    background-color: #D9D9D9;
+    color: #333;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .list {
+    height: 100%;
+    cursor: pointer;
+    user-select: none;
+    .row {
+      color: #606266;
+      pre {
+        margin-bottom: 0px;
+        font-size: 14px;
+        line-height: 18px;
+      }
+      .row-info {
+        .row-info-name {
+          color: #303133;
+          padding: 0 3px;
+        }
+        .row-info-ext {
+          color: #909399;
+          margin-left: -3px;
+          padding-right: 3px;
+        }
+      }
+      &:hover {
+        background-color: #D9D9D9;
+        border-radius: 2px;
+      }
+    }
+  }
+}
+</style>
+
 <template>
-  <div
-    class="reader"
-    flex="dir:top main:justify box:last">
+  <div class="reader" flex="dir:top main:justify box:last">
     <div class="is-p-5">
-      <recycle-scroller
-        :items="SCAN_RESULT_FLAT"
-        :item-size="18"
-        key-field="id"
-        v-slot="{ item, index }"
-        class="list">
-        <div
-          flex="cross:center"
-          class="row"
-          @mouseover="info = item.data.filePathFull">
+      <recycle-scroller :items="SCAN_RESULT_FLAT" :item-size="18" key-field="id" v-slot="{ item, index }" class="list">
+        <div flex="cross:center" class="row" @mouseover="info = item.data.filePathFull">
           <!-- 树枝 -->
           <span class="row-tree">
             <pre>{{item.tree.text}}</pre>
           </span>
           <!-- 文件信息 -->
-          <span class="row-info" flex="">
+          <span class="row-info" flex="cross:center">
             <!-- 文件名 -->
             <pre class="row-info-name">{{item.data.filePathParsed.name}}</pre>
             <!-- 扩展名 -->
-            <pre
-              class="row-info-ext"
-              v-if="item.data.filePathParsed.ext">{{item.data.filePathParsed.ext}}</pre>
-            <!-- 打开目录 -->
-            <show-item-in-folder :path="item.data.filePathFull"/>
-            <!-- 编辑注释 -->
-            <add-note
-              :value="item.note"
-              @input="note => onNoteChange({ index, note })"
-              :file-name="item.data.filePathFullParsed.base"/>
-            <pre class="row-info-note-pre" v-if="item.note"> // </pre>
-            <pre class="row-info-note" v-if="item.note">{{item.note}}</pre>
+            <pre class="row-info-ext" v-if="item.data.filePathParsed.ext">{{item.data.filePathParsed.ext}}</pre>
+            <!-- 注释 -->
+            <pre v-if="item.note" class="row-info-note"> // {{item.note}}</pre>
+            <!-- 操作 -->
+            <more :path="item.data.filePathFull" :note="item.note" @note-change="note => onNoteChange({ index, note })"/>
           </span>
         </div>
       </recycle-scroller>
     </div>
-    <div class="reader-info">
-      {{ info }}
-    </div>
+    <div class="reader-info">{{ info }}</div>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import addNote from './components/add-note'
-import showItemInFolder from './components/show-item-in-folder'
+import more from './components/more'
 export default {
   name: 'reader',
   components: {
-    addNote,
-    showItemInFolder
+    more
   },
   data () {
     return {
@@ -83,7 +104,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import './style';
-</style>
