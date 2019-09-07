@@ -52,12 +52,12 @@
         </a-anchor>
       </div>
       <div class="page--main-content" ref="container">
-        <setting-container id="section-app" title="通用">
+        <setting-container id="section-app" title="通用" icon="home">
           <h2>导出后打开位置</h2>
           <p>开启此设置在每次导出文件后自动打开导出目录</p>
           <setting-app-open-folder-after-export/>
         </setting-container>
-        <setting-container id="section-scan" title="扫描">
+        <setting-container id="section-scan" title="扫描" icon="file-search">
           <h2>忽略的文件 / 文件夹</h2>
           <p>不必要的文件夹扫描会导致性能损失甚至程序失去响应，例如 node_modules</p>
           <setting-scan-ignore-path/>
@@ -77,7 +77,7 @@
           <p>这类文件夹在 Linux 和 MacOS 上是默认隐藏的文件夹</p>
           <setting-scan-ignore-dot-start-folder/>
         </setting-container>
-        <setting-container id="section-export-import" title="备份和恢复">
+        <setting-container id="section-export-import" title="备份和恢复" icon="sync">
           <h2>导出</h2>
           <p>将软件当前的状态导出为文件</p>
           <setting-export/>
@@ -85,7 +85,7 @@
           <p>导入您之前导出的备份</p>
           <setting-import/>
         </setting-container>
-        <setting-container id="section-restore" title="重置">
+        <setting-container id="section-restore" title="重置" icon="rocket">
           <h2>重置软件</h2>
           <p>恢复软件为初始状态</p>
           <setting-retore/>

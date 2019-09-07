@@ -3,6 +3,12 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 10px;
+  h1 {
+    .anticon {
+      color: #606266;
+      margin-right: 5px;
+    }
+  }
   .setting-component {
     margin-bottom: 20px;
     &:last-child {
@@ -14,7 +20,10 @@
 
 <template>
   <div class="setting-container">
-    <h1>{{title}}</h1>
+    <h1>
+      <a-icon :type="icon" />
+      {{title}}
+    </h1>
     <a-card>
       <slot/>
     </a-card>
@@ -26,6 +35,11 @@ export default {
   name: 'setting-container',
   props: {
     title: {
+      type: String,
+      default: '',
+      required: false
+    },
+    icon: {
       type: String,
       default: '',
       required: false
