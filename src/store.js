@@ -164,7 +164,7 @@ export default new Vuex.Store({
       })
     },
     /**
-     * 重置
+     * 重置软件所有数据
      */
     RESTORE (state) {
       for (const key in stateDefault) {
@@ -197,8 +197,7 @@ export default new Vuex.Store({
       }
       this.commit('IPC_EXPORT', {
         name: 'FOLDER_EXPLORER_BACKUP.json',
-        value: JSON.stringify(exportData, null, 2),
-        openFolderAfterExport: state.SETTING.APP.OPEN_FOLDER_AFTER_EXPORT
+        value: JSON.stringify(exportData, null, 2)
       })
     },
     /**
@@ -210,6 +209,45 @@ export default new Vuex.Store({
           state[key] = data[key]
         }
       }
+    },
+    /**
+     * 导出 [ 树形文本 ]
+     */
+    EXPORT_TREE_TEXT (state) {
+      // 是否存在备注
+      const hasNote = state.SCAN_RESULT_FLAT.find(e => e.note !== '')
+      // 找最大文件名称长度
+      let itemLengthMax = 0
+      if (hasNote) {
+        state.SCAN_RESULT_FLAT.forEach(e => {
+          const item = `${e.tree.text}${e.data.filePathParsed.name}`
+          if (item.length > itemLengthMax) {
+            itemLengthMax = item.length
+          }
+        })
+      }
+      // 导出的文本
+      const text = state.SCAN_RESULT_FLAT.map(e => {
+        const item = `${e.tree.text}${e.data.filePathParsed.name}`
+        const hasNoteInCurrentRow = e.note !== ''
+        return hasNoteInCurrentRow ? `${item.padEnd(itemLengthMax, ' ')} // ${e.note}` : item
+      }).join('\n')
+      // 导出
+      this.commit('IPC_EXPORT', {
+        name: 'DEMO.txt',
+        value: text
+      })
+    },
+    /**
+     * 导出 [ JSON ]
+     */
+    EXPORT_TREE_JSON (state) {
+      const text = JSON.stringify(state.SCAN_RESULT, null, 2)
+      // 导出
+      this.commit('IPC_EXPORT', {
+        name: 'DEMO.json',
+        value: text
+      })
     }
   }
 })

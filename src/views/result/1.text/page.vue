@@ -51,27 +51,7 @@ export default {
     ...mapGetters([
       'HAS_SCAN_DATA',
       'SCAN_RESULT_FILE_AND_FOLDER_NUM'
-    ]),
-    exportValue () {
-      // 是否存在备注
-      const hasNote = this.SCAN_RESULT_FLAT.find(e => e.note !== '')
-      // 找最大文件名称长度
-      let itemLengthMax = 0
-      if (hasNote) {
-        this.SCAN_RESULT_FLAT.forEach(e => {
-          const item = `${e.tree.text}${e.data.filePathParsed.name}`
-          if (item.length > itemLengthMax) {
-            itemLengthMax = item.length
-          }
-        })
-      }
-      // 导出的文本
-      return this.SCAN_RESULT_FLAT.map(e => {
-        const item = `${e.tree.text}${e.data.filePathParsed.name}`
-        const hasNoteInCurrentRow = e.note !== ''
-        return hasNoteInCurrentRow ? `${item.padEnd(itemLengthMax, ' ')} // ${e.note}` : item
-      }).join('\n')
-    }
+    ])
   }
 }
 </script>
