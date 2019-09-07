@@ -21,7 +21,7 @@ export default {
       this.$confirm({
         title: '确定要还原所有数据吗？',
         content: '此操作将会抹除所有的设置数据和已经扫描的数据',
-        cancelText: '我按错了',
+        cancelText: '取消',
         okText: '抹除',
         okType: 'danger',
         onOk: () => {

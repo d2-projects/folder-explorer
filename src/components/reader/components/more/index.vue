@@ -61,10 +61,12 @@
 import { remote } from 'electron'
 import noteEdit from './mixins/noteEdit'
 import openFile from './mixins/openFile'
+import trash from './mixins/trash'
 export default {
   mixins: [
     noteEdit,
-    openFile
+    openFile,
+    trash
   ],
   props: {
     value: {
@@ -96,6 +98,12 @@ export default {
       menu.append(new remote.MenuItem({
         label: '在 Finder 中显示',
         click: this.openFileInFolder
+      }))
+      menu.append(new remote.MenuItem({ type: 'separator'}))
+      // 删除
+      menu.append(new remote.MenuItem({
+        label: '移到废纸篓',
+        click: this.moveItemToTrash
       }))
       menu.popup(remote.BrowserWindow.getFocusedWindow())
       e.stopPropagation()
