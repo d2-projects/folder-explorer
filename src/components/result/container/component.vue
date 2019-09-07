@@ -17,6 +17,9 @@
   .container--footer {
     padding: 5px;
     padding-top: 0px;
+    .app-logo-footer {
+      height: 20px;
+    }
   }
 }
 </style>
@@ -26,8 +29,8 @@
     class="container"
     flex="dir:top main:justify">
     <div
-      v-if="$slots['header-left'] || $slots['header-center'] || $slots['header-right']"
-      flex="main:justify cross:center box:mean"
+      v-if="$slots['header-left'] || $slots['header-right']"
+      flex="main:justify cross:center"
       class="container--header">
       <div flex="cross:center"><slot name="header-left"></slot></div>
       <div flex="main:right cross:center"><slot name="header-right"></slot></div>
@@ -35,12 +38,16 @@
     <div class="container--body" flex-box="1">
       <slot></slot>
     </div>
-    <div
-      v-if="$slots['footer-left'] || $slots['footer-center'] || $slots['footer-right']"
-      flex="main:justify cross:center box:mean"
-      class="container--footer">
-      <div flex="cross:center"><slot name="footer-left"></slot></div>
-      <div flex="main:right cross:center"><slot name="footer-right"></slot></div>
+    <div flex="main:justify cross:center" class="container--footer">
+      <div flex="cross:center">
+        <slot name="footer"></slot>
+      </div>
+      <div flex="main:right cross:center">
+        <img
+          class="app-logo-footer"
+          src="@/assets/image/logo-footer.png"
+          draggable="false">
+      </div>
     </div>
   </div>
 </template>

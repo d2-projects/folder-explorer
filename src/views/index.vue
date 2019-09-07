@@ -49,7 +49,9 @@
         </a-tooltip>
       </a-radio-group>
       <!-- right -->
-      <div style="width: 100px;" flex="main:left cross:center"></div>
+      <div style="width: 100px;" flex="main:right cross:center">
+        <share title="导出"/>
+      </div>
     </div>
     <div flex-box="1" class="page--router-view">
       <router-view/>

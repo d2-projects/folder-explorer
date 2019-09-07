@@ -15,20 +15,12 @@
         class="page-result-text--folder-path">
         {{ SCAN_FOLDER_PATH }}
       </span>
-      <div slot="header-right" flex="main:center">
-        <share title="导出当前树型数据"/>
-        <!-- <export-copy :value="exportValue"/>
-        <export-file
-          :value="exportValue"
-          name="FolderTreeExport.txt"
-          placement="bottomRight"/> -->
-      </div>
       <div class="full">
         <reader/>
       </div>
     </template>
     <empty v-else/>
-    <span slot="footer-left">
+    <span slot="footer">
       <a-tag color="purple" class="is-mr-5">
         <a-icon type="database"/>
         总计 {{ SCAN_RESULT_FLAT.length }}
