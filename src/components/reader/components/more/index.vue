@@ -60,21 +60,16 @@
 <script>
 import { remote } from 'electron'
 import noteEdit from './mixins/noteEdit'
-import showItemInFolder from './mixins/showItemInFolder'
+import openFile from './mixins/openFile'
 export default {
   mixins: [
     noteEdit,
-    showItemInFolder
+    openFile
   ],
   props: {
-    path: {
-      type: String,
-      default: '',
-      required: false
-    },
-    note: {
-      type: String,
-      default: '',
+    value: {
+      type: Object,
+      default: () => ({}),
       required: false
     }
   },
@@ -86,7 +81,8 @@ export default {
       menu.append(new remote.MenuItem({ label: '删除注释', click: () => { this.noteEditOnOk({ note: '' }) } }))
       menu.append(new remote.MenuItem({ type: 'separator' }))
       // 打开
-      menu.append(new remote.MenuItem({ label: '打开目录', click: this.showItemInFolder }))
+      menu.append(new remote.MenuItem({ label: '打开文件', click: this.openFile }))
+      menu.append(new remote.MenuItem({ label: '在 Finder 中显示', click: this.openFileInFolder }))
       menu.popup(remote.BrowserWindow.getFocusedWindow())
       e.stopPropagation()
     }

@@ -23,7 +23,7 @@
           type="primary"
           class="is-mr-5"
           @click="IPC_FOLDER_SELECT">
-          打开
+          扫描
         </a-button>
         <a-button
           size="small"

@@ -62,7 +62,7 @@
             <!-- 注释 -->
             <pre v-if="item.note" class="row-info-note"> // {{item.note}}</pre>
             <!-- 操作 -->
-            <more :path="item.data.filePathFull" :note="item.note" @note-change="note => onNoteChange({ index, note })"/>
+            <more :value="item" @note-change="note => onNoteChange({ index, note })"/>
           </span>
         </div>
       </recycle-scroller>

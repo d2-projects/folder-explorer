@@ -8,7 +8,7 @@ export default {
     }
   },
   watch: {
-    note: {
+    'value.note': {
       handler (value) {
         this.currentNote = value
       },

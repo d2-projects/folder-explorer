@@ -62,12 +62,3 @@ ipcMain.on('IPC_SEND_NOTIFICATION', async (event, {
     notification.show()
   }
 })
-
-/**
- * 渲染进程请求在文件管理器中显示指定的文件
- */
-ipcMain.on('IPC_SHOW_ITEM_IN_FOLDER', async (event, {
-  itemPath
-}) => {
-  shell.showItemInFolder(itemPath)
-})
