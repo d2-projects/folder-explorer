@@ -21,7 +21,11 @@ ipcMain.on('IPC_FOLDER_SELECT', async (event, arg) => {
 /**
  * 渲染进程请求选择保存结果的目录
  */
-ipcMain.on('IPC_EXPORT', async (event, { name, value, openFolderAfterExport }) => {
+ipcMain.on('IPC_EXPORT', async (event, {
+  name,
+  value,
+  openFolderAfterExport
+}) => {
   const window = BrowserWindow.getFocusedWindow()
   const result = await dialog.showSaveDialog(window, {
     defaultPath: name,

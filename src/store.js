@@ -21,7 +21,7 @@ const stateDefault = {
       // 在导出之后打开文件位置
       OPEN_FOLDER_AFTER_EXPORT: true,
       // 删除文件前确认
-      DELETE_CONFIRM: true,
+      DELETE_CONFIRM: true
     },
     // 扫描相关
     SCAN: {
