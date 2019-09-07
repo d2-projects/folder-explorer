@@ -16,6 +16,11 @@ const stateDefault = {
   SCAN_RESULT_FLAT: [],
   // 设置
   SETTING: {
+    // 通用
+    APP: {
+      // 在导出之后打开文件位置
+      OPEN_FOLDER_AFTER_EXPORT: true
+    },
     // 扫描相关
     SCAN: {
       // 忽略的文件夹
@@ -152,7 +157,8 @@ export default new Vuex.Store({
     IPC_EXPORT (state, { name, value }) {
       ipcRenderer.send('IPC_EXPORT', {
         name,
-        value
+        value,
+        openFolderAfterExport: state.SETTING.APP.OPEN_FOLDER_AFTER_EXPORT
       })
     },
     /**
@@ -189,7 +195,8 @@ export default new Vuex.Store({
       }
       this.commit('IPC_EXPORT', {
         name: 'FOLDER_EXPLORER_BACKUP.json',
-        value: JSON.stringify(exportData, null, 2)
+        value: JSON.stringify(exportData, null, 2),
+        openFolderAfterExport: state.SETTING.APP.OPEN_FOLDER_AFTER_EXPORT
       })
     },
     /**

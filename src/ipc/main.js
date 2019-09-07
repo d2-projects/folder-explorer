@@ -21,7 +21,7 @@ ipcMain.on('IPC_FOLDER_SELECT', async (event, arg) => {
 /**
  * 渲染进程请求选择保存结果的目录
  */
-ipcMain.on('IPC_EXPORT', async (event, { name, value }) => {
+ipcMain.on('IPC_EXPORT', async (event, { name, value, openFolderAfterExport }) => {
   const window = BrowserWindow.getFocusedWindow()
   const result = await dialog.showSaveDialog(window, {
     defaultPath: name,
@@ -29,7 +29,9 @@ ipcMain.on('IPC_EXPORT', async (event, { name, value }) => {
   })
   if (result.canceled === false) {
     await fs.writeFileSync(result.filePath, new Uint8Array(Buffer.from(value)))
-    shell.showItemInFolder(result.filePath)
+    if (openFolderAfterExport) {
+      shell.showItemInFolder(result.filePath)
+    }
     event.reply('IPC_EXPORT_REPLY')
   }
 })

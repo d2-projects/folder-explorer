@@ -45,12 +45,18 @@
     <div class="page--main" flex="box:first">
       <div class="page--main-side">
         <a-anchor :get-container="getContainer">
+          <a-anchor-link href="#section-app" title="通用"/>
           <a-anchor-link href="#section-scan" title="扫描"/>
           <a-anchor-link href="#section-export-import" title="备份和恢复"/>
           <a-anchor-link href="#section-restore" title="重置"/>
         </a-anchor>
       </div>
       <div class="page--main-content" ref="container">
+        <setting-container id="section-app" title="通用">
+          <h2>导出后打开位置</h2>
+          <p>开启此设置在每次导出文件后自动打开导出目录</p>
+          <setting-app-open-folder-after-export/>
+        </setting-container>
         <setting-container id="section-scan" title="扫描">
           <h2>忽略的文件 / 文件夹</h2>
           <p>不必要的文件夹扫描会导致性能损失甚至程序失去响应，例如 node_modules</p>
