@@ -1,8 +1,9 @@
-<style lang="scss" scoped>
+<style lang="scss">
 .row-more {
   .row-more--button {
     height: 14px;
     width: 22px;
+    margin: 0 2px;
     background-color: #FAFAFA;
     border: 1px solid #D9D9D9;
     border-radius: 2px;
@@ -17,9 +18,10 @@
       }
     }
     &:hover {
-      border: 1px solid #909399;
+      border: 1px solid darken(#2593FC, 30%) !important;
+      background-color: #2593FC;
       span {
-        background-color: #909399;
+        background-color: darken(#2593FC, 30%) !important;
       }
     }
   }
@@ -79,7 +81,11 @@ export default {
   methods: {
     onActive (e) {
       const menu = new remote.Menu()
+      // 注释
       menu.append(new remote.MenuItem({ label: '编辑注释', click: this.noteEditOnEdit }))
+      menu.append(new remote.MenuItem({ label: '删除注释', click: () => { this.noteEditOnOk({ note: '' }) } }))
+      menu.append(new remote.MenuItem({ type: 'separator' }))
+      // 打开
       menu.append(new remote.MenuItem({ label: '打开目录', click: this.showItemInFolder }))
       menu.popup(remote.BrowserWindow.getFocusedWindow())
       e.stopPropagation()

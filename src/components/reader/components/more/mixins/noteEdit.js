@@ -22,7 +22,10 @@ export default {
         this.$refs.noteEditInput.focus()
       })
     },
-    noteEditOnOk () {
+    noteEditOnOk ({ note }) {
+      if (note !== undefined) {
+        this.noteEdit.currentNote = note
+      }
       this.$emit('note-change', this.noteEdit.currentNote)
       this.noteEdit.editing = false
     }

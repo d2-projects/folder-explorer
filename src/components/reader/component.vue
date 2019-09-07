@@ -1,4 +1,4 @@
-<style lang="scss" scoped>
+<style lang="scss">
 .reader {
   height: 100%;
   .reader-info {
@@ -15,6 +15,7 @@
     user-select: none;
     .row {
       color: #606266;
+      border-radius: 2px;
       pre {
         margin-bottom: 0px;
         font-size: 14px;
@@ -23,17 +24,20 @@
       .row-info {
         .row-info-name {
           color: #303133;
-          padding: 0 3px;
         }
         .row-info-ext {
           color: #909399;
-          margin-left: -3px;
-          padding-right: 3px;
         }
       }
       &:hover {
         background-color: #D9D9D9;
-        border-radius: 2px;
+        // 操作按钮变化
+        .row-more--button {
+          border: 1px solid #909399;
+          span {
+            background-color: #909399;
+          }
+        }
       }
     }
   }
