@@ -44,11 +44,9 @@ export default {
   title: '文本',
   icon: 'cluster',
   computed: {
-    ...mapState([
-      'SCAN_FOLDER_PATH',
-      'SCAN_RESULT_FLAT'
-    ]),
     ...mapGetters([
+      'SCAN_FOLDER_PATH',
+      'SCAN_RESULT_FLAT',
       'HAS_SCAN_DATA',
       'SCAN_RESULT_FILE_AND_FOLDER_NUM'
     ])

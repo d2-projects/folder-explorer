@@ -69,11 +69,6 @@ export default {
       scanResultDisplayTypesMenu
     }
   },
-  computed: {
-    ...mapState([
-      'SCAN_FOLDER_PATH'
-    ])
-  },
   methods: {
     ...mapMutations([
       'IPC_FOLDER_SELECT'

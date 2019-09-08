@@ -1,16 +1,15 @@
 <template>
   <div class="setting-component">
-    <a-button icon="export" class="is-mr-10" @click="STORE_EXPORT">
-      全部
+    <p>
+      <a-checkbox-group :options="options" v-model="value"/>
+    </p>
+    <a-button
+      icon="export"
+      class="is-mr-10"
+      :disabled="value.length === 0"
+      @click="onExport">
+      导出
     </a-button>
-    <a-button-group>
-      <a-button icon="export" @click="STORE_EXPORT({ setting: false })">
-        只包含数据
-      </a-button>
-      <a-button icon="export" @click="STORE_EXPORT({ data: false })">
-        只包含设置
-      </a-button>
-    </a-button-group>
   </div>
 </template>
 
@@ -18,10 +17,28 @@
 import { mapMutations } from 'vuex'
 export default {
   name: 'setting-export',
+  data () {
+    return {
+      value: [
+        'DB',
+        'SETTING'
+      ],
+      options: [
+        { label: '缓存', value: 'CACHE' },
+        { label: '数据库', value: 'DB' },
+        { label: '设置', value: 'SETTING' }
+      ]
+    }
+  },
   methods: {
     ...mapMutations([
       'STORE_EXPORT'
-    ])
+    ]),
+    onExport () {
+      this.STORE_EXPORT({
+        include: this.value
+      })
+    }
   }
 }
 </script>

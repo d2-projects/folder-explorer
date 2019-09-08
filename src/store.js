@@ -10,12 +10,14 @@ import { endianness } from 'os'
 Vue.use(Vuex)
 
 const stateDefault = {
-  // 扫描的文件夹地址
-  SCAN_FOLDER_PATH: '',
-  // 扫描结果
-  SCAN_RESULT: [],
-  // 扫描结果 扁平化
-  SCAN_RESULT_FLAT: [],
+  CACHE: {
+    // 扫描的文件夹地址
+    SCAN_FOLDER_PATH: '',
+    // 扫描结果
+    SCAN_RESULT: [],
+    // 扫描结果 扁平化
+    SCAN_RESULT_FLAT: []
+  },
   // 数据库
   DB: {
     // 所有的注释信息 可以在重新扫描时自动恢复注释
@@ -71,15 +73,19 @@ export default new Vuex.Store({
   ],
   state: stateDefault,
   getters: {
+    // 快速访问 CACHE
+    SCAN_FOLDER_PATH: state => state.CACHE.SCAN_FOLDER_PATH,
+    SCAN_RESULT: state => state.CACHE.SCAN_RESULT,
+    SCAN_RESULT_FLAT: state => state.CACHE.SCAN_RESULT_FLAT,
     /**
      * 当前是否有扫描结果
      */
-    HAS_SCAN_DATA: state => state.SCAN_RESULT.length !== 0,
+    HAS_SCAN_DATA: state => state.CACHE.SCAN_RESULT.length !== 0,
     /**
      * 根据扫描结果统计文件和文件夹的数量
      */
     SCAN_RESULT_FILE_AND_FOLDER_NUM: state => {
-      const grouped = groupby(state.SCAN_RESULT_FLAT, item => item.data.isFile ? 'file' : 'folder')
+      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, item => item.data.isFile ? 'file' : 'folder')
       return {
         file: (grouped.file || []).length,
         folder: (grouped.folder || []).length
@@ -89,7 +95,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计文件类型分布
      */
     SCAN_RESULT_STATISTIC_EXT: state => {
-      const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.ext')
+      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, 'data.ext')
       let result = []
       for (const key in grouped) {
         if (key !== '' && grouped.hasOwnProperty(key)) {
@@ -115,14 +121,14 @@ export default new Vuex.Store({
           }
         }
       }
-      isFolderAndPush(state.SCAN_RESULT)
+      isFolderAndPush(state.CACHE.SCAN_RESULT)
       return result
     },
     /**
      * 根据扫描结果统计设置建议选项 [ 忽略的文件类型 ]
      */
     SETTING_SCAN_IGNORE_EXT_OPTIONS: state => {
-      const grouped = groupby(state.SCAN_RESULT_FLAT, 'data.ext')
+      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, 'data.ext')
       return Object.keys(grouped)
     }
   },
@@ -137,14 +143,14 @@ export default new Vuex.Store({
      * 数据更新 [ 目标文件夹地址 ]
      */
     SCAN_FOLDER_PATH_UPDATE (state, data) {
-      state.SCAN_FOLDER_PATH = data
+      state.CACHE.SCAN_FOLDER_PATH = data
     },
     /**
      * 数据更新 [ 扫描结果 ]
      */
     SCAN_RESULT_UPDATE (state, data) {
-      state.SCAN_RESULT = data
-      state.SCAN_RESULT_FLAT = translateFlat({
+      state.CACHE.SCAN_RESULT = data
+      state.CACHE.SCAN_RESULT_FLAT = translateFlat({
         data,
         notes: state.DB.NOTES
       })
@@ -154,7 +160,7 @@ export default new Vuex.Store({
      */
     SCAN_RESULT_FLAT_UPDATE_ITEM (state, { index, item }) {
       // 更新 SCAN_RESULT_FLAT
-      state.SCAN_RESULT_FLAT.splice(index, 1, item)
+      state.CACHE.SCAN_RESULT_FLAT.splice(index, 1, item)
       // 更新 NOTES 中的数据
       state.DB.NOTES[item.data.filePathFull] = item.note
     },
@@ -163,7 +169,7 @@ export default new Vuex.Store({
      */
     IPC_FOLDER_SCAN (state) {
       ipcRenderer.send('IPC_FOLDER_SCAN', {
-        folderPath: state.SCAN_FOLDER_PATH,
+        folderPath: state.CACHE.SCAN_FOLDER_PATH,
         ignorePath: state.SETTING.SCAN.IGNORE_PATH,
         ignoreExt: state.SETTING.SCAN.IGNORE_EXT,
         ignoreFile: state.SETTING.SCAN.IGNORE_FILE,
@@ -204,23 +210,16 @@ export default new Vuex.Store({
      * 导出当前状态
      */
     STORE_EXPORT (state, {
-      data = true,
-      setting = true
+      include = [
+        'CACHE',
+        'DB',
+        'SETTING'
+      ]
     } = {}) {
-      // 除了设置之外的字段
-      let DATA = {}
-      Object.keys(state).filter(e => {
-        return e !== 'SETTING' && e !== ''
-      }).forEach(key => {
-        DATA[key] = state[key]
+      let exportData = {}
+      include.forEach(key => {
+        exportData[key] = state[key]
       })
-      // 设置
-      const { SETTING } = state 
-      // 导出的数据
-      const exportData = {
-        ...data ? DATA : {},
-        ...setting ? { SETTING } : {}
-      }
       this.commit('IPC_EXPORT', {
         name: `${state.SETTING.EXPORT.STORE.FILE_NAME}.json`,
         value: JSON.stringify(exportData, null, 2)
@@ -241,11 +240,11 @@ export default new Vuex.Store({
      */
     EXPORT_TREE_TEXT (state) {
       // 是否存在备注
-      const hasNote = state.SCAN_RESULT_FLAT.find(e => e.note !== '')
+      const hasNote = state.CACHE.SCAN_RESULT_FLAT.find(e => e.note !== '')
       // 找最大文件名称长度
       let itemLengthMax = 0
       if (hasNote) {
-        state.SCAN_RESULT_FLAT.forEach(e => {
+        state.CACHE.SCAN_RESULT_FLAT.forEach(e => {
           const item = `${e.tree.text}${e.data.name}`
           if (item.length > itemLengthMax) {
             itemLengthMax = item.length
@@ -253,7 +252,7 @@ export default new Vuex.Store({
         })
       }
       // 导出的文本
-      const text = state.SCAN_RESULT_FLAT.map(e => {
+      const text = state.CACHE.SCAN_RESULT_FLAT.map(e => {
         const item = `${e.tree.text}${e.data.name}`
         const hasNoteInCurrentRow = e.note !== ''
         return hasNoteInCurrentRow ? `${item.padEnd(itemLengthMax, ' ')} // ${e.note}` : item
@@ -268,7 +267,7 @@ export default new Vuex.Store({
      * 导出 [ JSON ]
      */
     EXPORT_TREE_JSON (state) {
-      const text = JSON.stringify(state.SCAN_RESULT, null, 2)
+      const text = JSON.stringify(state.CACHE.SCAN_RESULT, null, 2)
       // 导出
       this.commit('IPC_EXPORT', {
         name: `${state.SETTING.EXPORT.TREE_JSON.FILE_NAME}.json`,

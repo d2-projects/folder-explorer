@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import more from './components/more'
 export default {
   name: 'reader',
@@ -84,7 +84,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([
+    ...mapGetters([
       'SCAN_RESULT_FLAT'
     ])
   },

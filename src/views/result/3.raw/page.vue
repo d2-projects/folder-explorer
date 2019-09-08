@@ -15,16 +15,14 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   name: 'raw',
   title: '数据',
   icon: 'table',
   computed: {
-    ...mapState([
-      'SCAN_RESULT'
-    ]),
     ...mapGetters([
+      'SCAN_RESULT',
       'HAS_SCAN_DATA'
     ]),
     code () {
