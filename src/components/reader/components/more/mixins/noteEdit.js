@@ -7,16 +7,9 @@ export default {
       }
     }
   },
-  watch: {
-    'value.note': {
-      handler (value) {
-        this.currentNote = value
-      },
-      immediate: true
-    }
-  },
   methods: {
     noteEditOnEdit () {
+      this.noteEdit.currentNote = this.value.note
       this.noteEdit.editing = true
       this.$nextTick(() => {
         this.$refs.noteEditInput.focus()
