@@ -4,8 +4,8 @@ import persistedState from 'vuex-persistedstate'
 import { ipcRenderer } from 'electron'
 import groupby from 'lodash.groupby'
 import set from 'lodash.set'
+import clone from 'lodash.clonedeep'
 import translateFlat from '@/util/translate.flat.js'
-import { endianness } from 'os'
 
 Vue.use(Vuex)
 
@@ -71,7 +71,7 @@ export default new Vuex.Store({
   plugins: [
     persistedState()
   ],
-  state: stateDefault,
+  state: clone(stateDefault),
   getters: {
     // 快速访问 CACHE
     SCAN_FOLDER_PATH: state => state.CACHE.SCAN_FOLDER_PATH,
@@ -198,13 +198,16 @@ export default new Vuex.Store({
     /**
      * 重置软件所有数据
      */
-    RESTORE (state) {
-      for (const key in stateDefault) {
-        if (stateDefault.hasOwnProperty(key)) {
-          const value = stateDefault[key]
-          state[key] = value
-        }
-      }
+    RESTORE (state, {
+      include = [
+        'CACHE',
+        'DB',
+        'SETTING'
+      ]
+    }) {
+      include.forEach(key => {
+        state[key] = clone(stateDefault[key])
+      })
     },
     /**
      * 导出当前状态

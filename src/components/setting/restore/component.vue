@@ -1,8 +1,12 @@
 <template>
   <div class="setting-component">
+    <p>
+      <a-checkbox-group :options="options" v-model="value"/>
+    </p>
     <a-button
       type="danger"
       icon="reload"
+      :disabled="value.length === 0"
       @click="onClick">
       重置软件
     </a-button>
@@ -13,6 +17,20 @@
 import { mapMutations } from 'vuex'
 export default {
   name: 'setting-retore',
+  data () {
+    return {
+      value: [
+        'CACHE',
+        'DB',
+        'SETTING'
+      ],
+      options: [
+        { label: '缓存', value: 'CACHE' },
+        { label: '数据库', value: 'DB' },
+        { label: '设置', value: 'SETTING' }
+      ]
+    }
+  },
   methods: {
     ...mapMutations([
       'RESTORE'
@@ -25,7 +43,9 @@ export default {
         okText: '抹除',
         okType: 'danger',
         onOk: () => {
-          this.RESTORE()
+          this.RESTORE({
+            include: this.value
+          })
           this.$message.success('软件已经恢复到初始状态')
         },
         onCancel: () => {

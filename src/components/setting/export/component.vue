@@ -7,7 +7,7 @@
       icon="export"
       class="is-mr-10"
       :disabled="value.length === 0"
-      @click="onExport">
+      @click="STORE_EXPORT({ include: value })">
       导出
     </a-button>
   </div>
@@ -33,12 +33,7 @@ export default {
   methods: {
     ...mapMutations([
       'STORE_EXPORT'
-    ]),
-    onExport () {
-      this.STORE_EXPORT({
-        include: this.value
-      })
-    }
+    ])
   }
 }
 </script>
