@@ -44,6 +44,7 @@
       :closable="false"
       :mask-closable="false"
       v-model="noteEdit.editing"
+      width="400px"
       @ok="noteEditOnOk">
       <a-input
         v-model="noteEdit.currentNote"

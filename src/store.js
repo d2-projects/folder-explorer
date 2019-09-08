@@ -113,7 +113,7 @@ export default new Vuex.Store({
     SETTING_SCAN_IGNORE_PATH_OPTIONS: state => {
       let result = []
       function isFolderAndPush (itemArray, level = 1) {
-        if (level > 3) return
+        if (level > 2) return
         for (const item of itemArray) {
           if (item.isDirectory) {
             result.push(item.filePath)

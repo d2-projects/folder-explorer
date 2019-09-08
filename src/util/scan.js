@@ -1,7 +1,5 @@
 import fs from 'fs'
 import path from 'path'
-import contains from 'contains-path'
-import { BrowserWindow, dialog } from 'electron'
 
 /**
  * 返回传入目录的子文件数据
@@ -26,12 +24,10 @@ async function scan ({
 	// 防止拖拽导入的路径不是文件夹，这个判断只在递归的第一次触发
 	if (needCheckIsFolder && !await fs.statSync(folderPath).isDirectory()) return result
 	// 检查该路径是否忽略
-	function isIgnoreByPath (value) {
+	function isIgnoreByPath (fileOrFolderPath) {
 		let result = false
-		for (const ignoreText of ignorePath) {
-			if (contains(value, ignoreText)) {
-				result = true
-			}
+		for (const rule of ignorePath) {
+			if (rule === fileOrFolderPath) result = true
 		}
 		return result
 	}
