@@ -5,6 +5,7 @@ import { ipcRenderer } from 'electron'
 import groupby from 'lodash.groupby'
 import set from 'lodash.set'
 import translateFlat from '@/util/translate.flat.js'
+import { endianness } from 'os'
 
 Vue.use(Vuex)
 
@@ -15,8 +16,11 @@ const stateDefault = {
   SCAN_RESULT: [],
   // 扫描结果 扁平化
   SCAN_RESULT_FLAT: [],
-  // 所有的注释信息 可以在重新扫描时自动恢复注释
-  NOTES: {},
+  // 数据库
+  DB: {
+    // 所有的注释信息 可以在重新扫描时自动恢复注释
+    NOTES: {}
+  },
   // 设置
   SETTING: {
     // 通用
@@ -124,12 +128,6 @@ export default new Vuex.Store({
   },
   mutations: {
     /**
-     * 数据更新 [ 注释数据库 ]
-     */
-    NOTES_UPDATE (state, { path, value }) {
-      state.NOTES[path] = value
-    },
-    /**
      * 数据更新 [ 设置 ]
      */
     SETTING_UPDATE (state, { path, value }) {
@@ -148,14 +146,17 @@ export default new Vuex.Store({
       state.SCAN_RESULT = data
       state.SCAN_RESULT_FLAT = translateFlat({
         data,
-        notes: state.NOTES
+        notes: state.DB.NOTES
       })
     },
     /**
      * 数据更新 [ 扫描结果 扁平化 一项 ]
      */
     SCAN_RESULT_FLAT_UPDATE_ITEM (state, { index, item }) {
+      // 更新 SCAN_RESULT_FLAT
       state.SCAN_RESULT_FLAT.splice(index, 1, item)
+      // 更新 NOTES 中的数据
+      state.DB.NOTES[item.data.filePathFull] = item.note
     },
     /**
      * ELECTRON IPC [ 发送扫描文件夹请求 ]

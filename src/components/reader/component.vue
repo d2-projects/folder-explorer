@@ -61,7 +61,7 @@
             <!-- 备注 -->
             <pre v-if="item.note" class="row-info-note"> // {{item.note}}</pre>
             <!-- 操作 -->
-            <more :value="item" @note-change="note => onNoteChange({ item, index, note })"/>
+            <more :value="item" @note-change="note => onNoteChange({ index, note })"/>
           </span>
         </div>
       </recycle-scroller>
@@ -96,7 +96,7 @@ export default {
     /**
      * 变更备注
      */
-    onNoteChange ({ item, index, note }) {
+    onNoteChange ({ index, note }) {
       // 更新 SCAN_RESULT_FLAT 中的数据
       this.SCAN_RESULT_FLAT_UPDATE_ITEM({
         index,
@@ -104,11 +104,6 @@ export default {
           ...this.SCAN_RESULT_FLAT[index],
           note
         }
-      })
-      // 更新 NOTES 中的数据
-      this.NOTES_UPDATE({
-        path: item.data.filePathFull,
-        value: note
       })
     }
   }
