@@ -41,7 +41,7 @@
       <div flex="main:right cross:center">
         <img
           class="app-logo-footer"
-          src="@/assets/image/logo-footer.png"
+          src="@/assets/icon/logo/footer.png"
           draggable="false">
       </div>
     </div>

@@ -66,8 +66,8 @@
           <setting-boolean-simple path="APP.DELETE_CONFIRM"/>
         </setting-container>
         <setting-container id="section-scan" title="扫描" icon="file-search">
-          <h2>忽略的文件 / 文件夹</h2>
-          <p>不必要的文件夹扫描会导致性能损失甚至程序失去响应，例如 node_modules</p>
+          <h2>忽略的目录</h2>
+          <p>不必要的目录扫描会导致性能损失甚至程序失去响应，例如 node_modules</p>
           <setting-scan-ignore-path/>
           <h2>忽略的文件类型</h2>
           <p>设置您希望过滤掉的文件类型</p>

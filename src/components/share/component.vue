@@ -11,16 +11,30 @@
       :mask-closable="true"
       :destroy-on-close="true"
       @close="close">
-      <a-button block class="is-mb-10" @click="() => { EXPORT_TREE_TEXT(); close(); }">树形文本</a-button>
-      <a-button block class="is-mb-10" @click="() => { EXPORT_TREE_JSON(); close(); }">JSON</a-button>
+      <export-action
+        icon="tree"
+        color="green"
+        title="树型文本"
+        desc=".txt"
+        @click="() => { EXPORT_TREE_TEXT(); close(); }"/>
+      <export-action
+        icon="json"
+        color="blue"
+        title="JSON"
+        desc=".json"
+        @click="() => { EXPORT_TREE_JSON(); close(); }"/>
     </a-drawer>
   </span>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
+import exportAction from './components/export-action'
 export default {
   name: 'share',
+  components: {
+    exportAction
+  },
   data () {
     return {
       active: false
