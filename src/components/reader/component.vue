@@ -61,7 +61,7 @@
             <!-- 备注 -->
             <pre v-if="item.note" class="row-info-note"> // {{item.note}}</pre>
             <!-- 操作 -->
-            <more :value="item" @note-change="note => onNoteChange({ index, note })"/>
+            <more :value="item" @note-change="note => onNoteChange({ item, index, note })"/>
           </span>
         </div>
       </recycle-scroller>
@@ -90,18 +90,25 @@ export default {
   },
   methods: {
     ...mapMutations([
+      'NOTES_UPDATE',
       'SCAN_RESULT_FLAT_UPDATE_ITEM'
     ]),
     /**
      * 变更备注
      */
-    onNoteChange ({ index, note }) {
+    onNoteChange ({ item, index, note }) {
+      // 更新 SCAN_RESULT_FLAT 中的数据
       this.SCAN_RESULT_FLAT_UPDATE_ITEM({
         index,
         item: {
           ...this.SCAN_RESULT_FLAT[index],
           note
         }
+      })
+      // 更新 NOTES 中的数据
+      this.NOTES_UPDATE({
+        path: item.data.filePathFull,
+        value: note
       })
     }
   }

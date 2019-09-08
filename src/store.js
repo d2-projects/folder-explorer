@@ -4,6 +4,7 @@ import persistedState from 'vuex-persistedstate'
 import { ipcRenderer } from 'electron'
 import groupby from 'lodash.groupby'
 import set from 'lodash.set'
+import translateFlat from '@/util/translate.flat.js'
 
 Vue.use(Vuex)
 
@@ -14,6 +15,8 @@ const stateDefault = {
   SCAN_RESULT: [],
   // 扫描结果 扁平化
   SCAN_RESULT_FLAT: [],
+  // 所有的注释信息 可以在重新扫描时自动恢复注释
+  NOTES: {},
   // 设置
   SETTING: {
     // 通用
@@ -27,11 +30,17 @@ const stateDefault = {
     },
     // 导出相关的设置
     EXPORT: {
-      TREE_TEXT: {
-        FILE_NAME: 'FolderExplorerExport'
+      // 系统存储
+      STORE: {
+        FILE_NAME: 'FolderExplorerExport.Backup'
       },
+      // 树形文本
+      TREE_TEXT: {
+        FILE_NAME: 'FolderExplorerExport.Tree.Text'
+      },
+      // JSON
       TREE_JSON: {
-        FILE_NAME: 'FolderExplorerExport'
+        FILE_NAME: 'FolderExplorerExport.Tree.Json'
       }
     },
     // 扫描相关
@@ -115,6 +124,12 @@ export default new Vuex.Store({
   },
   mutations: {
     /**
+     * 数据更新 [ 注释数据库 ]
+     */
+    NOTES_UPDATE (state, { path, value }) {
+      state.NOTES[path] = value
+    },
+    /**
      * 数据更新 [ 设置 ]
      */
     SETTING_UPDATE (state, { path, value }) {
@@ -131,12 +146,7 @@ export default new Vuex.Store({
      */
     SCAN_RESULT_UPDATE (state, data) {
       state.SCAN_RESULT = data
-    },
-    /**
-     * 数据更新 [ 扫描结果 扁平化 ]
-     */
-    SCAN_RESULT_FLAT_UPDATE (state, data) {
-      state.SCAN_RESULT_FLAT = data
+      state.SCAN_RESULT_FLAT = translateFlat(data)
     },
     /**
      * 数据更新 [ 扫描结果 扁平化 一项 ]
@@ -208,7 +218,7 @@ export default new Vuex.Store({
         ...setting ? { SETTING } : {}
       }
       this.commit('IPC_EXPORT', {
-        name: 'FOLDER_EXPLORER_BACKUP.json',
+        name: `${state.SETTING.EXPORT.STORE.FILE_NAME}.json`,
         value: JSON.stringify(exportData, null, 2)
       })
     },
