@@ -146,7 +146,10 @@ export default new Vuex.Store({
      */
     SCAN_RESULT_UPDATE (state, data) {
       state.SCAN_RESULT = data
-      state.SCAN_RESULT_FLAT = translateFlat(data)
+      state.SCAN_RESULT_FLAT = translateFlat({
+        data,
+        notes: state.NOTES
+      })
     },
     /**
      * 数据更新 [ 扫描结果 扁平化 一项 ]

@@ -1,8 +1,12 @@
 /**
  * 将扫描结果转换成展示需要的数据
  * @param {Object} param0 {Object} data 扫描结果
+ * @param {Object} param0 {Array} notes 注释数据库
  */
-export default function (data) {
+export default function ({
+  data,
+  notes
+}) {
   function treeRowMaker ({ level, isFirst, isLast, parentTree }) {
     let body = ''
     let end = '├─'
@@ -36,7 +40,7 @@ export default function (data) {
         tree: {
           text: treeBody.join('')
         },
-        note: '',
+        note: notes[item.filePathFull] || '',
         data: item
       })
       // 如果是文件夹的话，遍历文件夹内容
