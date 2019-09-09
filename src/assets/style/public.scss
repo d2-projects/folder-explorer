@@ -19,6 +19,11 @@
   right: 0px;
 }
 
+.unselect {
+  cursor: pointer;
+  user-select: none;
+}
+
 // 边距相关
 $sizes: (0, 2, 5, 10, 15, 20);
 

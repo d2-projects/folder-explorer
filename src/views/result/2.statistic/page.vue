@@ -26,7 +26,7 @@ export default {
       chartSettings: {
         hoverAnimation: false,
         label: {
-          formatter: '{b}: {c}'
+          formatter: '{b}'
         }
       },
       chartExtend: {

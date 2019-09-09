@@ -47,7 +47,7 @@
         <a-anchor :get-container="getContainer" ref="anchor">
           <a-anchor-link href="#section-app" title="通用"/>
           <a-anchor-link href="#section-scan" title="扫描"/>
-          <a-anchor-link href="#section-export-tree-text" title="导出文本"/>
+          <a-anchor-link href="#section-export-text" title="导出文本"/>
           <a-anchor-link href="#section-export-json" title="导出 JSON"/>
           <a-anchor-link href="#section-export-xmind" title="导出脑图"/>
           <a-anchor-link href="#section-export-xml" title="导出 XML"/>
@@ -87,9 +87,9 @@
           <p>这类文件夹在 Linux 和 MacOS 上是默认隐藏的文件夹</p>
           <setting-boolean-simple path="SCAN.IGNORE_DOT_START_FOLDER"/>
         </setting-container>
-        <setting-container id="section-export-tree-text" title="导出文本" icon="export">
+        <setting-container id="section-export-text" title="导出文本" icon="export">
           <h2>默认名称</h2>
-          <p>导出文本默认的文件名</p>
+          <setting-string-placeholder-guide note="导出文本默认的文件名"/>
           <setting-text-simple
             path="EXPORT.TREE_TEXT.FILE_NAME"
             placeholder="文件名"
@@ -97,7 +97,7 @@
         </setting-container>
         <setting-container id="section-export-json" title="导出 JSON" icon="export">
           <h2>默认名称</h2>
-          <p>导出 JSON 默认的文件名</p>
+          <setting-string-placeholder-guide note="导出 JSON 默认的文件名"/>
           <setting-text-simple
             path="EXPORT.TREE_JSON.FILE_NAME"
             placeholder="文件名"
@@ -105,7 +105,7 @@
         </setting-container>
         <setting-container id="section-export-xmind" title="导出脑图" icon="export">
           <h2>默认名称</h2>
-          <p>导出思维导图默认的文件名</p>
+          <setting-string-placeholder-guide note="导出思维导图默认的文件名"/>
           <setting-text-simple
             path="EXPORT.XMIND.FILE_NAME"
             placeholder="文件名"
@@ -113,7 +113,7 @@
         </setting-container>
         <setting-container id="section-export-xml" title="导出 XML" icon="export">
           <h2>默认名称</h2>
-          <p>导出XML默认的文件名</p>
+          <setting-string-placeholder-guide note="导出XML默认的文件名"/>
           <setting-text-simple
             path="EXPORT.XML.FILE_NAME"
             placeholder="文件名"
@@ -121,7 +121,7 @@
         </setting-container>
         <setting-container id="section-export-import" title="备份和恢复" icon="sync">
           <h2>默认名称</h2>
-          <p>导出备份文件的默认名称</p>
+          <setting-string-placeholder-guide note="导出备份文件的默认名称"/>
           <setting-text-simple
             path="EXPORT.STORE.FILE_NAME"
             placeholder="文件名"

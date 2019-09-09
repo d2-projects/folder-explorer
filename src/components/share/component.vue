@@ -13,11 +13,11 @@
       :destroy-on-close="true"
       @close="close">
       <export-action
-        icon="text-tree"
+        icon="text"
         color="yellow"
         title="树型文本"
         desc=".txt"
-        anchor="section-export-tree-text"
+        anchor="section-export-text"
         @click="() => { EXPORT_TREE_TEXT(); close(); }"/>
       <export-action
         icon="json"

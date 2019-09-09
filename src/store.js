@@ -9,6 +9,7 @@ import groupby from 'lodash.groupby'
 import set from 'lodash.set'
 import clone from 'lodash.clonedeep'
 import translateFlat from '@/util/translate.flat.js'
+import { stringReplace } from '@/util/stringReplace.js'
 import { Object } from 'core-js'
 
 Vue.use(Vuex)
@@ -42,23 +43,23 @@ const stateDefault = {
     EXPORT: {
       // 系统存储
       STORE: {
-        FILE_NAME: 'FolderExplorerExport.Backup'
+        FILE_NAME: 'FolderExplorerBackup [ {year}-{month}-{day} ]'
       },
       // 树形文本
       TREE_TEXT: {
-        FILE_NAME: 'FolderExplorerExport.Tree.Text'
+        FILE_NAME: 'FolderExplorer'
       },
       // JSON
       TREE_JSON: {
-        FILE_NAME: 'FolderExplorerExport.Tree.Json'
+        FILE_NAME: 'FolderExplorer'
       },
       // XMIND
       XMIND: {
-        FILE_NAME: 'FolderExplorerExport.Xmind'
+        FILE_NAME: 'FolderExplorer'
       },
       // XML
       XML: {
-        FILE_NAME: 'FolderExplorerExport.XML'
+        FILE_NAME: 'FolderExplorer'
       }
     },
     // 扫描相关
@@ -236,7 +237,7 @@ export default new Vuex.Store({
         exportData[key] = state[key]
       })
       this.commit('IPC_EXPORT', {
-        name: `${state.SETTING.EXPORT.STORE.FILE_NAME}.json`,
+        name: `${stringReplace(state.SETTING.EXPORT.STORE.FILE_NAME)}.json`,
         value: JSON.stringify(exportData, null, 2)
       })
     },
@@ -274,7 +275,7 @@ export default new Vuex.Store({
       }).join('\n')
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${state.SETTING.EXPORT.TREE_TEXT.FILE_NAME}.txt`,
+        name: `${stringReplace(state.SETTING.EXPORT.TREE_TEXT.FILE_NAME)}.txt`,
         value: text
       })
     },
@@ -285,7 +286,7 @@ export default new Vuex.Store({
       const text = JSON.stringify(state.CACHE.SCAN_RESULT, null, 2)
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${state.SETTING.EXPORT.TREE_JSON.FILE_NAME}.json`,
+        name: `${stringReplace(state.SETTING.EXPORT.TREE_JSON.FILE_NAME)}.json`,
         value: text
       })
     },
@@ -320,7 +321,7 @@ export default new Vuex.Store({
       addTopic(state.CACHE.SCAN_RESULT, workbook.getPrimarySheet().rootTopic)
       // 这里不使用默认的导出方法
       const pathSelect = await remote.dialog.showSaveDialog(remote.BrowserWindow.getFocusedWindow(), {
-        defaultPath: `${state.SETTING.EXPORT.XMIND.FILE_NAME}.xmind`,
+        defaultPath: `${stringReplace(state.SETTING.EXPORT.XMIND.FILE_NAME)}.xmind`,
         message: '需要将导出的文件放置在哪个位置'
       })
       if (pathSelect.canceled === false) {
@@ -380,7 +381,7 @@ export default new Vuex.Store({
       }
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${state.SETTING.EXPORT.XML.FILE_NAME}.xml`,
+        name: `${stringReplace(state.SETTING.EXPORT.XML.FILE_NAME)}.xml`,
         value: XMLJS.js2xml(data, { spaces: '\t' })
       })
     }
