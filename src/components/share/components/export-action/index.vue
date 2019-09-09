@@ -5,28 +5,20 @@
   cursor: pointer;
   .export-action--theme {
     &.export-action--theme__yellow {
-      $color1: #ffeb00;
-      $color2: #ffb100;
-      background-image: linear-gradient(180deg, $color1 0%, $color2 100%);
-      border-color: darken($color2, 10%);
+      background-image: linear-gradient(180deg, #ffeb00 0%, #ffb100 100%);
+      border-color: darken(#ffb100, 10%);
     }
     &.export-action--theme__blue {
-      $color1: #61E4FF;
-      $color2: #3085FE;
-      background-image: linear-gradient(180deg, $color1 0%, $color2 100%);
-      border-color: darken($color2, 10%);
+      background-image: linear-gradient(180deg, #61E4FF 0%, #3085FE 100%);
+      border-color: darken(#3085FE, 10%);
     }
     &.export-action--theme__red {
-      $color1: #E88D37;
-      $color2: #EB2301;
-      background-image: linear-gradient(180deg, $color1 0%, $color2 100%);
-      border-color: darken($color2, 10%);
+      background-image: linear-gradient(180deg, #E88D37 0%, #EB2301 100%);
+      border-color: darken(#EB2301, 10%);
     }
     &.export-action--theme__violet {
-      $color1: #BE37E8;
-      $color2: #9701EB;
-      background-image: linear-gradient(180deg, $color1 0%, $color2 100%);
-      border-color: darken($color2, 10%);
+      background-image: linear-gradient(180deg, #BE37E8 0%, #9701EB 100%);
+      border-color: darken(#9701EB, 10%);
     }
   }
   .export-action--left {
