@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import persistedState from 'vuex-persistedstate'
+import xmind from 'xmind'
 import { ipcRenderer } from 'electron'
 import groupby from 'lodash.groupby'
 import set from 'lodash.set'
@@ -276,6 +277,41 @@ export default new Vuex.Store({
         name: `${state.SETTING.EXPORT.TREE_JSON.FILE_NAME}.json`,
         value: text
       })
+    },
+    /**
+     * 导出 [ 思维导图 ]
+     */
+    EXPORT_TREE_XMIND (state) {
+      const Workbook = xmind.Workbook
+
+      const workbook = new Workbook({
+        firstSheetId: 'folder-explorer',
+        firstSheetName: 'Folder Explorer',
+        rootTopicId: state.CACHE.SCAN_FOLDER_PATH,
+        rootTopicName: state.CACHE.SCAN_FOLDER_PATH
+      })
+
+      function addTopic (scanResultArray, parentTopic) {
+        scanResultArray.forEach(item => {
+          const topic = parentTopic.addChild({
+            title: item.name
+          })
+          if (state.DB.NOTES[item.filePathFull]) {
+            // setNotes
+            topic.setNotes(state.DB.NOTES[item.filePathFull])
+          }
+          if (item.isFile && item.ext) {
+            topic.setLabels(item.ext)
+          }
+          if (item.isDirectory) {
+            addTopic(item.children, topic)
+          }
+        })
+      }
+
+      addTopic(state.CACHE.SCAN_RESULT, workbook.getPrimarySheet().rootTopic)
+
+      workbook.save(`/Users/liyang/Desktop/${new Date()}.xmind`);
     }
   }
 })

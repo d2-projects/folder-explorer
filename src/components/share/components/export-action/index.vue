@@ -22,6 +22,15 @@
     .export-action--title { color: darken(#289DCC, 20%) }
     .export-action--desc { color: darken(#289DCC, 15%) }
   }
+  &.export-action--red {
+    background-image: linear-gradient(180deg, #E88D37 0%, #EB2301 100%);
+    border-color: #C81C00;
+    &:hover {
+      background-image: linear-gradient(180deg, lighten(#E88D37, 8%) 0%, lighten(#EB2301, 8%) 100%);
+    }
+    .export-action--title { color: darken(#C81C00, 20%) }
+    .export-action--desc { color: darken(#C81C00, 15%) }
+  }
   img {
     width: 26px;
     height: 26px;

@@ -20,9 +20,15 @@
       <export-action
         icon="json"
         color="blue"
-        title="JSON"
+        title="JSON 数据"
         desc=".json"
         @click="() => { EXPORT_TREE_JSON(); close(); }"/>
+      <export-action
+        icon="xmind"
+        color="red"
+        title="XMind 脑图"
+        desc=".xmind"
+        @click="() => { EXPORT_TREE_XMIND(); close(); }"/>
     </a-drawer>
   </span>
 </template>
@@ -50,7 +56,8 @@ export default {
   methods: {
     ...mapMutations([
       'EXPORT_TREE_TEXT',
-      'EXPORT_TREE_JSON'
+      'EXPORT_TREE_JSON',
+      'EXPORT_TREE_XMIND'
     ]),
     start () {
       this.active = true
