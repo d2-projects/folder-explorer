@@ -4,6 +4,10 @@
   color: #606266;
   margin-left: 2px;
 }
+.page-result-text--count {
+  font-size: 12px;
+  color: #909399;
+}
 </style>
 
 <template>
@@ -20,19 +24,13 @@
       </div>
     </template>
     <empty v-else/>
-    <span slot="footer">
-      <a-tag color="purple" class="is-mr-5">
-        <a-icon type="database"/>
-        总计 {{ SCAN_RESULT_FLAT.length }}
-      </a-tag>
-      <a-tag color="green" class="is-mr-5">
-        <a-icon type="file"/>
-        文件 {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.file }}
-      </a-tag>
-      <a-tag color="cyan" class="is-mr-5">
-        <a-icon type="folder"/>
-        目录 {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.folder }}
-      </a-tag>
+    <span slot="footer" class="page-result-text--count">
+      <a-icon type="database"/>
+      总计 {{ SCAN_RESULT_FLAT.length }}
+      <a-icon type="file"/>
+      文件 {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.file }}
+      <a-icon type="folder"/>
+      目录 {{ SCAN_RESULT_FILE_AND_FOLDER_NUM.folder }}
     </span>
   </result-container>
 </template>
