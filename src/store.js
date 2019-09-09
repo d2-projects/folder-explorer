@@ -47,19 +47,19 @@ const stateDefault = {
       },
       // 树形文本
       TREE_TEXT: {
-        FILE_NAME: 'FolderExplorer'
+        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]'
       },
       // JSON
       TREE_JSON: {
-        FILE_NAME: 'FolderExplorer'
+        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]'
       },
       // XMIND
       XMIND: {
-        FILE_NAME: 'FolderExplorer'
+        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]'
       },
       // XML
       XML: {
-        FILE_NAME: 'FolderExplorer'
+        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]'
       }
     },
     // 扫描相关
