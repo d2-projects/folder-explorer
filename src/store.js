@@ -43,7 +43,7 @@ const stateDefault = {
     EXPORT: {
       // 系统存储
       STORE: {
-        FILE_NAME: 'FolderExplorerBackup [ {year}-{month}-{day} ]'
+        FILE_NAME: 'FolderExplorerBackup [ {YYYY}-{MM}-{DD} ]'
       },
       // 树形文本
       TREE_TEXT: {

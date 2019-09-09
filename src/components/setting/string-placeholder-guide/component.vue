@@ -31,6 +31,7 @@
       placement="right"
       :closable="false"
       :visible="active"
+      width="400px"
       @close="active = false"
     >
       <a-alert
@@ -71,9 +72,10 @@ export default {
   },
   methods: {
     onCopy (name) {
-      this.$copyText('{' + name + '}')
+      const text = '{' + name + '}'
+      this.$copyText(text)
         .then(() => {
-          this.$message.success('已经复制到剪贴板')
+          this.$message.success(text + ' 已经复制到剪贴板')
         }, () => {
           this.$message.error('出现了一些小错误')
         })
