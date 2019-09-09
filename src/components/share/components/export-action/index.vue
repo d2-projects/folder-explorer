@@ -1,50 +1,75 @@
 <style lang="scss" scoped>
 .export-action {
-  padding: 10px 15px;
-  border-radius: 4px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   user-select: none;
   cursor: pointer;
-  border: 1px solid;
-  &.export-action--green {
-    background-image: linear-gradient(180deg, #A5EC00 0%, #6CD400 100%);
-    border-color: #58A902;
-    &:hover { background-image: linear-gradient(180deg, lighten(#A5EC00, 2%) 0%, lighten(#6CD400, 2%) 100%); }
-    .export-action--title { color: darken(#58A902, 20%) }
-    .export-action--desc { color: darken(#58A902, 15%) }
+  .export-action--theme {
+    &.export-action--theme__yellow {
+      $color1: #ffeb00;
+      $color2: #ffb100;
+      background-image: linear-gradient(180deg, $color1 0%, $color2 100%);
+      border-color: darken($color2, 10%);
+    }
+    &.export-action--theme__blue {
+      $color1: #61E4FF;
+      $color2: #3085FE;
+      background-image: linear-gradient(180deg, $color1 0%, $color2 100%);
+      border-color: darken($color2, 10%);
+    }
+    &.export-action--theme__red {
+      $color1: #E88D37;
+      $color2: #EB2301;
+      background-image: linear-gradient(180deg, $color1 0%, $color2 100%);
+      border-color: darken($color2, 10%);
+    }
+    &.export-action--theme__violet {
+      $color1: #BE37E8;
+      $color2: #9701EB;
+      background-image: linear-gradient(180deg, $color1 0%, $color2 100%);
+      border-color: darken($color2, 10%);
+    }
   }
-  &.export-action--blue {
-    background-image: linear-gradient(180deg, #61E4FF 0%, #32C5FF 100%);
-    border-color: #289DCC;
-    &:hover { background-image: linear-gradient(180deg, lighten(#61E4FF, 8%) 0%, lighten(#32C5FF, 8%) 100%); }
-    .export-action--title { color: darken(#289DCC, 20%) }
-    .export-action--desc { color: darken(#289DCC, 15%) }
+  .export-action--left {
+    padding: 10px 0 10px 10px;
+    border: 1px solid;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    img {
+      width: 26px;
+      height: 26px;
+      margin-right: 10px;
+    }
+    .export-action--title {
+      font-size: 12px;
+      color: #FFF;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.40);
+      background-color: rgba(#000, .3);
+      border-radius: 2px;
+      padding: 0 5px;
+    }
+    .export-action--desc {
+      font-size: 10px;
+      color: #FFF;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.40);
+    }
   }
-  &.export-action--red {
-    background-image: linear-gradient(180deg, #E88D37 0%, #EB2301 100%);
-    border-color: #C81C00;
-    &:hover { background-image: linear-gradient(180deg, lighten(#E88D37, 8%) 0%, lighten(#EB2301, 8%) 100%); }
-    .export-action--title { color: lighten(#C81C00, 55%) }
-    .export-action--desc { color: lighten(#C81C00, 45%) }
-  }
-  &.export-action--violet {
-    background-image: linear-gradient(180deg, #BE37E8 0%, #9701EB 100%);
-    border-color: #7A00BD;
-    &:hover { background-image: linear-gradient(180deg, lighten(#BE37E8, 8%) 0%, lighten(#9701EB, 8%) 100%); }
-    .export-action--title { color: lighten(#7A00BD, 55%) }
-    .export-action--desc { color: lighten(#7A00BD, 45%) }
-  }
-  img {
-    width: 26px;
-    height: 26px;
-    margin-right: 10px;
-  }
-  .export-action--title {
-    font-size: 14px;
-    font-weight: bold;
-  }
-  .export-action--desc {
-    font-size: 12px;
+  .export-action--right {
+    border: 1px solid;
+    border-left: none;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    width: 55px;
+    font-size: 22px;
+    color: #FFF;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.40);
+    .anticon {
+      transition: all .3s;
+    }
+    &:hover {
+      .anticon {
+        transform: rotate(60deg);
+      }
+    }
   }
 }
 </style>
@@ -52,17 +77,31 @@
 <template>
   <div
     class="export-action"
-    :class="`export-action--${color}`"
-    flex="cross:center"
-    @click="e => $emit('click', e)">
-    <img :src="image" draggable="false">
-    <div>
-      <div class="export-action--title">
-        {{ title }}
+    flex="box:last">
+    <div
+      class="export-action--left export-action--theme"
+      :class="`export-action--theme__${color}`"
+      flex="cross:center"
+      @click="e => $emit('click', e)">
+      <img :src="image" draggable="false">
+      <div>
+        <div class="export-action--title">
+          {{ title }}
+        </div>
+        <div class="export-action--desc">
+          {{ desc }}
+        </div>
       </div>
-      <div class="export-action--desc">
-        {{ desc }}
-      </div>
+    </div>
+    <div
+      class="export-action--right export-action--theme"
+      :class="`export-action--theme__${color}`"
+      flex="main:center cross:center"
+      @click="$router.push({
+        name: 'setting',
+        query: { anchor }
+      })">
+      <a-icon type="setting" theme="filled"/>
     </div>
   </div>
 </template>
@@ -70,26 +109,11 @@
 <script>
 export default {
   props: {
-    icon: {
-      type: String,
-      default: '',
-      required: false
-    },
-    color: {
-      type: String,
-      default: '',
-      required: false
-    },
-    title: {
-      type: String,
-      default: '',
-      required: false
-    },
-    desc: {
-      type: String,
-      default: '',
-      required: false
-    }
+    icon: { type: String, default: '', required: false },
+    color: { type: String, default: '', required: false },
+    title: { type: String, default: '', required: false },
+    desc: { type: String, default: '', required: false },
+    anchor: { type: String, default: '', required: false }
   },
   computed: {
     image () {

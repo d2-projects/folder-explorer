@@ -44,10 +44,10 @@
     </div>
     <div class="page--main" flex="box:first">
       <div class="page--main-side">
-        <a-anchor :get-container="getContainer">
+        <a-anchor :get-container="getContainer" ref="anchor">
           <a-anchor-link href="#section-app" title="通用"/>
           <a-anchor-link href="#section-scan" title="扫描"/>
-          <a-anchor-link href="#section-export-text" title="导出文本"/>
+          <a-anchor-link href="#section-export-tree-text" title="导出文本"/>
           <a-anchor-link href="#section-export-json" title="导出 JSON"/>
           <a-anchor-link href="#section-export-xmind" title="导出脑图"/>
           <a-anchor-link href="#section-export-xml" title="导出 XML"/>
@@ -87,7 +87,7 @@
           <p>这类文件夹在 Linux 和 MacOS 上是默认隐藏的文件夹</p>
           <setting-boolean-simple path="SCAN.IGNORE_DOT_START_FOLDER"/>
         </setting-container>
-        <setting-container id="section-export-text" title="导出文本" icon="export">
+        <setting-container id="section-export-tree-text" title="导出文本" icon="export">
           <h2>默认名称</h2>
           <p>导出文本默认的文件名</p>
           <setting-text-simple
@@ -145,6 +145,12 @@
 
 <script>
 export default {
+  mounted () {
+    const anchor = this.$route.query.anchor
+    if (anchor) {
+      this.$refs.anchor.handleScrollTo(`#${anchor}`)
+    }
+  },
   methods: {
     getContainer () {
       return this.$refs.container
