@@ -47,7 +47,16 @@ const stateDefault = {
       },
       // 树形文本
       TREE_TEXT: {
-        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]'
+        // 文件名
+        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]',
+        // 包含扩展名
+        INCLUDE_EXT: true,
+        // 注释前缀
+        NOTE_PREFIX: '// ',
+        // 在没有注释的行上依然输出注释前的空白
+        SHOW_EMPTY_WHEN_NO_NOTE: true,
+        // 在没有注释的行上依然输出注释前缀
+        SHOW_NOTE_PRE_WHEN_NO_NOTE: true
       },
       // JSON
       TREE_JSON: {
@@ -255,23 +264,45 @@ export default new Vuex.Store({
      * 导出 [ 树形文本 ]
      */
     EXPORT_TREE_TEXT (state) {
-      // 是否存在备注
-      const hasNote = state.CACHE.SCAN_RESULT_FLAT.find(e => e.note !== '')
-      // 找最大文件名称长度
-      let itemLengthMax = 0
-      if (hasNote) {
-        state.CACHE.SCAN_RESULT_FLAT.forEach(e => {
-          const item = `${e.tree.text}${e.data.name}`
-          if (item.length > itemLengthMax) {
-            itemLengthMax = item.length
-          }
-        })
+      // 生成 树枝 + 文件 + ?文件名
+      function treeAndElementMaker (data) {
+        const treeAndElementArray = []
+        treeAndElementArray.push(data.tree.text)
+        treeAndElementArray.push(data.data.name)
+        if (state.SETTING.EXPORT.TREE_TEXT.INCLUDE_EXT) {
+          treeAndElementArray.push(data.data.ext)
+        }
+        return treeAndElementArray.join('')
       }
+      // 如果需要导出的数据是否存在备注，找最大 treeAndElement 长度
+      let treeAndElementLengthMax = state.CACHE.SCAN_RESULT_FLAT.reduce((max, e) => {
+        const treeAndElement = treeAndElementMaker(e)
+        return max > treeAndElement.length ? max : treeAndElement.length
+      }, 0)
       // 导出的文本
       const text = state.CACHE.SCAN_RESULT_FLAT.map(e => {
-        const item = `${e.tree.text}${e.data.name}`
-        const hasNoteInCurrentRow = e.note !== ''
-        return hasNoteInCurrentRow ? `${item.padEnd(itemLengthMax, ' ')} // ${e.note}` : item
+        // 树枝 + 文件 + ?文件名
+        const treeAndElement = treeAndElementMaker(e)
+        // emptySpace 输出的条件
+        // - 有注释
+        // - 设置了强制输出空白
+        // - 设置了强制输出注释前缀
+        let emptySpace = ''
+        if (e.note
+          || state.SETTING.EXPORT.TREE_TEXT.SHOW_EMPTY_WHEN_NO_NOTE
+          || state.SETTING.EXPORT.TREE_TEXT.SHOW_NOTE_PRE_WHEN_NO_NOTE) {
+          const emptyLength = treeAndElementLengthMax - treeAndElement.length
+          emptySpace = '.'.repeat(emptyLength)
+        }
+        // 注释前缀输出的条件
+        // - 有注释
+        // - 设置了强制输出注释前缀
+        let pre = ''
+        if (e.note || state.SETTING.EXPORT.TREE_TEXT.SHOW_NOTE_PRE_WHEN_NO_NOTE) {
+          pre = state.SETTING.EXPORT.TREE_TEXT.NOTE_PREFIX
+        }
+        const emptySpaceAndPreAndNote = `${emptySpace}${pre}${e.note}`
+        return treeAndElement + emptySpaceAndPreAndNote
       }).join('\n')
       // 导出
       this.commit('IPC_EXPORT', {

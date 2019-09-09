@@ -40,6 +40,5 @@ export function stringReplace(userString) {
   placeholders.forEach(placeholder => {
     result = result.replace(RegExp('{' + placeholder.name + '}', 'g'), placeholder.function())
   })
-  console.log(result)
   return result
 }

@@ -94,6 +94,20 @@
             path="EXPORT.TREE_TEXT.FILE_NAME"
             placeholder="文件名"
             addon-after=".txt"/>
+          <h2>包含文件扩展名</h2>
+          <p>打开此选项以在导出结果中包含文件扩展名</p>
+          <setting-boolean-simple path="EXPORT.TREE_TEXT.INCLUDE_EXT"/>
+          <h2>注释前缀</h2>
+          <p>每行注释之前的特殊符号</p>
+          <setting-text-simple
+            path="EXPORT.TREE_TEXT.NOTE_PREFIX"
+            placeholder="例如在一般的编程语言中，这个符号是 //"/>
+          <h2>强制输出注释前的空白</h2>
+          <p>在没有注释的行上依然强制输出注释前的空白</p>
+          <setting-boolean-simple path="EXPORT.TREE_TEXT.SHOW_EMPTY_WHEN_NO_NOTE"/>
+          <h2>强制输出注释前缀</h2>
+          <p>在没有注释的行上依然强制输出注释前缀</p>
+          <setting-boolean-simple path="EXPORT.TREE_TEXT.SHOW_NOTE_PRE_WHEN_NO_NOTE"/>
         </setting-container>
         <setting-container id="section-export-json" title="导出 JSON" icon="export">
           <h2>默认名称</h2>
