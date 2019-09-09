@@ -32,7 +32,7 @@
       <export-action
         icon="xml"
         color="violet"
-        title="XML 可扩展标记语言"
+        title="XML 可扩展标记"
         desc=".xml"
         @click="() => { EXPORT_TREE_XML(); close(); }"/>
     </a-drawer>
