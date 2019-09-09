@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import persistedState from 'vuex-persistedstate'
+import { message } from 'ant-design-vue'
 import xmind from 'xmind'
-import { ipcRenderer } from 'electron'
+import XMLJS from 'xml-js'
+import { remote, shell, ipcRenderer } from 'electron'
 import groupby from 'lodash.groupby'
 import set from 'lodash.set'
 import clone from 'lodash.clonedeep'
 import translateFlat from '@/util/translate.flat.js'
+import { Object } from 'core-js'
 
 Vue.use(Vuex)
 
@@ -48,6 +51,14 @@ const stateDefault = {
       // JSON
       TREE_JSON: {
         FILE_NAME: 'FolderExplorerExport.Tree.Json'
+      },
+      // XMIND
+      XMIND: {
+        FILE_NAME: 'FolderExplorerExport.Xmind'
+      },
+      // XML
+      XML: {
+        FILE_NAME: 'FolderExplorerExport.XML'
       }
     },
     // 扫描相关
@@ -118,7 +129,7 @@ export default new Vuex.Store({
         for (const item of itemArray) {
           if (item.isDirectory) {
             result.push(item.filePath)
-            isFolderAndPush(item.children, level + 1)
+            isFolderAndPush(item.elements, level + 1)
           }
         }
       }
@@ -280,38 +291,98 @@ export default new Vuex.Store({
     },
     /**
      * 导出 [ 思维导图 ]
+     * https://github.com/leungwensen/xmind-sdk-javascript/blob/master/doc/api.md
      */
-    EXPORT_TREE_XMIND (state) {
+    async EXPORT_TREE_XMIND (state) {
       const Workbook = xmind.Workbook
-
       const workbook = new Workbook({
         firstSheetId: 'folder-explorer',
         firstSheetName: 'Folder Explorer',
         rootTopicId: state.CACHE.SCAN_FOLDER_PATH,
         rootTopicName: state.CACHE.SCAN_FOLDER_PATH
       })
-
       function addTopic (scanResultArray, parentTopic) {
         scanResultArray.forEach(item => {
           const topic = parentTopic.addChild({
             title: item.name
           })
           if (state.DB.NOTES[item.filePathFull]) {
-            // setNotes
             topic.setNotes(state.DB.NOTES[item.filePathFull])
           }
           if (item.isFile && item.ext) {
             topic.setLabels(item.ext)
           }
           if (item.isDirectory) {
-            addTopic(item.children, topic)
+            addTopic(item.elements, topic)
           }
         })
       }
-
       addTopic(state.CACHE.SCAN_RESULT, workbook.getPrimarySheet().rootTopic)
-
-      workbook.save(`/Users/liyang/Desktop/${new Date()}.xmind`);
+      // 这里不使用默认的导出方法
+      const pathSelect = await remote.dialog.showSaveDialog(remote.BrowserWindow.getFocusedWindow(), {
+        defaultPath: `${state.SETTING.EXPORT.XMIND.FILE_NAME}.xmind`,
+        message: '需要将导出的文件放置在哪个位置'
+      })
+      if (pathSelect.canceled === false) {
+        workbook.save(pathSelect.filePath)
+        if (state.SETTING.APP.OPEN_AFTER_EXPORT) {
+          shell.openItem(pathSelect.filePath)
+        } else if (state.SETTING.APP.OPEN_FOLDER_AFTER_EXPORT) {
+          shell.showItemInFolder(pathSelect.filePath)
+        }
+        message.success('内容已经导出')
+      }
+    },
+    /**
+     * 导出 [ XML ]
+     * https://github.com/nashwaan/xml-js
+     */
+    EXPORT_TREE_XML (state) {
+      /**
+       * 创建标签
+       * @param {String} name 标签名
+       * @param {String} elements 元素
+       */
+      function el (name, elements) {
+        return { type: 'element', name, ...elements ? { elements } : {} }
+      }
+      /**
+       * 创建文字标签
+       * @param {String} name 标签名
+       * @param {String} value 值
+       */
+      function text (name, value) {
+        return el(name, [{ type: 'text', text: value }])
+      }
+      // 循环
+      function maker (itemArray) {
+        let result = []
+        itemArray.forEach(item => {
+          result.push(
+            el('element', [
+              ...Object.keys(item).filter(e => e !== 'elements').map(e => text(e, item[e])),
+              ...(item.isDirectory && item.elements.length > 0) ? [ el('elements', maker(item.elements)) ] : []
+            ])
+          )
+        })
+        return result
+      }
+      const data = {
+        declaration: {
+          attributes: {
+            version: "1.0",
+            encoding: "utf-8"
+          }
+        },
+        elements: [
+          el('folder-explorer', maker(state.CACHE.SCAN_RESULT))
+        ]
+      }
+      // 导出
+      this.commit('IPC_EXPORT', {
+        name: `${state.SETTING.EXPORT.XML.FILE_NAME}.xml`,
+        value: XMLJS.js2xml(data, { spaces: '\t' })
+      })
     }
   }
 })

@@ -45,7 +45,7 @@ export default function ({
       })
       // 如果是文件夹的话，遍历文件夹内容
       if (item.isDirectory) {
-        maker(item.children, level + 1, treeBody)
+        maker(item.elements, level + 1, treeBody)
       }
     })
   }

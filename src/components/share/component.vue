@@ -12,7 +12,7 @@
       :destroy-on-close="true"
       @close="close">
       <export-action
-        icon="tree"
+        icon="text-tree"
         color="green"
         title="树型文本"
         desc=".txt"
@@ -29,6 +29,12 @@
         title="XMind 脑图"
         desc=".xmind"
         @click="() => { EXPORT_TREE_XMIND(); close(); }"/>
+      <export-action
+        icon="xml"
+        color="violet"
+        title="XML 可扩展标记语言"
+        desc=".xml"
+        @click="() => { EXPORT_TREE_XML(); close(); }"/>
     </a-drawer>
   </span>
 </template>
@@ -57,7 +63,8 @@ export default {
     ...mapMutations([
       'EXPORT_TREE_TEXT',
       'EXPORT_TREE_JSON',
-      'EXPORT_TREE_XMIND'
+      'EXPORT_TREE_XMIND',
+      'EXPORT_TREE_XML'
     ]),
     start () {
       this.active = true

@@ -63,7 +63,7 @@ async function scan ({
 			filePathFull,
 			...filePathParsed,
 			// 如果是文件夹，其子文件或者子文件夹
-			children: isDirectory ? await scan({
+			elements: isDirectory ? await scan({
 				folderPath: filePathFull,
 				ignorePath,
 				ignoreExt,
