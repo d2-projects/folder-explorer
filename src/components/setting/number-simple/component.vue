@@ -1,21 +1,31 @@
 <template>
   <div class="setting-component">
     <a-input-number
-      :min="0"
-      :max="10"
-      :value="SETTING.SCAN.DEEP"
+      v-bind="$attrs"
+      :value="currentValue"
       @change="onChange"/>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import get from 'lodash.get'
 export default {
-  name: 'setting-scan-deep',
+  name: 'setting-number-simple',
+  props: {
+    path: {
+      type: String,
+      default: '',
+      required: true
+    }
+  },
   computed: {
     ...mapState([
       'SETTING'
-    ])
+    ]),
+    currentValue () {
+      return get(this.SETTING, this.path, 0)
+    }
   },
   methods: {
     ...mapMutations([
@@ -23,7 +33,7 @@ export default {
     ]),
     onChange (value) {
       this.SETTING_UPDATE({
-        path: 'SCAN.DEEP',
+        path: this.path,
         value
       })
     }

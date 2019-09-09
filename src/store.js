@@ -9,7 +9,7 @@ import groupby from 'lodash.groupby'
 import set from 'lodash.set'
 import clone from 'lodash.clonedeep'
 import translateFlat from '@/util/translate.flat.js'
-import { stringReplace } from '@/util/stringReplace.js'
+import { fileNameStringReplace } from '@/util/fileNameStringReplace.js'
 import { Object } from 'core-js'
 
 Vue.use(Vuex)
@@ -52,11 +52,15 @@ const stateDefault = {
         // 包含扩展名
         INCLUDE_EXT: true,
         // 注释前缀
-        NOTE_PREFIX: '// ',
+        NOTE_PREFIX: ' // ',
+        // 填充空白的字符
+        EMPTY_FILL: '-',
+        // 在文件和空白字符之间添加空格数量
+        SPACE_NUM_BETWEEN_FILE_AND_EMPTY: 1,
         // 在没有注释的行上依然输出注释前的空白
-        SHOW_EMPTY_WHEN_NO_NOTE: true,
+        SHOW_EMPTY_WHEN_NO_NOTE: false,
         // 在没有注释的行上依然输出注释前缀
-        SHOW_NOTE_PRE_WHEN_NO_NOTE: true
+        SHOW_NOTE_PRE_WHEN_NO_NOTE: false
       },
       // JSON
       TREE_JSON: {
@@ -246,7 +250,7 @@ export default new Vuex.Store({
         exportData[key] = state[key]
       })
       this.commit('IPC_EXPORT', {
-        name: `${stringReplace(state.SETTING.EXPORT.STORE.FILE_NAME)}.json`,
+        name: `${fileNameStringReplace(state.SETTING.EXPORT.STORE.FILE_NAME)}.json`,
         value: JSON.stringify(exportData, null, 2)
       })
     },
@@ -283,16 +287,19 @@ export default new Vuex.Store({
       const text = state.CACHE.SCAN_RESULT_FLAT.map(e => {
         // 树枝 + 文件 + ?文件名
         const treeAndElement = treeAndElementMaker(e)
-        // emptySpace 输出的条件
+        // space 输出的条件 =
+        // empty 输出的条件 =
         // - 有注释
-        // - 设置了强制输出空白
-        // - 设置了强制输出注释前缀
-        let emptySpace = ''
+        // - or 设置了强制输出空白
+        // - or 设置了强制输出注释前缀
+        let space = ''
+        let empty = ''
         if (e.note
           || state.SETTING.EXPORT.TREE_TEXT.SHOW_EMPTY_WHEN_NO_NOTE
           || state.SETTING.EXPORT.TREE_TEXT.SHOW_NOTE_PRE_WHEN_NO_NOTE) {
           const emptyLength = treeAndElementLengthMax - treeAndElement.length
-          emptySpace = '.'.repeat(emptyLength)
+          empty = ''.padEnd(emptyLength, state.SETTING.EXPORT.TREE_TEXT.EMPTY_FILL)
+          space = ' '.repeat(state.SETTING.EXPORT.TREE_TEXT.SPACE_NUM_BETWEEN_FILE_AND_EMPTY)
         }
         // 注释前缀输出的条件
         // - 有注释
@@ -301,12 +308,12 @@ export default new Vuex.Store({
         if (e.note || state.SETTING.EXPORT.TREE_TEXT.SHOW_NOTE_PRE_WHEN_NO_NOTE) {
           pre = state.SETTING.EXPORT.TREE_TEXT.NOTE_PREFIX
         }
-        const emptySpaceAndPreAndNote = `${emptySpace}${pre}${e.note}`
-        return treeAndElement + emptySpaceAndPreAndNote
+        const spaceEmptyPreNote = `${space}${empty}${pre}${e.note}`
+        return treeAndElement + spaceEmptyPreNote
       }).join('\n')
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${stringReplace(state.SETTING.EXPORT.TREE_TEXT.FILE_NAME)}.txt`,
+        name: `${fileNameStringReplace(state.SETTING.EXPORT.TREE_TEXT.FILE_NAME)}.txt`,
         value: text
       })
     },
@@ -317,7 +324,7 @@ export default new Vuex.Store({
       const text = JSON.stringify(state.CACHE.SCAN_RESULT, null, 2)
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${stringReplace(state.SETTING.EXPORT.TREE_JSON.FILE_NAME)}.json`,
+        name: `${fileNameStringReplace(state.SETTING.EXPORT.TREE_JSON.FILE_NAME)}.json`,
         value: text
       })
     },
@@ -352,7 +359,7 @@ export default new Vuex.Store({
       addTopic(state.CACHE.SCAN_RESULT, workbook.getPrimarySheet().rootTopic)
       // 这里不使用默认的导出方法
       const pathSelect = await remote.dialog.showSaveDialog(remote.BrowserWindow.getFocusedWindow(), {
-        defaultPath: `${stringReplace(state.SETTING.EXPORT.XMIND.FILE_NAME)}.xmind`,
+        defaultPath: `${fileNameStringReplace(state.SETTING.EXPORT.XMIND.FILE_NAME)}.xmind`,
         message: '需要将导出的文件放置在哪个位置'
       })
       if (pathSelect.canceled === false) {
@@ -412,7 +419,7 @@ export default new Vuex.Store({
       }
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${stringReplace(state.SETTING.EXPORT.XML.FILE_NAME)}.xml`,
+        name: `${fileNameStringReplace(state.SETTING.EXPORT.XML.FILE_NAME)}.xml`,
         value: XMLJS.js2xml(data, { spaces: '\t' })
       })
     }

@@ -76,7 +76,7 @@
           <setting-scan-ignore-ext/>
           <h2>扫描深度</h2>
           <p>设置扫描目录的层级数，设置为 0 等于无限</p>
-          <setting-scan-deep/>
+          <setting-number-simple :min="0" path="SCAN.DEEP"/>
           <h2>忽略文件</h2>
           <p>如果打开，将只扫描目录</p>
           <setting-boolean-simple path="SCAN.IGNORE_FILE"/>
@@ -97,6 +97,14 @@
           <h2>包含文件扩展名</h2>
           <p>打开此选项以在导出结果中包含文件扩展名</p>
           <setting-boolean-simple path="EXPORT.TREE_TEXT.INCLUDE_EXT"/>
+          <h2>空白填充字符</h2>
+          <p>填充文件名和注释前缀之间的字符</p>
+          <setting-text-simple
+            path="EXPORT.TREE_TEXT.EMPTY_FILL"
+            placeholder="空白填充字符"/>
+          <h2>空白字符之前的空格数</h2>
+          <p>在文件和空白填充之间插入的空格数量</p>
+          <setting-number-simple :min="0" path="EXPORT.TREE_TEXT.SPACE_NUM_BETWEEN_FILE_AND_EMPTY"/>
           <h2>注释前缀</h2>
           <p>每行注释之前的特殊符号</p>
           <setting-text-simple

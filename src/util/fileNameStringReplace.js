@@ -35,7 +35,7 @@ export const placeholders = [
   { name: 'a',	description: 'am pm', function () { return dayjs().format('a') } }
 ]
 
-export function stringReplace(userString) {
+export function fileNameStringReplace(userString) {
   let result = userString
   placeholders.forEach(placeholder => {
     result = result.replace(RegExp('{' + placeholder.name + '}', 'g'), placeholder.function())

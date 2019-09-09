@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { placeholders } from '@/util/stringReplace.js'
+import { placeholders } from '@/util/fileNameStringReplace.js'
 export default {
   name: 'setting-string-placeholder-guide',
   props: {
