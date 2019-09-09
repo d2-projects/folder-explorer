@@ -38,7 +38,7 @@ export const placeholders = [
 export function stringReplace(userString) {
   let result = userString
   placeholders.forEach(placeholder => {
-    result = result.replace(RegExp('{' + placeholder.name + '}'), placeholder.function())
+    result = result.replace(RegExp('{' + placeholder.name + '}', 'g'), placeholder.function())
   })
   return result
 }
