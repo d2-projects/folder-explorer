@@ -268,53 +268,86 @@ export default new Vuex.Store({
      * 导出 [ 树形文本 ]
      */
     EXPORT_TREE_TEXT (state) {
-      // 生成 树枝 + 文件 + ?文件名
-      function treeAndElementMaker (data) {
-        const treeAndElementArray = []
-        treeAndElementArray.push(data.tree.text)
-        treeAndElementArray.push(data.data.name)
-        if (state.SETTING.EXPORT.TREE_TEXT.INCLUDE_EXT) {
-          treeAndElementArray.push(data.data.ext)
-        }
-        return treeAndElementArray.join('')
+      // 设置
+      const setting = state.SETTING.EXPORT.TREE_TEXT
+      /**
+       * 拼接行数据
+       * @param {Object} data 数据源
+       */
+      function makerRow ({ tree, name, ext, space, empty, pre, note }) {
+        return `${tree}${name}${ext}${space}${empty}${pre}${note}`
       }
-      // 如果需要导出的数据是否存在备注，找最大 treeAndElement 长度
-      let treeAndElementLengthMax = state.CACHE.SCAN_RESULT_FLAT.reduce((max, e) => {
-        const treeAndElement = treeAndElementMaker(e)
-        return max > treeAndElement.length ? max : treeAndElement.length
-      }, 0)
-      // 导出的文本
-      const text = state.CACHE.SCAN_RESULT_FLAT.map(e => {
-        // 树枝 + 文件 + ?文件名
-        const treeAndElement = treeAndElementMaker(e)
-        // space 输出的条件 =
-        // empty 输出的条件 =
+      /**
+       * 拼接行数据 只拼接 ${tree}${name}${ext}
+       * @param {Object} data 数据源
+       */
+      function makerElement ({ tree, name, ext }) {
+        return `${tree}${name}${ext}`
+      }
+      /**
+       * 需要 empty 或者 space 数据
+       * @param {Object} data 数据源
+       */
+      function needEmptyOrSpace (data) {
+        // empty | space 输出的条件
         // - 有注释
         // - or 设置了强制输出空白
         // - or 设置了强制输出注释前缀
-        let space = ''
+        return data.note
+        || setting.SHOW_EMPTY_WHEN_NO_NOTE
+        || setting.SHOW_NOTE_PRE_WHEN_NO_NOTE
+      }
+      /**
+       * 将扁平化数据 parse
+       * @param {Array} data 扁平化数据
+       */
+      function makerParse (data) {
+        // [ -> ] tree 树
+        let tree = data.tree.text
+        // [ -> ] name 文件名
+        let name = data.data.name
+        // [ -> ] ext 扩展名
+        let ext = ''
+        if (setting.INCLUDE_EXT) ext = data.data.ext
+        // [ -> ] empty 空格前的空白
         let empty = ''
-        if (e.note
-          || state.SETTING.EXPORT.TREE_TEXT.SHOW_EMPTY_WHEN_NO_NOTE
-          || state.SETTING.EXPORT.TREE_TEXT.SHOW_NOTE_PRE_WHEN_NO_NOTE) {
-          const emptyLength = treeAndElementLengthMax - treeAndElement.length
-          empty = ''.padEnd(emptyLength, state.SETTING.EXPORT.TREE_TEXT.EMPTY_FILL)
-          space = ' '.repeat(state.SETTING.EXPORT.TREE_TEXT.SPACE_NUM_BETWEEN_FILE_AND_EMPTY)
-        }
-        // 注释前缀输出的条件
+        // [ -> ] space 空格填充
+        let space = needEmptyOrSpace(data) ? ' '.repeat(setting.SPACE_NUM_BETWEEN_FILE_AND_EMPTY) : ''
+        // [ -> ] pre 注释前缀输出的条件
         // - 有注释
         // - 设置了强制输出注释前缀
-        let pre = ''
-        if (e.note || state.SETTING.EXPORT.TREE_TEXT.SHOW_NOTE_PRE_WHEN_NO_NOTE) {
-          pre = state.SETTING.EXPORT.TREE_TEXT.NOTE_PREFIX
+        let pre = data.note || setting.SHOW_NOTE_PRE_WHEN_NO_NOTE ? setting.NOTE_PREFIX : ''
+        // [ -> ] note
+        let note = data.note
+        return { tree, name, ext, space, empty, pre, note }
+      }
+      /**
+       * 处理数据中的 empty 字段
+       * 将其设置为最小长度
+       * @param {Array} data pares 之后的数据
+       */
+      function makerAddEmptyMin (data) {
+        return {
+          ...data,
+          empty: needEmptyOrSpace(data) ? ''.padEnd(this.max - makerElement(data).length, setting.EMPTY_FILL) : ''
         }
-        const spaceEmptyPreNote = `${space}${empty}${pre}${e.note}`
-        return treeAndElement + spaceEmptyPreNote
-      }).join('\n')
+      }
+      let result = []
+      // 第一步 先格式化数据
+      // 这个时候 empty 是空的
+      result = state.CACHE.SCAN_RESULT_FLAT.map(makerParse)
+      // 第二部 计算 empty 的最小长度
+      // element = tree + name + ext
+      result = result.map(makerAddEmptyMin.bind({
+        max: result.reduce((max, current) => {
+          const length = makerElement(current).length
+          return max > length ? max : length
+        }, 0)
+      }))
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${fileNameStringReplace(state.SETTING.EXPORT.TREE_TEXT.FILE_NAME)}.txt`,
-        value: text
+        name: `${fileNameStringReplace(setting.FILE_NAME)}.txt`,
+        value: result.map(makerRow).join('\n')
       })
     },
     /**
