@@ -1,6 +1,6 @@
 <template>
   <span>
-    <a-button size="small" icon="export" @click="start">
+    <a-button size="small" icon="export" :disabled="!HAS_SCAN_DATA" @click="start">
       {{ title }}
     </a-button>
     <a-drawer
@@ -45,17 +45,12 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import exportAction from './components/export-action'
 export default {
   name: 'share',
   components: {
     exportAction
-  },
-  data () {
-    return {
-      active: false
-    }
   },
   props: {
     title: {
@@ -63,6 +58,16 @@ export default {
       default: '导出',
       required: false
     }
+  },
+  data () {
+    return {
+      active: false
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'HAS_SCAN_DATA'
+    ])
   },
   methods: {
     ...mapMutations([
