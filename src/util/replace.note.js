@@ -1,4 +1,4 @@
-export function notePlaceholders ({ data } = {}) {
+export function placeholders ({ data } = {}) {
   return [
     {
       name: 'note',
@@ -10,9 +10,9 @@ export function notePlaceholders ({ data } = {}) {
   ]
 }
 
-export function noteReplace(userString, { data }) {
+export function replace(userString, { data }) {
   let result = userString
-  notePlaceholders({ data }).forEach(placeholder => {
+  placeholders({ data }).forEach(placeholder => {
     result = result.replace(RegExp('{' + placeholder.name + '}', 'g'), placeholder.function())
   })
   return result

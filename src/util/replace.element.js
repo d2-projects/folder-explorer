@@ -1,4 +1,4 @@
-export function elementPlaceholders ({ data } = {}) {
+export function placeholders ({ data } = {}) {
   return [
     {
       name: 'tree',
@@ -24,9 +24,9 @@ export function elementPlaceholders ({ data } = {}) {
   ]
 }
 
-export function elementReplace(userString, { data }) {
+export function replace(userString, { data }) {
   let result = userString
-  elementPlaceholders({ data }).forEach(placeholder => {
+  placeholders({ data }).forEach(placeholder => {
     result = result.replace(RegExp('{' + placeholder.name + '}', 'g'), placeholder.function())
   })
   return result

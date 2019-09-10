@@ -103,7 +103,7 @@
           <h2>默认名称</h2>
           <setting-string-placeholder-guide
             note="导出文本默认的文件名"
-            :options="fileNamePlaceholders"/>
+            :options="placeholders.fileName"/>
           <setting-text-simple
             path="EXPORT.TREE_TEXT.FILE_NAME"
             placeholder="文件名"
@@ -111,14 +111,14 @@
           <h2>主体格式化</h2>
           <setting-string-placeholder-guide
             note="自定义主体显示"
-            :options="elementPlaceholders"/>
+            :options="placeholders.element"/>
           <setting-text-simple
             path="EXPORT.TREE_TEXT.ELEMENT_FORMAT"
             placeholder="主体格式化"/>
           <h2>备注格式化</h2>
           <setting-string-placeholder-guide
             note="自定义备注显示"
-            :options="notePlaceholders"/>
+            :options="placeholders.note"/>
           <setting-text-simple
             path="EXPORT.TREE_TEXT.NOTE_FORMAT"
             placeholder="备注格式化"/>
@@ -148,7 +148,7 @@
           <h2>默认名称</h2>
           <setting-string-placeholder-guide
             note="导出 JSON 默认的文件名"
-            :options="fileNamePlaceholders"/>
+            :options="placeholders.fileName"/>
           <setting-text-simple
             path="EXPORT.TREE_JSON.FILE_NAME"
             placeholder="文件名"
@@ -168,11 +168,37 @@
           <h2>默认名称</h2>
           <setting-string-placeholder-guide
             note="导出思维导图默认的文件名"
-            :options="fileNamePlaceholders"/>
+            :options="placeholders.fileName"/>
           <setting-text-simple
             path="EXPORT.XMIND.FILE_NAME"
             placeholder="文件名"
             addon-after=".xmind"/>
+          <h2>标签页名称</h2>
+          <p>默认标签页的名称</p>
+          <setting-text-simple
+            path="EXPORT.XMIND.SHEET_NAME"
+            placeholder="标签页名称"/>
+          <h2>节点内容格式化</h2>
+          <setting-string-placeholder-guide
+            note="自定义节点内容格式"
+            :options="placeholders.xmind"/>
+          <setting-text-simple
+            path="EXPORT.XMIND.ELEMENT_FORMAT"
+            placeholder="节点内容格式化"/>
+          <h2>注释格式化</h2>
+          <setting-string-placeholder-guide
+            note="自定义注释格式"
+            :options="placeholders.xmind"/>
+          <setting-text-simple
+            path="EXPORT.XMIND.NOTE_FORMAT"
+            placeholder="注释格式化"/>
+          <h2>标签格式化</h2>
+          <setting-string-placeholder-guide
+            note="自定义标签格式"
+            :options="placeholders.xmind"/>
+          <setting-text-simple
+            path="EXPORT.XMIND.LABEL_FORMAT"
+            placeholder="标签格式化"/>
         </setting-container>
 
 
@@ -182,7 +208,7 @@
           <h2>默认名称</h2>
           <setting-string-placeholder-guide
             note="导出XML默认的文件名"
-            :options="fileNamePlaceholders"/>
+            :options="placeholders.fileName"/>
           <setting-text-simple
             path="EXPORT.XML.FILE_NAME"
             placeholder="文件名"
@@ -195,7 +221,8 @@
         <setting-container id="section-export-import" title="备份和恢复" icon="sync">
           <h2>默认名称</h2>
           <setting-string-placeholder-guide
-            note="导出备份文件的默认名称"/>
+            note="导出备份文件的默认名称"
+            :options="placeholders.fileName"/>
           <setting-text-simple
             path="EXPORT.STORE.FILE_NAME"
             placeholder="文件名"
@@ -222,15 +249,15 @@
 </template>
 
 <script>
-import { fileNamePlaceholders } from '@/util/fileNameReplace.js'
-import { elementPlaceholders } from '@/util/elementReplace.js'
-import { notePlaceholders } from '@/util/noteReplace.js'
 export default {
   data () {
     return {
-      fileNamePlaceholders: fileNamePlaceholders(),
-      elementPlaceholders: elementPlaceholders(),
-      notePlaceholders: notePlaceholders()
+      placeholders: {
+        fileName: require('@/util/replace.fileName.js').placeholders(),
+        element: require('@/util/replace.element.js').placeholders(),
+        note: require('@/util/replace.note.js').placeholders(),
+        xmind: require('@/util/replace.xmind.js').placeholders()
+      }
     }
   },
   mounted () {

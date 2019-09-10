@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-export function fileNamePlaceholders ({ now } = {}) {
+export function placeholders ({ now } = {}) {
   return [
     {
       name: 'time',
@@ -37,9 +37,9 @@ export function fileNamePlaceholders ({ now } = {}) {
   ]
 }
 
-export function fileNameReplace(userString) {
+export function replace (userString) {
   let result = userString
-  fileNamePlaceholders({ now: dayjs() }).forEach(placeholder => {
+  placeholders({ now: dayjs() }).forEach(placeholder => {
     result = result.replace(RegExp('{' + placeholder.name + '}', 'g'), placeholder.function())
   })
   return result

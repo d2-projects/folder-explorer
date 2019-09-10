@@ -10,9 +10,6 @@ import groupby from 'lodash.groupby'
 import set from 'lodash.set'
 import clone from 'lodash.clonedeep'
 import translateFlat from '@/util/translate.flat.js'
-import { fileNameReplace } from '@/util/fileNameReplace.js'
-import { elementReplace } from '@/util/elementReplace.js'
-import { noteReplace } from '@/util/noteReplace.js'
 import asciiBorder from '@/util/asciiBorder.js'
 
 Vue.use(Vuex)
@@ -78,7 +75,16 @@ const stateDefault = {
       },
       // XMIND
       XMIND: {
-        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]'
+        // 文件名
+        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]',
+        // 标签页名称
+        SHEET_NAME: 'Folder Explorer Sheet',
+        // 元素格式化
+        ELEMENT_FORMAT: '{name}',
+        // 注释格式化
+        NOTE_FORMAT: '{note}',
+        // 标签格式化
+        LABEL_FORMAT: '{ext}'
       },
       // XML
       XML: {
@@ -260,7 +266,7 @@ export default new Vuex.Store({
         exportData[key] = state[key]
       })
       this.commit('IPC_EXPORT', {
-        name: `${fileNameReplace(state.SETTING.EXPORT.STORE.FILE_NAME)}.json`,
+        name: `${require('@/util/replace.fileName.js').replace(state.SETTING.EXPORT.STORE.FILE_NAME)}.json`,
         value: JSON.stringify(exportData, null, 2)
       })
     },
@@ -277,7 +283,7 @@ export default new Vuex.Store({
     /**
      * 导出 [ 树形文本 ]
      */
-    EXPORT_TREE_TEXT (state) {
+    async EXPORT_TREE_TEXT (state) {
       // 设置
       const setting = state.SETTING.EXPORT.TREE_TEXT
       // 开始处理
@@ -308,9 +314,9 @@ export default new Vuex.Store({
       }
       // 第一步 转换 element 和 note
       result = result.map(item => {
-        const element = elementReplace(setting.ELEMENT_FORMAT, { data: item })
+        const element = require('@/util/replace.element.js').replace(setting.ELEMENT_FORMAT, { data: item })
         const bridge = ''
-        const note = item.note ? noteReplace(setting.NOTE_FORMAT, { data: item }) : ''
+        const note = item.note ? require('@/util/replace.note.js').replace(setting.NOTE_FORMAT, { data: item }) : ''
         return { element, bridge, note }
       })
       // 计算最大宽度
@@ -323,7 +329,7 @@ export default new Vuex.Store({
       if (setting.BORDER) result = asciiBorder(result)
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${fileNameReplace(setting.FILE_NAME)}.txt`,
+        name: `${require('@/util/replace.fileName.js').replace(setting.FILE_NAME)}.txt`,
         value: result.join('\n')
       })
     },
@@ -336,7 +342,7 @@ export default new Vuex.Store({
       const text = JSON.stringify(state.CACHE.SCAN_RESULT, null, space)
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${fileNameReplace(state.SETTING.EXPORT.TREE_JSON.FILE_NAME)}.json`,
+        name: `${require('@/util/replace.fileName.js').replace(setting.FILE_NAME)}.json`,
         value: text
       })
     },
@@ -345,42 +351,46 @@ export default new Vuex.Store({
      * https://github.com/leungwensen/xmind-sdk-javascript/blob/master/doc/api.md
      */
     async EXPORT_TREE_XMIND (state) {
-      const Workbook = xmind.Workbook
-      const workbook = new Workbook({
-        firstSheetId: 'folder-explorer',
-        firstSheetName: 'Folder Explorer',
+      const setting = state.SETTING.EXPORT.XMIND
+      // 初始化
+      const workbook = new xmind.Workbook({
+        firstSheetId: setting.SHEET_NAME,
+        firstSheetName: setting.SHEET_NAME,
         rootTopicId: state.CACHE.SCAN_FOLDER_PATH,
         rootTopicName: state.CACHE.SCAN_FOLDER_PATH
       })
-      function addTopic (scanResultArray, parentTopic) {
-        scanResultArray.forEach(item => {
-          const topic = parentTopic.addChild({
-            title: item.name
-          })
-          if (state.DB.NOTES[item.filePathFull]) {
-            topic.setNotes(state.DB.NOTES[item.filePathFull])
+      function addTopics (items, parentTopic) {
+        items.forEach(item => {
+          const note = state.DB.NOTES[item.filePathFull]
+          const replaceData = {
+            data: {
+              name: item.name,
+              note,
+              ext: item.ext
+            }
           }
-          if (item.isFile && item.ext) {
-            topic.setLabels(item.ext)
-          }
-          if (item.isDirectory) {
-            addTopic(item.elements, topic)
-          }
+          const replace = require('@/util/replace.xmind.js').replace
+          // 节点
+          const topic = parentTopic.addChild({ title: replace(setting.ELEMENT_FORMAT, replaceData) })
+          // 注释
+          const topicNote = replace(setting.NOTE_FORMAT, replaceData)
+          if (topicNote) topic.setNotes(topicNote)
+          // 标签
+          const topicLabel = replace(setting.LABEL_FORMAT, replaceData)
+          if (topicLabel) topic.setLabels(topicLabel)
+          // 子级
+          if (item.isDirectory) addTopics(item.elements, topic)
         })
       }
-      addTopic(state.CACHE.SCAN_RESULT, workbook.getPrimarySheet().rootTopic)
+      addTopics(state.CACHE.SCAN_RESULT, workbook.getPrimarySheet().rootTopic)
       // 这里不使用默认的导出方法
       const pathSelect = await remote.dialog.showSaveDialog(remote.BrowserWindow.getFocusedWindow(), {
-        defaultPath: `${fileNameReplace(state.SETTING.EXPORT.XMIND.FILE_NAME)}.xmind`,
-        message: '需要将导出的文件放置在哪个位置'
+        defaultPath: `${require('@/util/replace.fileName.js').replace(state.SETTING.EXPORT.XMIND.FILE_NAME)}.xmind`
       })
       if (pathSelect.canceled === false) {
         workbook.save(pathSelect.filePath)
-        if (state.SETTING.APP.OPEN_AFTER_EXPORT) {
-          shell.openItem(pathSelect.filePath)
-        } else if (state.SETTING.APP.OPEN_FOLDER_AFTER_EXPORT) {
-          shell.showItemInFolder(pathSelect.filePath)
-        }
+        if (state.SETTING.APP.OPEN_AFTER_EXPORT) shell.openItem(pathSelect.filePath)
+        else if (state.SETTING.APP.OPEN_FOLDER_AFTER_EXPORT) shell.showItemInFolder(pathSelect.filePath)
         message.success('内容已经导出')
       }
     },
@@ -431,7 +441,7 @@ export default new Vuex.Store({
       }
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${fileNameReplace(state.SETTING.EXPORT.XML.FILE_NAME)}.xml`,
+        name: `${require('@/util/replace.fileName.js').replace(state.SETTING.EXPORT.XML.FILE_NAME)}.xml`,
         value: XMLJS.js2xml(data, { spaces: '\t' })
       })
     }

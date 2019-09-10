@@ -29,8 +29,7 @@ ipcMain.on('IPC_EXPORT', async (event, {
 }) => {
   const window = BrowserWindow.getFocusedWindow()
   const result = await dialog.showSaveDialog(window, {
-    defaultPath: name,
-    message: '需要将导出的文件放置在哪个位置'
+    defaultPath: name
   })
   if (result.canceled === false) {
     await fs.writeFileSync(result.filePath, new Uint8Array(Buffer.from(value)))
