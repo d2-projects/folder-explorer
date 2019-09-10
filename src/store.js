@@ -311,7 +311,7 @@ export default new Vuex.Store({
       result = result.map(item => {
         const element = elementReplace(setting.ELEMENT_FORMAT, { data: item })
         const bridge = ''
-        const note = noteReplace(setting.NOTE_FORMAT, { data: item })
+        const note = item.note ? noteReplace(setting.NOTE_FORMAT, { data: item }) : ''
         return {
           element,
           bridge,
