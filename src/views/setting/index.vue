@@ -56,6 +56,10 @@
         </a-anchor>
       </div>
       <div class="page--main-content" ref="container">
+
+
+
+        <!-- 通用 -->
         <setting-container id="section-app" title="通用" icon="home">
           <h2>导出后打开</h2>
           <p>每次导出文件后自动打开</p>
@@ -67,6 +71,10 @@
           <p>在每次删除文件之前弹出确认框</p>
           <setting-boolean-simple path="APP.DELETE_CONFIRM"/>
         </setting-container>
+
+
+
+        <!-- 扫描 -->
         <setting-container id="section-scan" title="扫描" icon="file-search">
           <h2>忽略的目录</h2>
           <p>不必要的目录扫描会导致性能损失甚至程序失去响应，例如 node_modules</p>
@@ -87,6 +95,10 @@
           <p>这类文件夹在 Linux 和 MacOS 上是默认隐藏的文件夹</p>
           <setting-boolean-simple path="SCAN.IGNORE_DOT_START_FOLDER"/>
         </setting-container>
+
+
+
+        <!-- 导出文本 -->
         <setting-container id="section-export-text" title="导出文本" icon="export">
           <h2>默认名称</h2>
           <setting-string-placeholder-guide
@@ -128,6 +140,10 @@
           <p>导出文本增加边框美化</p>
           <setting-boolean-simple path="EXPORT.TREE_TEXT.BORDER"/>
         </setting-container>
+
+
+
+        <!-- 导出 JSON -->
         <setting-container id="section-export-json" title="导出 JSON" icon="export">
           <h2>默认名称</h2>
           <setting-string-placeholder-guide
@@ -137,7 +153,17 @@
             path="EXPORT.TREE_JSON.FILE_NAME"
             placeholder="文件名"
             addon-after=".json"/>
+          <h2>使用 <code>tab</code> 缩进</h2>
+          <p>请根据您的个人喜好设置</p>
+          <setting-boolean-simple path="EXPORT.TREE_JSON.SPACE_USE_TAB"/>
+          <h2>使用空格缩进时的大小</h2>
+          <p>设置为 0 时等于不换行</p>
+          <setting-number-simple :min="0" :max="10" path="EXPORT.TREE_JSON.SPACE_LENGTH"/>
         </setting-container>
+
+
+
+        <!-- 导出脑图 -->
         <setting-container id="section-export-xmind" title="导出脑图" icon="export">
           <h2>默认名称</h2>
           <setting-string-placeholder-guide
@@ -148,6 +174,10 @@
             placeholder="文件名"
             addon-after=".xmind"/>
         </setting-container>
+
+
+
+        <!-- 导出 XML -->
         <setting-container id="section-export-xml" title="导出 XML" icon="export">
           <h2>默认名称</h2>
           <setting-string-placeholder-guide
@@ -158,6 +188,10 @@
             placeholder="文件名"
             addon-after=".xml"/>
         </setting-container>
+
+
+
+        <!-- 备份和恢复 -->
         <setting-container id="section-export-import" title="备份和恢复" icon="sync">
           <h2>默认名称</h2>
           <setting-string-placeholder-guide
@@ -173,6 +207,10 @@
           <p>导入您之前导出的备份</p>
           <setting-import/>
         </setting-container>
+
+
+
+        <!-- 重置 -->
         <setting-container id="section-restore" title="重置" icon="rocket">
           <h2>重置软件</h2>
           <p>恢复软件为初始状态</p>

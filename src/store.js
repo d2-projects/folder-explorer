@@ -69,7 +69,12 @@ const stateDefault = {
       },
       // JSON
       TREE_JSON: {
-        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]'
+        // 文件名
+        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]',
+        // 使用 tab 缩进
+        SPACE_USE_TAB: true,
+        // 缩进大小
+        SPACE_LENGTH: 4
       },
       // XMIND
       XMIND: {
@@ -277,14 +282,11 @@ export default new Vuex.Store({
       const setting = state.SETTING.EXPORT.TREE_TEXT
       // 开始处理
       let result = state.CACHE.SCAN_RESULT_FLAT
+      // 获取最大宽度
       function getMaxWidth (result) {
         if (setting.FLOAT_RIGHT) {
-          const elementLengthMax = result.reduce((max, { element }) => {
-            return width(element) > max ? width(element) : max
-          }, 0)
-          const noteLengthMax = result.reduce((max, { note }) => {
-            return width(note) > max ? width(note) : max
-          }, 0)
+          const elementLengthMax = result.reduce((max, { element }) => width(element) > max ? width(element) : max, 0)
+          const noteLengthMax = result.reduce((max, { note }) => width(note) > max ? width(note) : max, 0)
           return elementLengthMax + noteLengthMax
         }
         else {
@@ -294,15 +296,12 @@ export default new Vuex.Store({
           }, 0)
         }
       }
+      // 生成合适的桥梁
       function bridgeAuto ({ element, note }, max) {
         if (note !== '' || setting.BRIDGE_ALWAYS) {
           let length = setting.BRIDGE_MIN
-          if (setting.FLOAT_RIGHT) {
-            length += (max - width(`${element}${note}`))
-          }
-          else {
-            length += (max - width(element))
-          }
+          if (setting.FLOAT_RIGHT) length += (max - width(`${element}${note}`))
+          else length += (max - width(element))
           return setting.BRIDGE_CELL.repeat(length)
         }
         return ''
@@ -312,25 +311,16 @@ export default new Vuex.Store({
         const element = elementReplace(setting.ELEMENT_FORMAT, { data: item })
         const bridge = ''
         const note = item.note ? noteReplace(setting.NOTE_FORMAT, { data: item }) : ''
-        return {
-          element,
-          bridge,
-          note
-        }
+        return { element, bridge, note }
       })
       // 计算最大宽度
       const max = getMaxWidth(result)
       // 补齐
-      result = result.map(item => ({
-        ...item,
-        bridge: bridgeAuto(item, max)
-      }))
+      result = result.map(item => ({ ...item, bridge: bridgeAuto(item, max) }))
       // 转换为字符串
       result = result.map(e => `${e.element}${e.bridge}${e.note}`)
       // 边框
-      if (setting.BORDER) {
-        result = asciiBorder(result)
-      }
+      if (setting.BORDER) result = asciiBorder(result)
       // 导出
       this.commit('IPC_EXPORT', {
         name: `${fileNameReplace(setting.FILE_NAME)}.txt`,
@@ -341,7 +331,9 @@ export default new Vuex.Store({
      * 导出 [ JSON ]
      */
     EXPORT_TREE_JSON (state) {
-      const text = JSON.stringify(state.CACHE.SCAN_RESULT, null, 2)
+      const setting = state.SETTING.EXPORT.TREE_JSON
+      const space = setting.SPACE_USE_TAB ? '\t' : setting.SPACE_LENGTH
+      const text = JSON.stringify(state.CACHE.SCAN_RESULT, null, space)
       // 导出
       this.commit('IPC_EXPORT', {
         name: `${fileNameReplace(state.SETTING.EXPORT.TREE_JSON.FILE_NAME)}.json`,
