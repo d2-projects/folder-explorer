@@ -40,7 +40,7 @@
         class="is-mb-20"/>
       <div class="setting-string-placeholder-guide">
         <p
-          v-for="placeholder of placeholders"
+          v-for="placeholder of options"
           :key="placeholder.name"
           flex="cross:center"
           class="setting-string-placeholder-guide--row"
@@ -58,15 +58,14 @@
 </template>
 
 <script>
-import { placeholders } from '@/util/fileNameStringReplace.js'
 export default {
   name: 'setting-string-placeholder-guide',
   props: {
-    note: { type: String, default: '', required: true }
+    note: { type: String, default: '', required: true },
+    options: { type: Array, default: () => [], required: false }
   },
   data () {
     return {
-      placeholders,
       active: false
     }
   },

@@ -10,7 +10,7 @@ import groupby from 'lodash.groupby'
 import set from 'lodash.set'
 import clone from 'lodash.clonedeep'
 import translateFlat from '@/util/translate.flat.js'
-import { fileNameStringReplace } from '@/util/fileNameStringReplace.js'
+import { fileNameReplace } from '@/util/fileNameReplace.js'
 import asciiBorder from '@/util/asciiBorder.js'
 
 Vue.use(Vuex)
@@ -253,7 +253,7 @@ export default new Vuex.Store({
         exportData[key] = state[key]
       })
       this.commit('IPC_EXPORT', {
-        name: `${fileNameStringReplace(state.SETTING.EXPORT.STORE.FILE_NAME)}.json`,
+        name: `${fileNameReplace(state.SETTING.EXPORT.STORE.FILE_NAME)}.json`,
         value: JSON.stringify(exportData, null, 2)
       })
     },
@@ -346,7 +346,7 @@ export default new Vuex.Store({
       }
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${fileNameStringReplace(setting.FILE_NAME)}.txt`,
+        name: `${fileNameReplace(setting.FILE_NAME)}.txt`,
         value: result.join('\n')
       })
     },
@@ -357,7 +357,7 @@ export default new Vuex.Store({
       const text = JSON.stringify(state.CACHE.SCAN_RESULT, null, 2)
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${fileNameStringReplace(state.SETTING.EXPORT.TREE_JSON.FILE_NAME)}.json`,
+        name: `${fileNameReplace(state.SETTING.EXPORT.TREE_JSON.FILE_NAME)}.json`,
         value: text
       })
     },
@@ -392,7 +392,7 @@ export default new Vuex.Store({
       addTopic(state.CACHE.SCAN_RESULT, workbook.getPrimarySheet().rootTopic)
       // 这里不使用默认的导出方法
       const pathSelect = await remote.dialog.showSaveDialog(remote.BrowserWindow.getFocusedWindow(), {
-        defaultPath: `${fileNameStringReplace(state.SETTING.EXPORT.XMIND.FILE_NAME)}.xmind`,
+        defaultPath: `${fileNameReplace(state.SETTING.EXPORT.XMIND.FILE_NAME)}.xmind`,
         message: '需要将导出的文件放置在哪个位置'
       })
       if (pathSelect.canceled === false) {
@@ -452,7 +452,7 @@ export default new Vuex.Store({
       }
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${fileNameStringReplace(state.SETTING.EXPORT.XML.FILE_NAME)}.xml`,
+        name: `${fileNameReplace(state.SETTING.EXPORT.XML.FILE_NAME)}.xml`,
         value: XMLJS.js2xml(data, { spaces: '\t' })
       })
     }

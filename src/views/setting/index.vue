@@ -89,18 +89,30 @@
         </setting-container>
         <setting-container id="section-export-text" title="导出文本" icon="export">
           <h2>默认名称</h2>
-          <setting-string-placeholder-guide note="导出文本默认的文件名"/>
+          <setting-string-placeholder-guide
+            note="导出文本默认的文件名"
+            :options="fileNamePlaceholders"/>
           <setting-text-simple
             path="EXPORT.TREE_TEXT.FILE_NAME"
             placeholder="文件名"
             addon-after=".txt"/>
           <h2>主体格式化</h2>
-          <setting-string-placeholder-guide note="自定义主体显示"/>
+          <setting-string-placeholder-guide
+            note="自定义主体显示"
+            :options="[
+              { name: 'tree', description: '树形结构' },
+              { name: 'name', description: '文件名称' },
+              { name: 'ext', description: '扩展名' },
+            ]"/>
           <setting-text-simple
             path="EXPORT.TREE_TEXT.ELEMENT_FORMAT"
             placeholder="主体格式化"/>
           <h2>备注格式化</h2>
-          <setting-string-placeholder-guide note="自定义备注显示"/>
+          <setting-string-placeholder-guide
+            note="自定义备注显示"
+            :options="[
+              { name: 'note', description: '备注内容' }
+            ]"/>
           <setting-text-simple
             path="EXPORT.TREE_TEXT.NOTE_FORMAT"
             placeholder="备注格式化"/>
@@ -124,7 +136,9 @@
         </setting-container>
         <setting-container id="section-export-json" title="导出 JSON" icon="export">
           <h2>默认名称</h2>
-          <setting-string-placeholder-guide note="导出 JSON 默认的文件名"/>
+          <setting-string-placeholder-guide
+            note="导出 JSON 默认的文件名"
+            :options="fileNamePlaceholders"/>
           <setting-text-simple
             path="EXPORT.TREE_JSON.FILE_NAME"
             placeholder="文件名"
@@ -132,7 +146,9 @@
         </setting-container>
         <setting-container id="section-export-xmind" title="导出脑图" icon="export">
           <h2>默认名称</h2>
-          <setting-string-placeholder-guide note="导出思维导图默认的文件名"/>
+          <setting-string-placeholder-guide
+            note="导出思维导图默认的文件名"
+            :options="fileNamePlaceholders"/>
           <setting-text-simple
             path="EXPORT.XMIND.FILE_NAME"
             placeholder="文件名"
@@ -140,7 +156,9 @@
         </setting-container>
         <setting-container id="section-export-xml" title="导出 XML" icon="export">
           <h2>默认名称</h2>
-          <setting-string-placeholder-guide note="导出XML默认的文件名"/>
+          <setting-string-placeholder-guide
+            note="导出XML默认的文件名"
+            :options="fileNamePlaceholders"/>
           <setting-text-simple
             path="EXPORT.XML.FILE_NAME"
             placeholder="文件名"
@@ -148,7 +166,8 @@
         </setting-container>
         <setting-container id="section-export-import" title="备份和恢复" icon="sync">
           <h2>默认名称</h2>
-          <setting-string-placeholder-guide note="导出备份文件的默认名称"/>
+          <setting-string-placeholder-guide
+            note="导出备份文件的默认名称"/>
           <setting-text-simple
             path="EXPORT.STORE.FILE_NAME"
             placeholder="文件名"
@@ -171,7 +190,13 @@
 </template>
 
 <script>
+import { fileNamePlaceholders } from '@/util/fileNameReplace.js'
 export default {
+  data () {
+    return {
+      fileNamePlaceholders: fileNamePlaceholders()
+    }
+  },
   mounted () {
     const anchor = this.$route.query.anchor
     if (anchor) {
