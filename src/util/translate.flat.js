@@ -1,7 +1,7 @@
 /**
  * 将扫描结果转换成展示需要的数据
  * @param {Object} param0 {Object} data 扫描结果
- * @param {Object} param0 {Array} notes 注释数据库
+ * @param {Object} param0 {Array} notes 备注数据库
  */
 export default function ({
   data,

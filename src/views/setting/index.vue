@@ -94,28 +94,30 @@
             path="EXPORT.TREE_TEXT.FILE_NAME"
             placeholder="文件名"
             addon-after=".txt"/>
-          <h2>包含文件扩展名</h2>
-          <p>打开此选项以在导出结果中包含文件扩展名</p>
-          <setting-boolean-simple path="EXPORT.TREE_TEXT.INCLUDE_EXT"/>
-          <h2>空白填充字符</h2>
-          <p>填充文件名和注释前缀之间的字符</p>
+          <h2>主体格式化</h2>
+          <setting-string-placeholder-guide note="自定义主体显示"/>
           <setting-text-simple
-            path="EXPORT.TREE_TEXT.EMPTY_FILL"
-            placeholder="空白填充字符"/>
-          <h2>空白字符之前的空格数</h2>
-          <p>在文件和空白填充之间插入的空格数量</p>
-          <setting-number-simple :min="0" path="EXPORT.TREE_TEXT.SPACE_NUM_BETWEEN_FILE_AND_EMPTY"/>
-          <h2>注释前缀</h2>
-          <p>每行注释之前的特殊符号</p>
+            path="EXPORT.TREE_TEXT.ELEMENT_FORMAT"
+            placeholder="主体格式化"/>
+          <h2>备注格式化</h2>
+          <setting-string-placeholder-guide note="自定义备注显示"/>
           <setting-text-simple
-            path="EXPORT.TREE_TEXT.NOTE_PREFIX"
-            placeholder="例如在一般的编程语言中，这个符号是 //"/>
-          <h2>强制输出注释前的空白</h2>
-          <p>在没有注释的行上依然强制输出注释前的空白</p>
-          <setting-boolean-simple path="EXPORT.TREE_TEXT.SHOW_EMPTY_WHEN_NO_NOTE"/>
-          <h2>强制输出注释前缀</h2>
-          <p>在没有注释的行上依然强制输出注释前缀</p>
-          <setting-boolean-simple path="EXPORT.TREE_TEXT.SHOW_NOTE_PRE_WHEN_NO_NOTE"/>
+            path="EXPORT.TREE_TEXT.NOTE_FORMAT"
+            placeholder="备注格式化"/>
+          <h2>最小桥梁</h2>
+          <p>桥梁最短字符数</p>
+          <setting-number-simple :min="0" path="EXPORT.TREE_TEXT.BRIDGE_MIN"/>
+          <h2>桥梁填充</h2>
+          <p>桥梁填充字符</p>
+          <setting-text-simple
+            path="EXPORT.TREE_TEXT.BRIDGE_CELL"
+            placeholder="一个单字节字符"/>
+          <h2>始终显示桥梁</h2>
+          <p>在没有备注的情况下依旧显示桥梁</p>
+          <setting-boolean-simple path="EXPORT.TREE_TEXT.BRIDGE_ALWAYS"/>
+          <h2>右侧对其</h2>
+          <p>使备注右侧对其</p>
+          <setting-boolean-simple path="EXPORT.TREE_TEXT.FLOAT_RIGHT"/>
         </setting-container>
         <setting-container id="section-export-json" title="导出 JSON" icon="export">
           <h2>默认名称</h2>

@@ -25,7 +25,7 @@ const stateDefault = {
   },
   // 数据库
   DB: {
-    // 所有的注释信息 可以在重新扫描时自动恢复注释
+    // 所有的备注信息 可以在重新扫描时自动恢复备注
     NOTES: {}
   },
   // 设置
@@ -49,18 +49,18 @@ const stateDefault = {
       TREE_TEXT: {
         // 文件名
         FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]',
-        // 包含扩展名
-        INCLUDE_EXT: true,
-        // 注释前缀
-        NOTE_PREFIX: ' // ',
-        // 填充空白的字符
-        EMPTY_FILL: '-',
-        // 在文件和空白字符之间添加空格数量
-        SPACE_NUM_BETWEEN_FILE_AND_EMPTY: 1,
-        // 在没有注释的行上依然输出注释前的空白
-        SHOW_EMPTY_WHEN_NO_NOTE: false,
-        // 在没有注释的行上依然输出注释前缀
-        SHOW_NOTE_PRE_WHEN_NO_NOTE: false
+        // 元素格式化
+        ELEMENT_FORMAT: '{tree}{name}{ext} ',
+        // 备注格式化
+        NOTE_FORMAT: ' // {note}',
+        // 桥梁最短
+        BRIDGE_MIN: 4,
+        // 桥梁填充
+        BRIDGE_CELL: '-',
+        // 始终显示桥梁
+        BRIDGE_ALWAYS: false,
+        // 右侧对齐
+        FLOAT_RIGHT: true
       },
       // JSON
       TREE_JSON: {
@@ -270,84 +270,79 @@ export default new Vuex.Store({
     EXPORT_TREE_TEXT (state) {
       // 设置
       const setting = state.SETTING.EXPORT.TREE_TEXT
-      /**
-       * 拼接行数据
-       * @param {Object} data 数据源
-       */
-      function makerRow ({ tree, name, ext, space, empty, pre, note }) {
-        return `${tree}${name}${ext}${space}${empty}${pre}${note}`
+      // 开始处理
+      let result = state.CACHE.SCAN_RESULT_FLAT
+      // 转化 element
+      function elementMaker (item) {
+        let result = setting.ELEMENT_FORMAT
+        result = result.replace(/{tree}/g, item.tree.text)
+        result = result.replace(/{name}/g, item.data.name)
+        result = result.replace(/{ext}/g, item.data.ext)
+        return result
       }
-      /**
-       * 拼接行数据 只拼接 ${tree}${name}${ext}
-       * @param {Object} data 数据源
-       */
-      function makerElement ({ tree, name, ext }) {
-        return `${tree}${name}${ext}`
+      // 转化 note
+      function noteMaker (item) {
+        if (item.note === '') return ''
+        let result = setting.NOTE_FORMAT
+        result = result.replace(/{note}/g, item.note)
+        return result
       }
-      /**
-       * 需要 empty 或者 space 数据
-       * @param {Object} data 数据源
-       */
-      function needEmptyOrSpace (data) {
-        // empty | space 输出的条件
-        // - 有注释
-        // - or 设置了强制输出空白
-        // - or 设置了强制输出注释前缀
-        return data.note
-        || setting.SHOW_EMPTY_WHEN_NO_NOTE
-        || setting.SHOW_NOTE_PRE_WHEN_NO_NOTE
-      }
-      /**
-       * 将扁平化数据 parse
-       * @param {Array} data 扁平化数据
-       */
-      function makerParse (data) {
-        // [ -> ] tree 树
-        let tree = data.tree.text
-        // [ -> ] name 文件名
-        let name = data.data.name
-        // [ -> ] ext 扩展名
-        let ext = ''
-        if (setting.INCLUDE_EXT) ext = data.data.ext
-        // [ -> ] empty 空格前的空白
-        let empty = ''
-        // [ -> ] space 空格填充
-        let space = needEmptyOrSpace(data) ? ' '.repeat(setting.SPACE_NUM_BETWEEN_FILE_AND_EMPTY) : ''
-        // [ -> ] pre 注释前缀输出的条件
-        // - 有注释
-        // - 设置了强制输出注释前缀
-        let pre = data.note || setting.SHOW_NOTE_PRE_WHEN_NO_NOTE ? setting.NOTE_PREFIX : ''
-        // [ -> ] note
-        let note = data.note
-        return { tree, name, ext, space, empty, pre, note }
-      }
-      /**
-       * 处理数据中的 empty 字段
-       * 将其设置为最小长度
-       * @param {Array} data pares 之后的数据
-       */
-      function makerAddEmptyMin (data) {
-        return {
-          ...data,
-          empty: needEmptyOrSpace(data) ? ''.padEnd(this.max - makerElement(data).length, setting.EMPTY_FILL) : ''
+      function getMaxLength (result) {
+        if (setting.FLOAT_RIGHT) {
+          const elementLengthMax = result.reduce((max, { element }) => {
+            return element.length > max ? element.length : max
+          }, 0)
+          const noteLengthMax = result.reduce((max, { note }) => {
+            return note.length > max ? note.length : max
+          }, 0)
+          return elementLengthMax + noteLengthMax
+        }
+        else {
+          return result.reduce((max, { element }) => {
+            const length = element.length
+            return length > max ? length : max
+          }, 0)
         }
       }
-      let result = []
-      // 第一步 先格式化数据
-      // 这个时候 empty 是空的
-      result = state.CACHE.SCAN_RESULT_FLAT.map(makerParse)
-      // 第二部 计算 empty 的最小长度
-      // element = tree + name + ext
-      result = result.map(makerAddEmptyMin.bind({
-        max: result.reduce((max, current) => {
-          const length = makerElement(current).length
-          return max > length ? max : length
-        }, 0)
-      }))
+      function bridgeAuto ({ element, note }, max) {
+        if (note !== '' || setting.BRIDGE_ALWAYS) {
+          let length = setting.BRIDGE_MIN
+          if (setting.FLOAT_RIGHT) {
+            length += (max - `${element}${note}`.length)
+          }
+          else {
+            length += (max - element.length)
+          }
+          return setting.BRIDGE_CELL.repeat(length)
+        }
+        return ''
+      }
+      // 第一步 转换 element 和 note
+      result = result.map(item => {
+        const element = elementMaker(item)
+        const bridge = ''
+        const note = noteMaker(item)
+        return {
+          element,
+          bridge,
+          note
+        }
+      })
+      // 计算最大宽度
+      const max = getMaxLength(result)
+      // 补齐
+      result = result.map(item => {
+        return {
+          ...item,
+          bridge: bridgeAuto(item, max)
+        }
+      })
+      console.log(max);
+      
       // 导出
       this.commit('IPC_EXPORT', {
         name: `${fileNameStringReplace(setting.FILE_NAME)}.txt`,
-        value: result.map(makerRow).join('\n')
+        value: result.map(e => `${e.element}${e.bridge}${e.note}`).join('\n')
       })
     },
     /**
