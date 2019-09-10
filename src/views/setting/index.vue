@@ -118,6 +118,9 @@
           <h2>右侧对其</h2>
           <p>使备注右侧对其</p>
           <setting-boolean-simple path="EXPORT.TREE_TEXT.FLOAT_RIGHT"/>
+          <h2>边框</h2>
+          <p>导出文本增加边框美化</p>
+          <setting-boolean-simple path="EXPORT.TREE_TEXT.BORDER"/>
         </setting-container>
         <setting-container id="section-export-json" title="导出 JSON" icon="export">
           <h2>默认名称</h2>

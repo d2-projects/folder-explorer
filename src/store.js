@@ -4,13 +4,14 @@ import persistedState from 'vuex-persistedstate'
 import { message } from 'ant-design-vue'
 import xmind from 'xmind'
 import XMLJS from 'xml-js'
+import width from 'string-width'
 import { remote, shell, ipcRenderer } from 'electron'
 import groupby from 'lodash.groupby'
 import set from 'lodash.set'
 import clone from 'lodash.clonedeep'
 import translateFlat from '@/util/translate.flat.js'
 import { fileNameStringReplace } from '@/util/fileNameStringReplace.js'
-import { Object } from 'core-js'
+import asciiBorder from '@/util/asciiBorder.js'
 
 Vue.use(Vuex)
 
@@ -60,7 +61,9 @@ const stateDefault = {
         // 始终显示桥梁
         BRIDGE_ALWAYS: false,
         // 右侧对齐
-        FLOAT_RIGHT: true
+        FLOAT_RIGHT: false,
+        // 显示边框
+        BORDER: false
       },
       // JSON
       TREE_JSON: {
@@ -287,19 +290,19 @@ export default new Vuex.Store({
         result = result.replace(/{note}/g, item.note)
         return result
       }
-      function getMaxLength (result) {
+      function getMaxWidth (result) {
         if (setting.FLOAT_RIGHT) {
           const elementLengthMax = result.reduce((max, { element }) => {
-            return element.length > max ? element.length : max
+            return width(element) > max ? width(element) : max
           }, 0)
           const noteLengthMax = result.reduce((max, { note }) => {
-            return note.length > max ? note.length : max
+            return width(note) > max ? width(note) : max
           }, 0)
           return elementLengthMax + noteLengthMax
         }
         else {
           return result.reduce((max, { element }) => {
-            const length = element.length
+            const length = width(element)
             return length > max ? length : max
           }, 0)
         }
@@ -308,10 +311,10 @@ export default new Vuex.Store({
         if (note !== '' || setting.BRIDGE_ALWAYS) {
           let length = setting.BRIDGE_MIN
           if (setting.FLOAT_RIGHT) {
-            length += (max - `${element}${note}`.length)
+            length += (max - width(`${element}${note}`))
           }
           else {
-            length += (max - element.length)
+            length += (max - width(element))
           }
           return setting.BRIDGE_CELL.repeat(length)
         }
@@ -329,20 +332,22 @@ export default new Vuex.Store({
         }
       })
       // 计算最大宽度
-      const max = getMaxLength(result)
+      const max = getMaxWidth(result)
       // 补齐
-      result = result.map(item => {
-        return {
-          ...item,
-          bridge: bridgeAuto(item, max)
-        }
-      })
-      console.log(max);
-      
+      result = result.map(item => ({
+        ...item,
+        bridge: bridgeAuto(item, max)
+      }))
+      // 转换为字符串
+      result = result.map(e => `${e.element}${e.bridge}${e.note}`)
+      // 边框
+      if (setting.BORDER) {
+        result = asciiBorder(result)
+      }
       // 导出
       this.commit('IPC_EXPORT', {
         name: `${fileNameStringReplace(setting.FILE_NAME)}.txt`,
-        value: result.map(e => `${e.element}${e.bridge}${e.note}`).join('\n')
+        value: result.join('\n')
       })
     },
     /**
