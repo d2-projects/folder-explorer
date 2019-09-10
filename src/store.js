@@ -11,6 +11,8 @@ import set from 'lodash.set'
 import clone from 'lodash.clonedeep'
 import translateFlat from '@/util/translate.flat.js'
 import { fileNameReplace } from '@/util/fileNameReplace.js'
+import { elementReplace } from '@/util/elementReplace.js'
+import { noteReplace } from '@/util/noteReplace.js'
 import asciiBorder from '@/util/asciiBorder.js'
 
 Vue.use(Vuex)
@@ -275,21 +277,6 @@ export default new Vuex.Store({
       const setting = state.SETTING.EXPORT.TREE_TEXT
       // 开始处理
       let result = state.CACHE.SCAN_RESULT_FLAT
-      // 转化 element
-      function elementMaker (item) {
-        let result = setting.ELEMENT_FORMAT
-        result = result.replace(/{tree}/g, item.tree.text)
-        result = result.replace(/{name}/g, item.data.name)
-        result = result.replace(/{ext}/g, item.data.ext)
-        return result
-      }
-      // 转化 note
-      function noteMaker (item) {
-        if (item.note === '') return ''
-        let result = setting.NOTE_FORMAT
-        result = result.replace(/{note}/g, item.note)
-        return result
-      }
       function getMaxWidth (result) {
         if (setting.FLOAT_RIGHT) {
           const elementLengthMax = result.reduce((max, { element }) => {
@@ -322,9 +309,9 @@ export default new Vuex.Store({
       }
       // 第一步 转换 element 和 note
       result = result.map(item => {
-        const element = elementMaker(item)
+        const element = elementReplace(setting.ELEMENT_FORMAT, { data: item })
         const bridge = ''
-        const note = noteMaker(item)
+        const note = noteReplace(setting.NOTE_FORMAT, { data: item })
         return {
           element,
           bridge,
