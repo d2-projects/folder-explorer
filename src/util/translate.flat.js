@@ -37,9 +37,7 @@ export default function ({
       // 添加一行
       result.push({
         id: item.filePathFull,
-        tree: {
-          text: treeBody.join('')
-        },
+        tree: treeBody.join(''),
         note: notes[item.filePathFull] || '',
         data: item
       })

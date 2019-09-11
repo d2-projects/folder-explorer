@@ -4,7 +4,7 @@ export function placeholders ({ data } = {}) {
       name: 'tree',
       description: '树形结构',
       function () {
-        return data.tree.text
+        return data.tree
       }
     },
     {

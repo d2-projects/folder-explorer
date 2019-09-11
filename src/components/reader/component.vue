@@ -50,7 +50,7 @@
         <div flex="cross:center" class="row" @mouseover="info = item.data.filePathFull">
           <!-- 树枝 -->
           <span class="row-tree">
-            <pre>{{item.tree.text}}</pre>
+            <pre>{{item.tree}}</pre>
           </span>
           <!-- 文件信息 -->
           <span class="row-info" flex="cross:center">
