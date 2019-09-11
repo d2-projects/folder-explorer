@@ -53,6 +53,7 @@
           <a-anchor-link href="#section-export-xml" title="导出 XML"/>
           <a-anchor-link href="#section-export-import" title="备份和恢复"/>
           <a-anchor-link href="#section-restore" title="重置"/>
+          <a-anchor-link href="#section-app-info" title="关于"/>
         </a-anchor>
       </div>
       <div class="page--main-content" ref="container">
@@ -242,6 +243,13 @@
           <h2>重置软件</h2>
           <p>恢复软件为初始状态</p>
           <setting-retore/>
+        </setting-container>
+
+
+
+        <!-- 关于 -->
+        <setting-container id="section-app-info" title="关于" icon="info-circle" type="ghost">
+          <setting-app-info/>
         </setting-container>
       </div>
     </div>

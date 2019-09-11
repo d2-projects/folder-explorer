@@ -24,9 +24,12 @@
       <a-icon :type="icon" />
       {{title}}
     </h1>
-    <a-card>
+    <a-card v-if="type === 'default'">
       <slot/>
     </a-card>
+    <div v-else-if="type === 'ghost'">
+      <slot/>
+    </div>
   </div>
 </template>
 
@@ -42,6 +45,11 @@ export default {
     icon: {
       type: String,
       default: '',
+      required: false
+    },
+    type: {
+      type: String,
+      default: 'default',
       required: false
     }
   }
