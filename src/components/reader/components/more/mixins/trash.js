@@ -13,7 +13,7 @@ export default {
     ]),
     moveItemToTrash () {
       const trash = () => {
-        const result = shell.moveItemToTrash(this.value.data.filePathFull)
+        const result = shell.moveItemToTrash(this.value.filePathFull)
         if (result) {
           this.IPC_FOLDER_SCAN()
           this.$message.success('已经将文件移动到废纸篓并开始重新扫描')
@@ -24,7 +24,7 @@ export default {
       if (this.SETTING.APP.DELETE_CONFIRM) {
         this.$confirm({
           title: '确认',
-          content: `删除${this.value.data.isFile ? '文件' : '文件夹'} ${this.value.data.base}`,
+          content: `删除${this.value.isFile ? '文件' : '文件夹'} ${this.value.base}`,
           cancelText: '取消',
           okText: '删除',
           okType: 'danger',

@@ -47,7 +47,7 @@
   <div class="reader" flex="dir:top main:justify box:last">
     <div class="is-p-5">
       <recycle-scroller :items="SCAN_RESULT_FLAT" :item-size="18" key-field="id" v-slot="{ item, index }" class="list">
-        <div flex="cross:center" class="row" @mouseover="info = item.data.filePathFull">
+        <div flex="cross:center" class="row" @mouseover="info = item.filePathFull">
           <!-- 树枝 -->
           <span class="row-tree">
             <pre>{{item.tree}}</pre>
@@ -55,9 +55,9 @@
           <!-- 文件信息 -->
           <span class="row-info" flex="cross:center">
             <!-- 文件名 -->
-            <pre class="row-info-name">{{item.data.name}}</pre>
+            <pre class="row-info-name">{{item.name}}</pre>
             <!-- 扩展名 -->
-            <pre class="row-info-ext" v-if="item.data.ext">{{item.data.ext}}</pre>
+            <pre class="row-info-ext" v-if="item.ext">{{item.ext}}</pre>
             <!-- 备注 -->
             <pre v-if="item.note" class="row-info-note"> // {{item.note}}</pre>
             <!-- 操作 -->

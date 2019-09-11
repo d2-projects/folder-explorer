@@ -127,7 +127,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计文件和文件夹的数量
      */
     SCAN_RESULT_FILE_AND_FOLDER_NUM: state => {
-      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, item => item.data.isFile ? 'file' : 'folder')
+      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, item => item.isFile ? 'file' : 'folder')
       return {
         file: (grouped.file || []).length,
         folder: (grouped.folder || []).length
@@ -137,7 +137,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计文件类型分布
      */
     SCAN_RESULT_STATISTIC_EXT: state => {
-      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, 'data.ext')
+      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, 'ext')
       let result = []
       for (const key in grouped) {
         if (key !== '' && grouped.hasOwnProperty(key)) {
@@ -170,7 +170,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计设置建议选项 [ 忽略的文件类型 ]
      */
     SETTING_SCAN_IGNORE_EXT_OPTIONS: state => {
-      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, 'data.ext')
+      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, 'ext')
       return Object.keys(grouped)
     }
   },
@@ -204,7 +204,7 @@ export default new Vuex.Store({
       // 更新 SCAN_RESULT_FLAT
       state.CACHE.SCAN_RESULT_FLAT.splice(index, 1, item)
       // 更新 NOTES 中的数据
-      state.DB.NOTES[item.data.filePathFull] = item.note
+      state.DB.NOTES[item.filePathFull] = item.note
     },
     /**
      * ELECTRON IPC [ 发送扫描文件夹请求 ]

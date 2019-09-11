@@ -11,14 +11,14 @@ export function placeholders ({ data } = {}) {
       name: 'name',
       description: '文件名',
       function () {
-        return data.data.name
+        return data.name
       }
     },
     {
       name: 'ext',
       description: '扩展名',
       function () {
-        return data.data.ext
+        return data.ext
       }
     }
   ]

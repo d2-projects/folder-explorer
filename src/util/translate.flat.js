@@ -39,7 +39,7 @@ export default function ({
         id: item.filePathFull,
         tree: treeBody.join(''),
         note: notes[item.filePathFull] || '',
-        data: item
+        ...item
       })
       // 如果是文件夹的话，遍历文件夹内容
       if (item.isDirectory) {
