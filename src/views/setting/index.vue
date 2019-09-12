@@ -214,6 +214,9 @@
             path="EXPORT.XML.FILE_NAME"
             placeholder="文件名"
             addon-after=".xml"/>
+          <h2>数据保存位置</h2>
+          <p>两种不同的 XML 风格</p>
+          <setting-radio-simple path="EXPORT.XML.DATA_SPACE"/>
         </setting-container>
 
 

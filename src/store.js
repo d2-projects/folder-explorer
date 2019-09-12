@@ -88,7 +88,15 @@ const stateDefault = {
       },
       // XML
       XML: {
-        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]'
+        // 文件名
+        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]',
+        // 数据保存位置
+        DATA_SPACE: 'ELEMENT',
+        // 数据保存位置 选项
+        DATA_SPACE_OPTIONS: [
+          { label: '新子节点', value: 'ELEMENT' },
+          { label: '自节点属性', value: 'ATTRIBUTES' }
+        ]
       }
     },
     // 扫描相关
@@ -399,13 +407,19 @@ export default new Vuex.Store({
      * https://github.com/nashwaan/xml-js
      */
     EXPORT_TREE_XML (state) {
+      const setting = state.SETTING.EXPORT.XML
       /**
        * 创建标签
        * @param {String} name 标签名
        * @param {String} elements 元素
        */
-      function el (name, elements) {
-        return { type: 'element', name, ...elements ? { elements } : {} }
+      function el (name, elements, attributes) {
+        return {
+          type: 'element',
+          name,
+          ...elements ? { elements } : {},
+          ...attributes ? { attributes } : {}
+        }
       }
       /**
        * 创建文字标签
@@ -415,30 +429,46 @@ export default new Vuex.Store({
       function text (name, value) {
         return el(name, [{ type: 'text', text: value }])
       }
+      /**
+       * 传入一个对象 返回这个对象删除 elements 字段后的结果
+       * @param {Object} obj 过滤掉 elements 字段
+       */
+      function removeElementsKey (obj) {
+        let result = {}
+        Object.keys(obj).forEach(key => {
+          if (key !== 'elements') {
+            result[key] = obj[key]
+          }
+        })
+        return result
+      }
       // 循环
       function maker (itemArray) {
         let result = []
         itemArray.forEach(item => {
-          result.push(
-            el('element', [
-              ...Object.keys(item).filter(e => e !== 'elements').map(e => text(e, item[e])),
-              ...(item.isDirectory && item.elements.length > 0) ? [ el('elements', maker(item.elements)) ] : []
-            ])
-          )
+          // 数据保存到节点属性上
+          if (setting.DATA_SPACE === 'ATTRIBUTES') {
+            result.push(el('element', (item.isDirectory && item.elements.length > 0) ? maker(item.elements) : [], removeElementsKey(item)))
+          }
+          // 数据保存为节点
+          else if (setting.DATA_SPACE === 'ELEMENT') {
+            result.push(
+              el('element', [
+                ...Object.keys(item).filter(e => e !== 'elements').map(e => text(e, item[e])),
+                ...(item.isDirectory && item.elements.length > 0) ? [ el('elements', maker(item.elements)) ] : []
+              ])
+            )
+          }
         })
         return result
       }
-      const data = {
-        declaration: {
-          attributes: {
-            version: "1.0",
-            encoding: "utf-8"
-          }
-        },
-        elements: [
-          el('folder-explorer', maker(state.CACHE.SCAN_RESULT))
-        ]
+      let data = {
+        declaration: { attributes: { version: "1.0", encoding: "utf-8" } },
+        elements: []
       }
+      data.elements = [
+        el('folder-explorer', maker(state.CACHE.SCAN_RESULT))
+      ]
       // 导出
       this.commit('IPC_EXPORT', {
         name: `${require('@/util/replace.fileName.js').replace(state.SETTING.EXPORT.XML.FILE_NAME)}.xml`,
