@@ -17,7 +17,8 @@
         draggable="false">
     </div>
     <a-card>
-      {{packageInfo.name}} v{{packageInfo.version}}
+      <p>{{packageInfo.name}} v{{packageInfo.version}}</p>
+      软件在 <a-link>{{packageInfo.repository.url}}</a-link> 开源
     </a-card>
   </div>
 </template>
