@@ -61,10 +61,7 @@
             <!-- 备注 -->
             <pre v-if="item.note" class="row-info-note"> // {{item.note}}</pre>
             <!-- 操作 -->
-            <more
-              :value="item"
-              @note-change="note => onNoteChange({ index, note })"
-              @note-clear="onNoteClear"/>
+            <more :index="index" :value="item"/>
           </span>
         </div>
       </recycle-scroller>
@@ -74,12 +71,11 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import more from './components/more'
+import { mapGetters } from 'vuex'
 export default {
   name: 'reader',
   components: {
-    more
+    more: () => import('./components/more')
   },
   data () {
     return {
@@ -90,32 +86,6 @@ export default {
     ...mapGetters([
       'SCAN_RESULT_FLAT'
     ])
-  },
-  methods: {
-    ...mapMutations([
-      'NOTES_UPDATE',
-      'SCAN_RESULT_FLAT_UPDATE_ITEM',
-      'SCAN_RESULT_FLAT_NOTE_CLEAR'
-    ]),
-    /**
-     * 清空本次扫描结果中的所有备注
-     */
-    onNoteClear () {
-      this.SCAN_RESULT_FLAT_NOTE_CLEAR()
-    },
-    /**
-     * 变更备注
-     */
-    onNoteChange ({ index, note }) {
-      // 更新 SCAN_RESULT_FLAT 中的数据
-      this.SCAN_RESULT_FLAT_UPDATE_ITEM({
-        index,
-        item: {
-          ...this.SCAN_RESULT_FLAT[index],
-          note
-        }
-      })
-    }
   }
 }
 </script>

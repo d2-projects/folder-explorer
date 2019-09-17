@@ -63,14 +63,21 @@ import { mapGetters } from 'vuex'
 import { remote } from 'electron'
 import note from './mixins/note'
 import openFile from './mixins/openFile'
+import scan from './mixins/scan'
 import trash from './mixins/trash'
 export default {
   mixins: [
     note,
     openFile,
+    scan,
     trash
   ],
   props: {
+    index: {
+      type: Number,
+      default: 0,
+      required: false
+    },
     value: {
       type: Object,
       default: () => ({}),
@@ -99,6 +106,13 @@ export default {
         label: this.SCAN_RESULT_FLAT_NOTE_NUM > 0 ? `删除全部 ${this.SCAN_RESULT_FLAT_NOTE_NUM} 个备注` : '删除所有备注',
         enabled: this.SCAN_RESULT_FLAT_NOTE_NUM > 0,
         click: () => { this.noteOnClear() }
+      }))
+      menu.append(new remote.MenuItem({ type: 'separator'}))
+      // 扫描
+      menu.append(new remote.MenuItem({
+        label: '扫描',
+        enabled: this.value.isDirectory,
+        click: this.scanFolder
       }))
       menu.append(new remote.MenuItem({ type: 'separator'}))
       // 打开
