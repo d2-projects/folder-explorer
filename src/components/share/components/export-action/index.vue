@@ -7,18 +7,30 @@
     &.export-action--theme__yellow {
       background-image: linear-gradient(180deg, #ffeb00 0%, #ffb100 100%);
       border-color: darken(#ffb100, 10%);
+      &:hover {
+        background-image: linear-gradient(180deg, darken(#ffeb00, 4%) 0%, darken(#ffb100, 4%) 100%);
+      }
     }
     &.export-action--theme__blue {
       background-image: linear-gradient(180deg, #61E4FF 0%, #3085FE 100%);
       border-color: darken(#3085FE, 10%);
+      &:hover {
+        background-image: linear-gradient(180deg, darken(#61E4FF, 4%) 0%, darken(#3085FE, 4%) 100%);
+      }
     }
     &.export-action--theme__red {
       background-image: linear-gradient(180deg, #E88D37 0%, #EB2301 100%);
       border-color: darken(#EB2301, 10%);
+      &:hover {
+        background-image: linear-gradient(180deg, darken(#E88D37, 4%) 0%, darken(#EB2301, 4%) 100%);
+      }
     }
     &.export-action--theme__violet {
       background-image: linear-gradient(180deg, #BE37E8 0%, #9701EB 100%);
       border-color: darken(#9701EB, 10%);
+      &:hover {
+        background-image: linear-gradient(180deg, darken(#BE37E8, 4%) 0%, darken(#9701EB, 4%) 100%);
+      }
     }
   }
   .export-action--left {
@@ -51,17 +63,9 @@
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
     width: 55px;
-    font-size: 22px;
     color: #FFF;
     text-shadow: 0 1px 1px rgba(0,0,0,0.40);
-    .anticon {
-      transition: all .3s;
-    }
-    &:hover {
-      .anticon {
-        transform: rotate(60deg);
-      }
-    }
+    font-size: 14px;
   }
 }
 </style>
@@ -88,12 +92,12 @@
     <div
       class="export-action--right export-action--theme"
       :class="`export-action--theme__${color}`"
-      flex="main:center cross:center"
+      flex="dir:top main:center cross:center"
       @click="$router.push({
         name: 'setting',
         query: { anchor }
       })">
-      <a-icon type="setting" theme="filled"/>
+      <span>设置</span>
     </div>
   </div>
 </template>
