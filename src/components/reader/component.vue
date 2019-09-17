@@ -61,7 +61,10 @@
             <!-- 备注 -->
             <pre v-if="item.note" class="row-info-note"> // {{item.note}}</pre>
             <!-- 操作 -->
-            <more :value="item" @note-change="note => onNoteChange({ index, note })"/>
+            <more
+              :value="item"
+              @note-change="note => onNoteChange({ index, note })"
+              @note-clear="onNoteClear"/>
           </span>
         </div>
       </recycle-scroller>
@@ -91,8 +94,15 @@ export default {
   methods: {
     ...mapMutations([
       'NOTES_UPDATE',
-      'SCAN_RESULT_FLAT_UPDATE_ITEM'
+      'SCAN_RESULT_FLAT_UPDATE_ITEM',
+      'SCAN_RESULT_FLAT_NOTE_CLEAR'
     ]),
+    /**
+     * 清空本次扫描结果中的所有备注
+     */
+    onNoteClear () {
+      this.SCAN_RESULT_FLAT_NOTE_CLEAR()
+    },
     /**
      * 变更备注
      */

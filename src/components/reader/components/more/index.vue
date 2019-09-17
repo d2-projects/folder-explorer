@@ -43,14 +43,14 @@
       ok-text="确定"
       :closable="false"
       :mask-closable="false"
-      v-model="noteEdit.editing"
+      v-model="note.editing"
       width="400px"
-      @ok="noteEditOnOk">
+      @ok="noteOnOk">
       <a-input
-        v-model="noteEdit.currentNote"
+        v-model="note.currentNote"
         placeholder="备注内容 回车确认"
-        ref="noteEditInput"
-        @pressEnter="noteEditOnOk">
+        ref="noteInput"
+        @pressEnter="noteOnOk">
         <a-icon slot="prefix" type="tag" />
       </a-input>
     </a-modal>
@@ -59,13 +59,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { remote } from 'electron'
-import noteEdit from './mixins/noteEdit'
+import note from './mixins/note'
 import openFile from './mixins/openFile'
 import trash from './mixins/trash'
 export default {
   mixins: [
-    noteEdit,
+    note,
     openFile,
     trash
   ],
@@ -76,18 +77,28 @@ export default {
       required: false
     }
   },
+  computed: {
+    ...mapGetters([
+      'SCAN_RESULT_FLAT_NOTE_NUM'
+    ])
+  },
   methods: {
     onActive (e) {
       const menu = new remote.Menu()
       // 备注
       menu.append(new remote.MenuItem({
         label: `${this.value.note === '' ? '添加' : '修改'}备注`,
-        click: this.noteEditOnEdit
+        click: this.noteOnEdit
       }))
       menu.append(new remote.MenuItem({
         label: '删除备注',
         enabled: this.value.note !== '',
-        click: () => { this.noteEditOnOk({ note: '' }) }
+        click: () => { this.noteOnOk({ note: '' }) }
+      }))
+      menu.append(new remote.MenuItem({
+        label: this.SCAN_RESULT_FLAT_NOTE_NUM > 0 ? `删除全部 ${this.SCAN_RESULT_FLAT_NOTE_NUM} 个备注` : '删除所有备注',
+        enabled: this.SCAN_RESULT_FLAT_NOTE_NUM > 0,
+        click: () => { this.noteOnClear() }
       }))
       menu.append(new remote.MenuItem({ type: 'separator'}))
       // 打开

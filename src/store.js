@@ -127,6 +127,7 @@ export default new Vuex.Store({
     SCAN_FOLDER_PATH: state => state.CACHE.SCAN_FOLDER_PATH,
     SCAN_RESULT: state => state.CACHE.SCAN_RESULT,
     SCAN_RESULT_FLAT: state => state.CACHE.SCAN_RESULT_FLAT,
+    SCAN_RESULT_FLAT_NOTE_NUM: state => state.CACHE.SCAN_RESULT_FLAT.filter(e => e.note).length,
     /**
      * 当前是否有扫描结果
      */
@@ -213,6 +214,22 @@ export default new Vuex.Store({
       state.CACHE.SCAN_RESULT_FLAT.splice(index, 1, item)
       // 更新 NOTES 中的数据
       state.DB.NOTES[item.filePathFull] = item.note
+    },
+    /**
+     * 数据更新 [ 扫描结果 清除当前扫描结果中的所有备注 ]
+     */
+    SCAN_RESULT_FLAT_NOTE_CLEAR (state) {
+      state.CACHE.SCAN_RESULT_FLAT = state.CACHE.SCAN_RESULT_FLAT.map(item => {
+        // 更新 NOTES 中的数据
+        if (item.note) {
+          state.DB.NOTES[item.filePathFull] = ''
+        }
+        // 返回空备注的新对象
+        return {
+          ...item,
+          note: ''
+        }
+      })
     },
     /**
      * ELECTRON IPC [ 发送扫描文件夹请求 ]
