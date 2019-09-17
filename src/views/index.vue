@@ -37,16 +37,12 @@
         :defaultValue="$route.name"
         buttonStyle="solid"
         @change="e => $router.replace({ name: e.target.value })">
-        <a-tooltip
+        <a-radio-button
           v-for="type of scanResultDisplayTypesMenu"
           :key="type.name"
-          placement="bottom"
-          :title="type.title">
-          <a-radio-button
-            :value="type.name">
-            <a-icon :type="type.icon"/>
-          </a-radio-button>
-        </a-tooltip>
+          :value="type.name">
+          {{ type.title }}
+        </a-radio-button>
       </a-radio-group>
       <!-- right -->
       <div style="width: 100px;" flex="main:right cross:center">

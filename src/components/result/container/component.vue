@@ -11,8 +11,10 @@
     position: relative;
     margin: 5px;
     background-color: #FFF;
-    border: 1px solid #D9D9D9;
     border-radius: 2px;
+    &.container--body__border {
+      border: 1px solid #D9D9D9;
+    }
   }
   .container--footer {
     padding: 5px;
@@ -31,7 +33,12 @@
     <div v-if="$slots['header']" class="container--header" flex="cross:center">
       <slot name="header"></slot>
     </div>
-    <div class="container--body" flex-box="1">
+    <div
+      class="container--body"
+      :class="{
+        'container--body__border': border
+      }"
+      flex-box="1">
       <slot></slot>
     </div>
     <div flex="main:justify cross:center" class="container--footer">
@@ -50,6 +57,13 @@
 
 <script>
 export default {
-  name: 'result-container'
+  name: 'result-container',
+  props: {
+    border: {
+      type: Boolean,
+      default: true,
+      required: false
+    }
+  }
 }
 </script>

@@ -19,7 +19,6 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'raw',
   title: '数据',
-  icon: 'table',
   computed: {
     ...mapGetters([
       'SCAN_RESULT',

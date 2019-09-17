@@ -15,9 +15,8 @@
 import VePie from 'v-charts/lib/pie.common'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'statistic',
-  title: '统计',
-  icon: 'pie-chart',
+  name: 'statistic-ext',
+  title: '文件分类',
   components: {
     VePie
   },

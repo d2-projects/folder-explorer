@@ -9,7 +9,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import get from 'lodash.get'
+import { get } from 'lodash'
 export default {
   name: 'setting-number-simple',
   props: {

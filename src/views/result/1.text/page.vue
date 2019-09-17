@@ -39,8 +39,7 @@
 import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'doc',
-  title: '文本',
-  icon: 'cluster',
+  title: '总览',
   computed: {
     ...mapGetters([
       'SCAN_FOLDER_PATH',

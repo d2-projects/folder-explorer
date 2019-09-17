@@ -6,9 +6,7 @@ import xmind from 'xmind'
 import XMLJS from 'xml-js'
 import width from 'string-width'
 import { remote, shell, ipcRenderer } from 'electron'
-import groupby from 'lodash.groupby'
-import set from 'lodash.set'
-import clone from 'lodash.clonedeep'
+import { groupBy, set, cloneDeep } from 'lodash'
 import translateFlat from '@/util/translate.flat.js'
 import asciiBorder from '@/util/asciiBorder.js'
 
@@ -121,7 +119,7 @@ export default new Vuex.Store({
   plugins: [
     persistedState()
   ],
-  state: clone(stateDefault),
+  state: cloneDeep(stateDefault),
   getters: {
     // 快速访问 CACHE
     SCAN_FOLDER_PATH: state => state.CACHE.SCAN_FOLDER_PATH,
@@ -136,7 +134,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计文件和文件夹的数量
      */
     SCAN_RESULT_FILE_AND_FOLDER_NUM: state => {
-      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, item => item.isFile ? 'file' : 'folder')
+      const grouped = groupBy(state.CACHE.SCAN_RESULT_FLAT, item => item.isFile ? 'file' : 'folder')
       return {
         file: (grouped.file || []).length,
         folder: (grouped.folder || []).length
@@ -146,7 +144,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计文件类型分布
      */
     SCAN_RESULT_STATISTIC_EXT: state => {
-      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, 'ext')
+      const grouped = groupBy(state.CACHE.SCAN_RESULT_FLAT, 'ext')
       let result = []
       for (const key in grouped) {
         if (key !== '' && grouped.hasOwnProperty(key)) {
@@ -179,7 +177,7 @@ export default new Vuex.Store({
      * 根据扫描结果统计设置建议选项 [ 忽略的文件类型 ]
      */
     SETTING_SCAN_IGNORE_EXT_OPTIONS: state => {
-      const grouped = groupby(state.CACHE.SCAN_RESULT_FLAT, 'ext')
+      const grouped = groupBy(state.CACHE.SCAN_RESULT_FLAT, 'ext')
       return Object.keys(grouped)
     }
   },
@@ -273,7 +271,7 @@ export default new Vuex.Store({
       ]
     }) {
       include.forEach(key => {
-        state[key] = clone(stateDefault[key])
+        state[key] = cloneDeep(stateDefault[key])
       })
     },
     /**
