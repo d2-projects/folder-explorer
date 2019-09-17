@@ -17,19 +17,19 @@
         draggable="false">
     </div>
     <a-card>
-      <p>{{packageInfo.name}} v{{packageInfo.version}}</p>
-      软件在 <a-link>{{packageInfo.repository.url}}</a-link> 开源
+      <p>{{appInfo.name}} v{{appInfo.version}}</p>
+      软件在 <a-link>{{appInfo.repository.url}}</a-link> 开源
     </a-card>
   </div>
 </template>
 
 <script>
-import packageInfo from '../../../../package.json'
+import appInfo from '@root/package.json'
 export default {
   name: 'setting-app-info',
   data () {
     return {
-      packageInfo
+      appInfo
     }
   }
 }
