@@ -6,11 +6,31 @@ import xmind from 'xmind'
 import XMLJS from 'xml-js'
 import width from 'string-width'
 import { remote, shell, ipcRenderer } from 'electron'
-import { groupBy, set, cloneDeep } from 'lodash'
+import { groupBy, set, cloneDeep, isArray, isPlainObject } from 'lodash'
 import translateFlat from '@/util/translate.flat.js'
 import asciiBorder from '@/util/asciiBorder.js'
 
 Vue.use(Vuex)
+
+/**
+ * 创建标签
+ * @param {String} name 标签名
+ * @param {Array} elements 元素
+ * @param {Object} attributes 属性
+ */
+function createElement (name, attributes, elements) {
+  let els = []
+  if (isArray(elements)) els = elements
+  else if (isPlainObject(elements)) els = [ elements ]
+  else if (elements !== undefined) els = [ { type: 'text', text: String(elements) } ]
+  else els = [ { type: 'text', text: '' } ]
+  return {
+    type: 'element',
+    name,
+    elements: els,
+    ...attributes ? { attributes } : {}
+  }
+}
 
 const stateDefault = {
   CACHE: {
@@ -429,25 +449,12 @@ export default new Vuex.Store({
     EXPORT_TREE_XML (state) {
       const setting = state.SETTING.EXPORT.XML
       /**
-       * 创建标签
-       * @param {String} name 标签名
-       * @param {String} elements 元素
-       */
-      function el (name, elements, attributes) {
-        return {
-          type: 'element',
-          name,
-          ...elements ? { elements } : {},
-          ...attributes ? { attributes } : {}
-        }
-      }
-      /**
        * 创建文字标签
        * @param {String} name 标签名
        * @param {String} value 值
        */
       function text (name, value) {
-        return el(name, [{ type: 'text', text: value }])
+        return createElement(name, {}, [{ type: 'text', text: value }])
       }
       /**
        * 传入一个对象 返回这个对象删除 elements 字段后的结果
@@ -468,14 +475,14 @@ export default new Vuex.Store({
         itemArray.forEach(item => {
           // 数据保存到节点属性上
           if (setting.DATA_SPACE === 'ATTRIBUTES') {
-            result.push(el('element', (item.isDirectory && item.elements.length > 0) ? maker(item.elements) : [], removeElementsKey(item)))
+            result.push(createElement('element', removeElementsKey(item), (item.isDirectory && item.elements.length > 0) ? maker(item.elements) : []))
           }
           // 数据保存为节点
           else if (setting.DATA_SPACE === 'ELEMENT') {
             result.push(
-              el('element', [
-                ...Object.keys(item).filter(e => e !== 'elements').map(e => text(e, item[e])),
-                ...(item.isDirectory && item.elements.length > 0) ? [ el('elements', maker(item.elements)) ] : []
+              createElement('element', {}, [
+                ...Object.keys(item).filter(e => e !== 'elements').map(e => createElement(e, {}, item[e])),
+                ...(item.isDirectory && item.elements.length > 0) ? [ createElement('elements', {}, maker(item.elements)) ] : []
               ])
             )
           }
@@ -487,7 +494,7 @@ export default new Vuex.Store({
         elements: []
       }
       data.elements = [
-        el('folder-explorer', maker(state.CACHE.SCAN_RESULT))
+        createElement('folder-explorer', {}, maker(state.CACHE.SCAN_RESULT))
       ]
       // 导出
       this.commit('IPC_EXPORT', {
@@ -501,6 +508,33 @@ export default new Vuex.Store({
      */
     EXPORT_TREE_HTML (state) {
       const setting = state.SETTING.EXPORT.HTML
+      /**
+       * 创建文字
+       * @param {String} value 值
+       */
+      function createText (value) {
+        return { type: 'text', text: value }
+      }
+      let data = {
+        elements: [
+          createElement('a', {
+            href: 'sdasd'
+          }, 'Hello')
+        ]
+      }
+      const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  ${XMLJS.js2xml(data, { spaces: '  ' })}
+</body>
+</html>`.trim()
+      console.log(html)
     }
   }
 })
