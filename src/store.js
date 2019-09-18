@@ -147,7 +147,7 @@ const stateDefault = {
       // 忽略的文件夹
       IGNORE_PATH: [ '/node_modules', '/dist', '/.git' ],
       // 忽略的文件类型
-      IGNORE_EXT: [ '.md' ],
+      IGNORE_EXT: [ ],
       // 忽略文件
       IGNORE_FILE: false,
       // 忽略点开头的文件

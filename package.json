@@ -49,6 +49,11 @@
     "vue-template-compiler": "^2.6.10"
   },
   "__npminstall_done": false,
+  "Author": {
+    "name": "FairyEver",
+    "email": "1711467488@qq.com",
+    "url": "https://github.com/FairyEver"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/FairyEver/folder-explorer"
