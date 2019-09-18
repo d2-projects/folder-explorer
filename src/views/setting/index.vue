@@ -319,7 +319,7 @@ export default {
         element: require('@/util/replace.element.js').placeholders(),
         note: require('@/util/replace.note.js').placeholders(),
         xmind: require('@/util/replace.xmind.js').placeholders(),
-        html: require('@/util/replace.title.js').placeholders()
+        html: require('@/util/replace.html.js').placeholders()
       }
     }
   },

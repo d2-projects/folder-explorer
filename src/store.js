@@ -555,7 +555,11 @@ export default new Vuex.Store({
         })
         return result
       }
-      const replace = string => require('@/util/replace.title.js').replace(string, { path: state.CACHE.SCAN_FOLDER_PATH })
+      const replace = string => require('@/util/replace.html.js')
+        .replace(string, {
+          path: state.CACHE.SCAN_FOLDER_PATH,
+          remote: setting.REMOTE_ROOT
+        })
       let data = {
         elements: [
           createElement(
