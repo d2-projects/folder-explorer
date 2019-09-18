@@ -7,5 +7,11 @@ module.exports = {
     // 重新设置 alias
     config.resolve.alias
       .set('@root', resolve(''))
+    config.module
+      .rule('html-template')
+      .test(/\.html$/)
+      .use()
+        .loader('text-loader')
+        .end()
   }
 }

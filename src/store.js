@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import persistedState from 'vuex-persistedstate'
 import { message } from 'ant-design-vue'
+import md5 from 'md5'
 import xmind from 'xmind'
 import XMLJS from 'xml-js'
 import width from 'string-width'
@@ -9,6 +10,7 @@ import { remote, shell, ipcRenderer } from 'electron'
 import { groupBy, set, cloneDeep, isArray, isPlainObject } from 'lodash'
 import translateFlat from '@/util/translate.flat.js'
 import asciiBorder from '@/util/asciiBorder.js'
+import appInfo from '@root/package.json'
 
 Vue.use(Vuex)
 
@@ -20,9 +22,9 @@ Vue.use(Vuex)
  */
 function createElement (name, attributes, elements) {
   let els = []
-  if (isArray(elements)) els = elements
+  if (isArray(elements)) els = elements.map(e => isPlainObject(e) ? e : { type: 'text', text: e })
   else if (isPlainObject(elements)) els = [ elements ]
-  else if (elements !== undefined) els = [ { type: 'text', text: String(elements) } ]
+  else if (elements !== undefined) els = [ { type: 'text', text: elements } ]
   else els = [ { type: 'text', text: '' } ]
   return {
     type: 'element',
@@ -31,6 +33,24 @@ function createElement (name, attributes, elements) {
     ...attributes ? { attributes } : {}
   }
 }
+
+
+
+/**
+ * 传入一个对象 返回这个对象删除 elements 字段后的结果
+ * @param {Object} obj 过滤掉 elements 字段
+ */
+function removeElementsKey (obj) {
+  let result = {}
+  Object.keys(obj).forEach(key => {
+    if (key !== 'elements') {
+      result[key] = obj[key]
+    }
+  })
+  return result
+}
+
+
 
 const stateDefault = {
   CACHE: {
@@ -186,9 +206,9 @@ export default new Vuex.Store({
      */
     SETTING_SCAN_IGNORE_PATH_OPTIONS: state => {
       let result = []
-      function isFolderAndPush (itemArray, level = 1) {
+      function isFolderAndPush (elements, level = 1) {
         if (level > 2) return
-        for (const item of itemArray) {
+        for (const item of elements) {
           if (item.isDirectory) {
             result.push(item.filePath)
             isFolderAndPush(item.elements, level + 1)
@@ -448,31 +468,10 @@ export default new Vuex.Store({
      */
     EXPORT_TREE_XML (state) {
       const setting = state.SETTING.EXPORT.XML
-      /**
-       * 创建文字标签
-       * @param {String} name 标签名
-       * @param {String} value 值
-       */
-      function text (name, value) {
-        return createElement(name, {}, [{ type: 'text', text: value }])
-      }
-      /**
-       * 传入一个对象 返回这个对象删除 elements 字段后的结果
-       * @param {Object} obj 过滤掉 elements 字段
-       */
-      function removeElementsKey (obj) {
-        let result = {}
-        Object.keys(obj).forEach(key => {
-          if (key !== 'elements') {
-            result[key] = obj[key]
-          }
-        })
-        return result
-      }
       // 循环
-      function maker (itemArray) {
+      function maker (elements) {
         let result = []
-        itemArray.forEach(item => {
+        elements.forEach(item => {
           // 数据保存到节点属性上
           if (setting.DATA_SPACE === 'ATTRIBUTES') {
             result.push(createElement('element', removeElementsKey(item), (item.isDirectory && item.elements.length > 0) ? maker(item.elements) : []))
@@ -498,7 +497,7 @@ export default new Vuex.Store({
       ]
       // 导出
       this.commit('IPC_EXPORT', {
-        name: `${require('@/util/replace.fileName.js').replace(state.SETTING.EXPORT.XML.FILE_NAME)}.xml`,
+        name: `${require('@/util/replace.fileName.js').replace(setting.FILE_NAME)}.xml`,
         value: XMLJS.js2xml(data, { spaces: '\t' })
       })
     },
@@ -508,33 +507,52 @@ export default new Vuex.Store({
      */
     EXPORT_TREE_HTML (state) {
       const setting = state.SETTING.EXPORT.HTML
-      /**
-       * 创建文字
-       * @param {String} value 值
-       */
-      function createText (value) {
-        return { type: 'text', text: value }
+      function maker (elements) {
+        let result = []
+        elements.forEach(element => {
+          const hasChildren = element.isDirectory && element.elements.length > 0
+          result.push(
+            createElement('li', {}, [
+              ...hasChildren ? [
+                createElement('input', {
+                  type: 'checkbox',
+                  checked: 'checked',
+                  id: md5(element.filePathFull)
+                }),
+                createElement('label', {
+                  for: md5(element.filePathFull),
+                  class: 'tree_label'
+                }, element.name + element.ext),
+                createElement('ul', {}, maker(element.elements))
+              ] : [
+                createElement('span', {
+                  class: 'tree_label'
+                }, element.name + element.ext)
+              ]
+            ])
+          )
+        })
+        return result
       }
       let data = {
         elements: [
-          createElement('a', {
-            href: 'sdasd'
-          }, 'Hello')
+          createElement('h1', { class: 'title' }, state.CACHE.SCAN_FOLDER_PATH),
+          createElement('p', { class: 'discription' }, [
+            'Generation tool',
+            createElement('a', {
+              href: appInfo.repository.url
+            }, appInfo.repository.url)
+          ]),
+          createElement('ul', { class: 'tree' }, maker(state.CACHE.SCAN_RESULT))
         ]
       }
-      const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
-  ${XMLJS.js2xml(data, { spaces: '  ' })}
-</body>
-</html>`.trim()
-      console.log(html)
+      const html = require('./template/export.html')
+        .replace('{{data}}', XMLJS.js2xml(data, { spaces: '  ' }))
+      // 导出
+      this.commit('IPC_EXPORT', {
+        name: `${require('@/util/replace.fileName.js').replace(setting.FILE_NAME)}.html`,
+        value: html
+      })
     }
   }
 })

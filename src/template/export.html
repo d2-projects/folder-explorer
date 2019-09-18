@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+  body {
+    margin: 30px;
+    font-family: sans-serif;
+    user-select: none;
+  }
+  ul, li {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    cursor: pointer;
+  }
+  .title {
+    color: #303133;
+  }
+  .discription {
+    color: #606266;
+  }
+  .discription > a {
+    text-decoration: none;
+    color: #409EFF;
+  }
+  .tree { margin: 1em; }
+  .tree input {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+  }
+  .tree input ~ ul { display: none; }
+  .tree input:checked ~ ul { display: block; }
+  .tree li {
+    line-height: 1.2;
+    position: relative;
+    padding: 0 0 1em 1em;
+  }
+  .tree ul li { padding: 1em 0 0 1em; }
+  .tree > li:last-child { padding-bottom: 0; }
+  .tree_label {
+    color: #303133;
+    position: relative;
+    display: inline-block;
+    background: #fff;
+  }
+  label.tree_label { cursor: pointer; }
+  label.tree_label:before {
+    background: #606266;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+    float: left;
+    margin: 0 1em 0 -2em;
+    width: 1em;
+    height: 1em;
+    border-radius: 1em;
+    content: '+';
+    text-align: center;
+    line-height: .9em;
+  }
+  label.tree_label:hover:before {
+    background: #303133;
+  }
+  :checked ~ label.tree_label:before { content: '–'; }
+  .tree li:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -.5em;
+    display: block;
+    width: 0;
+    border-left: 1px solid #DCDFE6;
+    content: "";
+  }
+  .tree_label:after {
+    position: absolute;
+    top: 0;
+    left: -1.5em;
+    display: block;
+    height: 0.5em;
+    width: 1em;
+    border-bottom: 1px solid #DCDFE6;
+    border-left: 1px solid #DCDFE6;
+    border-radius: 0 0 0 .3em;
+    content: '';
+  }
+  label.tree_label:after { border-bottom: 0; }
+  :checked ~ label.tree_label:after {
+    border-radius: 0 .3em 0 0;
+    border-top: 1px solid #DCDFE6;
+    border-right: 1px solid #DCDFE6;
+    border-bottom: 0;
+    border-left: 0;
+    bottom: 0;
+    top: 0.5em;
+    height: auto;
+  }
+  .tree li:last-child:before {
+    height: 1em;
+    bottom: auto;
+  }
+  .tree > li:last-child:before { display: none; }
+  .tree_custom {
+    display: block;
+    background: #eee;
+    padding: 1em;
+    border-radius: 0.3em;
+  }
+  </style>
+  <title>Folder Explorer</title>
+</head>
+<body>
+{{data}}
+</body>
+</html>
