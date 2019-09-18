@@ -22,7 +22,7 @@
         软件在 <a-link>{{appInfo.repository.url}}</a-link> 开源
       </p>
       <p class="is-mb-0">
-        由 <a-link :href="appInfo.Author.url">@{{appInfo.Author.name}}</a-link> 开发
+        由 <a-link :href="appInfo.Author.url">@{{appInfo.Author.name}}</a-link> 设计并开发
       </p>
     </a-card>
   </div>

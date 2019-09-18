@@ -139,7 +139,15 @@ const stateDefault = {
       // HTML
       HTML: {
         // 文件名
-        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]'
+        FILE_NAME: 'folder-explorer-scan-result',
+        // 网页标题
+        HTML_TITLE: '{path} at {YYYY}-{MM}-{DD}',
+        // 标题文字
+        TITLE: '{path}',
+        // 小标题文字
+        SUB_TITLE: '{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}',
+        // 展开层 -1 为不限
+        OPEN_LEVEL: 2
       }
     },
     // 扫描相关
@@ -507,7 +515,7 @@ export default new Vuex.Store({
      */
     EXPORT_TREE_HTML (state) {
       const setting = state.SETTING.EXPORT.HTML
-      function maker (elements) {
+      function maker (elements, level) {
         let result = []
         elements.forEach(element => {
           const hasChildren = element.isDirectory && element.elements.length > 0
@@ -516,14 +524,16 @@ export default new Vuex.Store({
               ...hasChildren ? [
                 createElement('input', {
                   type: 'checkbox',
-                  checked: 'checked',
+                  ...setting.OPEN_LEVEL === -1 || setting.OPEN_LEVEL >= level ? {
+                    checked: 'checked'
+                  } : {},
                   id: md5(element.filePathFull)
                 }),
                 createElement('label', {
                   for: md5(element.filePathFull),
                   class: 'tree_label'
                 }, element.name + element.ext),
-                createElement('ul', {}, maker(element.elements))
+                createElement('ul', {}, maker(element.elements, level + 1))
               ] : [
                 createElement('span', {
                   class: 'tree_label'
@@ -534,20 +544,31 @@ export default new Vuex.Store({
         })
         return result
       }
+      const replace = string => require('@/util/replace.title.js').replace(string, { path: state.CACHE.SCAN_FOLDER_PATH })
       let data = {
         elements: [
-          createElement('h1', { class: 'title' }, state.CACHE.SCAN_FOLDER_PATH),
+          createElement(
+            'h1',
+            { class: 'title' },
+            replace(setting.TITLE)
+          ),
+          createElement(
+            'h2',
+            { class: 'sub-title' },
+            replace(setting.SUB_TITLE)
+          ),
+          createElement('ul', { class: 'tree' }, maker(state.CACHE.SCAN_RESULT, 1)),
           createElement('p', { class: 'discription' }, [
             'Generation tool',
             createElement('a', {
               href: appInfo.repository.url
             }, appInfo.repository.url)
-          ]),
-          createElement('ul', { class: 'tree' }, maker(state.CACHE.SCAN_RESULT))
+          ])
         ]
       }
       const html = require('./template/export.html')
-        .replace('{{data}}', XMLJS.js2xml(data, { spaces: '  ' }))
+        .replace('{{HTML_TITLE}}', replace(setting.HTML_TITLE))
+        .replace('{{DATA}}', XMLJS.js2xml(data, { spaces: '  ' }))
       // 导出
       this.commit('IPC_EXPORT', {
         name: `${require('@/util/replace.fileName.js').replace(setting.FILE_NAME)}.html`,

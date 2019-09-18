@@ -232,6 +232,20 @@
             path="EXPORT.HTML.FILE_NAME"
             placeholder="文件名"
             addon-after=".html"/>
+          <h2>h1 标题</h2>
+          <setting-string-placeholder-guide
+            note="网页内容的第一行标题"
+            :options="placeholders.html"/>
+          <setting-text-simple
+            path="EXPORT.HTML.TITLE"
+            placeholder="h1 标题"/>
+          <h2>h2 标题</h2>
+          <setting-string-placeholder-guide
+            note="网页内容的第二行标题"
+            :options="placeholders.html"/>
+          <setting-text-simple
+            path="EXPORT.HTML.SUB_TITLE"
+            placeholder="h2 标题"/>
         </setting-container>
 
 
@@ -282,7 +296,8 @@ export default {
         fileName: require('@/util/replace.fileName.js').placeholders(),
         element: require('@/util/replace.element.js').placeholders(),
         note: require('@/util/replace.note.js').placeholders(),
-        xmind: require('@/util/replace.xmind.js').placeholders()
+        xmind: require('@/util/replace.xmind.js').placeholders(),
+        html: require('@/util/replace.title.js').placeholders()
       }
     }
   },
