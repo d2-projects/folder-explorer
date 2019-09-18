@@ -256,6 +256,18 @@
           <h2>默认展开的层数</h2>
           <p>设置为 -1 时等于不限制</p>
           <setting-number-simple :min="-1" path="EXPORT.HTML.OPEN_LEVEL"/>
+          <h2>将文件名称渲染为链接</h2>
+          <p>如果您需要部署导出的网页，这可能有用</p>
+          <setting-boolean-simple path="EXPORT.HTML.ELEMENT_LINK"/>
+          <h2>将目录名称渲染为链接</h2>
+          <p>如果您需要部署导出的网页，这可能有用</p>
+          <setting-boolean-simple path="EXPORT.HTML.FOLDER_LINK"/>
+          <h2>远程地址</h2>
+          <p>远程地址将在导出的链接中替代您本地的目录地址</p>
+          <setting-text-simple
+            path="EXPORT.HTML.REMOTE_ROOT"
+            placeholder="例如 https://site-name.com"
+            addon-after="/foo.xxx"/>
         </setting-container>
 
 
