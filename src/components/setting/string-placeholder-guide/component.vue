@@ -24,7 +24,7 @@
       size="small"
       icon="book"
       @click="active = true">
-      {{ options.length }}个可用占位符
+      占位符 {{ options.length }}
     </a-button>
     <a-drawer
       title="占位符指南"

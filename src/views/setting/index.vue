@@ -232,6 +232,13 @@
             path="EXPORT.HTML.FILE_NAME"
             placeholder="文件名"
             addon-after=".html"/>
+          <h2>网页标题</h2>
+          <setting-string-placeholder-guide
+            note="网页的 title 内容"
+            :options="placeholders.html"/>
+          <setting-text-simple
+            path="EXPORT.HTML.HTML_TITLE"
+            placeholder="网页标题"/>
           <h2>h1 标题</h2>
           <setting-string-placeholder-guide
             note="网页内容的第一行标题"
@@ -246,6 +253,9 @@
           <setting-text-simple
             path="EXPORT.HTML.SUB_TITLE"
             placeholder="h2 标题"/>
+          <h2>默认展开的层数</h2>
+          <p>设置为 -1 时等于不限制</p>
+          <setting-number-simple :min="-1" path="EXPORT.HTML.OPEN_LEVEL"/>
         </setting-container>
 
 
