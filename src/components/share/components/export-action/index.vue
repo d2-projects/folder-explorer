@@ -32,6 +32,13 @@
         background-image: linear-gradient(180deg, darken(#BE37E8, 4%) 0%, darken(#9701EB, 4%) 100%);
       }
     }
+    &.export-action--theme__cyan {
+      background-image: linear-gradient(180deg, #37E8E3 0%, #01EB84 100%);
+      border-color: #00CF76;
+      &:hover {
+        background-image: linear-gradient(180deg, darken(#37E8E3, 4%) 0%, darken(#01EB84, 4%) 100%);
+      }
+    }
   }
   .export-action--left {
     padding: 10px 0 10px 10px;

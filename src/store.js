@@ -95,6 +95,11 @@ const stateDefault = {
           { label: '新子节点', value: 'ELEMENT' },
           { label: '自节点属性', value: 'ATTRIBUTES' }
         ]
+      },
+      // HTML
+      HTML: {
+        // 文件名
+        FILE_NAME: 'FolderExplorer [ {YYYY}-{MM}-{DD} {HH}:{mm}:{ss} ]'
       }
     },
     // 扫描相关
@@ -489,6 +494,13 @@ export default new Vuex.Store({
         name: `${require('@/util/replace.fileName.js').replace(state.SETTING.EXPORT.XML.FILE_NAME)}.xml`,
         value: XMLJS.js2xml(data, { spaces: '\t' })
       })
+    },
+    /**
+     * 导出 [ HTML ]
+     * https://github.com/nashwaan/xml-js
+     */
+    EXPORT_TREE_HTML (state) {
+      const setting = state.SETTING.EXPORT.HTML
     }
   }
 })

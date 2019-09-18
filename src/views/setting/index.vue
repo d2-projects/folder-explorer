@@ -51,6 +51,7 @@
           <a-anchor-link href="#section-export-json" title="导出 JSON"/>
           <a-anchor-link href="#section-export-xmind" title="导出脑图"/>
           <a-anchor-link href="#section-export-xml" title="导出 XML"/>
+          <a-anchor-link href="#section-export-html" title="导出 HTML"/>
           <a-anchor-link href="#section-export-import" title="备份和恢复"/>
           <a-anchor-link href="#section-restore" title="重置"/>
           <a-anchor-link href="#section-app-info" title="关于"/>
@@ -217,6 +218,20 @@
           <h2>数据保存位置</h2>
           <p>两种不同的 XML 风格</p>
           <setting-radio-simple path="EXPORT.XML.DATA_SPACE"/>
+        </setting-container>
+
+
+
+        <!-- 导出 HTML -->
+        <setting-container id="section-export-html" title="导出 HTML" icon="export">
+          <h2>默认名称</h2>
+          <setting-string-placeholder-guide
+            note="导出HTML默认的文件名"
+            :options="placeholders.fileName"/>
+          <setting-text-simple
+            path="EXPORT.HTML.FILE_NAME"
+            placeholder="文件名"
+            addon-after=".html"/>
         </setting-container>
 
 

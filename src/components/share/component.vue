@@ -40,6 +40,13 @@
         desc=".xml"
         anchor="section-export-xml"
         @click="() => { EXPORT_TREE_XML(); close(); }"/>
+      <export-action
+        icon="html"
+        color="cyan"
+        title="网页"
+        desc=".html"
+        anchor="section-export-html"
+        @click="() => { EXPORT_TREE_HTML(); close(); }"/>
     </a-drawer>
   </span>
 </template>
@@ -74,7 +81,8 @@ export default {
       'EXPORT_TREE_TEXT',
       'EXPORT_TREE_JSON',
       'EXPORT_TREE_XMIND',
-      'EXPORT_TREE_XML'
+      'EXPORT_TREE_XML',
+      'EXPORT_TREE_HTML'
     ]),
     start () {
       this.active = true

@@ -75,6 +75,7 @@ export default {
       this.$copyText(text)
         .then(() => {
           this.$message.success(text + ' 已经复制到剪贴板')
+          this.active = false
         }, () => {
           this.$message.error('出现了一些小错误')
         })
