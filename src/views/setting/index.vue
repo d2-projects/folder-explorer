@@ -253,9 +253,6 @@
           <setting-text-simple
             path="EXPORT.HTML.SUB_TITLE"
             placeholder="h2 标题"/>
-          <h2>默认展开的层数</h2>
-          <p>设置为 -1 时等于不限制</p>
-          <setting-number-simple :min="-1" path="EXPORT.HTML.OPEN_LEVEL"/>
           <h2>将文件名称渲染为链接</h2>
           <p>如果您需要部署导出的网页，这可能有用</p>
           <setting-boolean-simple path="EXPORT.HTML.ELEMENT_LINK"/>

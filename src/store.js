@@ -146,8 +146,6 @@ const stateDefault = {
         TITLE: '{path}',
         // 小标题文字
         SUB_TITLE: '{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}',
-        // 展开层 -1 为不限
-        OPEN_LEVEL: 2,
         // 渲染文件链接
         ELEMENT_LINK: true,
         // 渲染目录链接
@@ -525,34 +523,13 @@ export default new Vuex.Store({
         let result = []
         elements.forEach(element => {
           const hasChildren = element.isDirectory && element.elements.length > 0
-          const linkPath = setting.REMOTE_ROOT ? setting.REMOTE_ROOT + element.filePath : element.filePathFull
+          const href = setting.REMOTE_ROOT ? setting.REMOTE_ROOT + element.filePath : element.filePathFull
           const id = md5(element.filePathFull)
-          result.push(
-            createElement('li', {}, [
-              ...hasChildren ? [
-                createElement('input', {
-                  type: 'checkbox',
-                  ...setting.OPEN_LEVEL === -1 || setting.OPEN_LEVEL >= level ? {
-                    checked: 'checked'
-                  } : {},
-                  id
-                }),
-                createElement('label', {
-                  for: id,
-                  class: 'element'
-                }, [
-                  element.name + element.ext,
-                  ...setting.FOLDER_LINK ? [ createElement('a', { href: linkPath }, ' - link') ] : []
-                ]),
-                createElement('ul', {}, maker(element.elements, level + 1))
-              ] : [
-                createElement(setting.ELEMENT_LINK ? 'a' : 'span', {
-                  class: 'element',
-                  ...setting.ELEMENT_LINK ? { href: linkPath } : {}
-                }, element.name + element.ext)
-              ]
-            ])
-          )
+          let tag = 'span'
+          if (element.isDirectory && setting.FOLDER_LINK) tag = 'a'
+          if (element.isFile && setting.ELEMENT_LINK) tag = 'a'
+          const label = createElement(tag, { id, ...setting.ELEMENT_LINK ? { href } : {} }, element.name + element.ext)
+          result.push(createElement('li', {}, hasChildren ? [ label, createElement('ul', {}, maker(element.elements, level + 1)) ] : [ label ]))
         })
         return result
       }
