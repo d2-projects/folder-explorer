@@ -1,0 +1,3 @@
+script:
+  - yarn run build
+  - npm run publish
