@@ -526,6 +526,7 @@ export default new Vuex.Store({
         elements.forEach(element => {
           const hasChildren = element.isDirectory && element.elements.length > 0
           const linkPath = setting.REMOTE_ROOT ? setting.REMOTE_ROOT + element.filePath : element.filePathFull
+          const id = md5(element.filePathFull)
           result.push(
             createElement('li', {}, [
               ...hasChildren ? [
@@ -534,10 +535,10 @@ export default new Vuex.Store({
                   ...setting.OPEN_LEVEL === -1 || setting.OPEN_LEVEL >= level ? {
                     checked: 'checked'
                   } : {},
-                  id: md5(element.filePathFull)
+                  id
                 }),
                 createElement('label', {
-                  for: md5(element.filePathFull),
+                  for: id,
                   class: 'element'
                 }, [
                   element.name + element.ext,
