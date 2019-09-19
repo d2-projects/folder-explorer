@@ -19,7 +19,7 @@
     </div>
     <a-card>
       <p>
-        软件在 <a-link>{{appInfo.repository.url}}</a-link> 开源
+        开源地址 <a-link :href="appInfo.repository.url">Github</a-link> 感谢 star
       </p>
       <p class="is-mb-0">
         由 <a-link :href="appInfo.Author.url">@{{appInfo.Author.name}}</a-link> 设计并开发
