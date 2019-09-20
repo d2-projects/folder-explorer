@@ -1,8 +1,10 @@
-![](/docs/image/logo.png)
+![](docs/image/banner/logo.png)
 
-![](/docs/image/forder-to-others.png)
+![](docs/image/banner/forder-to-others-icon.png)
 
 扫描文件目录，分析文件结构和统计信息，支持导出带注释的树形文本和多种数据格式。
+
+![](docs/image/banner/app-preview.png)
 
 ## 功能
 
