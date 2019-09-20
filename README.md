@@ -2,7 +2,7 @@
 
 ![](docs/image/banner/forder-to-others-icon.png)
 
-扫描文件目录，分析文件结构和统计信息，支持导出带注释的树形文本和多种数据格式。
+扫描目录，分析文件结构和统计信息，给任意文件添加备注，导出带注释的树形文本和其它多种数据格式。
 
 ![](docs/image/banner/app-preview.png)
 
