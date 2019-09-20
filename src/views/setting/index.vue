@@ -255,12 +255,15 @@
             placeholder="h2 标题"/>
           <h2>将文件名称渲染为链接</h2>
           <p>如果您需要部署导出的网页，这可能有用</p>
+          <p>由于目录分隔符的区别，Windows 平台暂时不要使用</p>
           <setting-boolean-simple path="EXPORT.HTML.ELEMENT_LINK"/>
           <h2>将目录名称渲染为链接</h2>
           <p>如果您需要部署导出的网页，这可能有用</p>
+          <p>由于目录分隔符的区别，Windows 平台暂时不要使用</p>
           <setting-boolean-simple path="EXPORT.HTML.FOLDER_LINK"/>
           <h2>远程地址</h2>
-          <p>远程地址将在导出的链接中替代您本地的目录地址</p>
+          <p class="is-mb-5">远程地址将在导出的链接中替代您本地的目录地址</p>
+          <p>由于目录分隔符的区别，Windows 平台暂时不要使用</p>
           <setting-text-simple
             path="EXPORT.HTML.REMOTE_ROOT"
             placeholder="例如 https://site-name.com"
