@@ -28,14 +28,35 @@
           color: #909399;
         }
       }
-      &:hover {
-        background-color: #D9D9D9;
-        // 操作按钮变化
-        .row-more--button {
-          border: 1px solid #909399;
-          span {
-            background-color: #909399;
+      .row-btn {
+        height: 14px;
+        font-size: 12px;
+        margin: 0 2px;
+        background-color: #FAFAFA;
+        padding: 0 2px;
+        border: 1px solid #D9D9D9;
+        border-radius: 2px;
+        cursor: pointer;
+        .anticon {
+          svg {
+            height: 10px;
+            width: 10px;
           }
+        }
+        &:hover {
+          border: 1px solid darken(#2593FC, 30%) !important;
+          background-color: #2593FC;
+          color: #FFF;
+        }
+        &.row-btn__hidden {
+          opacity: 0;
+        }
+      }
+      &:hover {
+        background-color: rgba(#000, .1);
+        // 操作按钮变化
+        .row-btn {
+          border: 1px solid #909399;
         }
       }
     }
@@ -46,8 +67,48 @@
 <template>
   <div class="reader" flex="dir:top main:justify box:last">
     <div class="is-p-5">
-      <recycle-scroller :items="SCAN_RESULT_FLAT" :item-size="18" key-field="id" v-slot="{ item, index }" class="list">
-        <div flex="cross:center" class="row" @mouseover="info = item.filePathFull">
+      <recycle-scroller
+        :items="SCAN_RESULT_FLAT"
+        :item-size="18"
+        key-field="id"
+        v-slot="{ item, index }"
+        class="list">
+        <div
+          flex="cross:center"
+          class="row"
+          @mouseover="info = item.filePathFull">
+          <!-- 隐藏 -->
+          <span
+            flex="main:center cross:center"
+            @click="$store.commit('SCAN_RESULT_UPDATE_ITEM_PROP', {
+              path: `${item.dataPath}.isShow`,
+              value: false
+            })">
+            <span
+              class="row-btn"
+              style="width: 14px;"
+              flex="main:center cross:center">
+              x
+            </span>
+          </span>
+          <!-- 展开 折叠 -->
+          <span
+            flex="main:center cross:center"
+            @click="$store.commit('SCAN_RESULT_UPDATE_ITEM_PROP', {
+              path: `${item.dataPath}.isShowElements`,
+              value: !item.isShowElements
+            })">
+            <span
+              class="row-btn"
+              :class="{
+                'row-btn__hidden': item.isFile
+              }"
+              style="width: 14px;"
+              flex="main:center cross:center">
+              <span v-if="item.isShowElements">-</span>
+              <span v-else>+</span>
+            </span>
+          </span>
           <!-- 树枝 -->
           <span class="row-tree">
             <pre>{{item.tree}}</pre>

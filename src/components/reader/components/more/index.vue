@@ -1,40 +1,24 @@
 <style lang="scss">
-.row-more {
-  .row-more--button {
-    height: 14px;
-    width: 22px;
-    margin: 0 2px;
-    background-color: #FAFAFA;
-    border: 1px solid #D9D9D9;
-    border-radius: 2px;
-    span {
-      height: 2px;
-      width: 2px;
-      border-radius: 1px;
-      background-color: #D9D9D9;
-      margin-right: 2px;
-      &:last-child {
-        margin-right: 0px;
-      }
-    }
-    &:hover {
-      border: 1px solid darken(#2593FC, 30%) !important;
-      background-color: #2593FC;
-      span {
-        background-color: darken(#2593FC, 30%) !important;
-      }
+.row-btn--more { 
+  padding: 0 4px;   
+  span {
+    height: 2px;
+    width: 2px;
+    border-radius: 1px;
+    background-color: #D9D9D9;
+    margin-right: 2px;
+    &:last-child {
+      margin-right: 0px;
     }
   }
 }
 </style>
 
 <template>
-  <span class="row-more" flex="main:center cross:center" @click="onActive">
+  <span flex="main:center cross:center" @click="onActive">
     <!-- 按钮 -->
-    <span class="row-more--button" flex="main:center cross:center">
-      <span></span>
-      <span></span>
-      <span></span>
+    <span class="row-btn row-btn--more" flex="main:center cross:center">
+      <a-icon type="caret-right" />
     </span>
     <!-- 编辑备注 -->
     <a-modal
