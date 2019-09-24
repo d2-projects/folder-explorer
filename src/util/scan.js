@@ -55,8 +55,8 @@ async function scan ({
 		if (isFile && ignoreExt.indexOf(filePathParsed.ext) >= 0) continue
 		result.push({
 			// editor
-			show: true,
-			showElements: true,
+			isShow: true,
+			isShowElements: true,
 			// stat
 			...stat,
 			isFile,

@@ -7,7 +7,7 @@ export default function ({
   data,
   notes
 }) {
-  function treeRowMaker ({ level, isFirst, isLast, parentTree }) {
+  function treeRowMaker ({ isFirst, isLast, parentTree }) {
     let body = ''
     let end = '├─'
     // 判断 end
@@ -25,13 +25,16 @@ export default function ({
     })
     return [...body, end]
   }
-  function maker (dataArray, level, parentTree = []) {
+  function maker ({
+    dataArray,
+    level,
+    parentTree = [],
+    parentDataPath = ''
+  }) {
     dataArray
-      .filter(item => item.show)
       .forEach((item, index) => {
         // 文字前面的树枝
         const treeBody = treeRowMaker({
-          level,
           isFirst: index === 0,
           isLast: index === dataArray.length - 1,
           parentTree
@@ -41,15 +44,24 @@ export default function ({
           id: item.filePathFull,
           tree: treeBody.join(''),
           note: notes[item.filePathFull] || '',
+          dataPath: `${parentDataPath}[${item.index}]`, // like "[13].elements[5].elements[2]"
           ...item
         })
         // 如果是文件夹的话，遍历文件夹内容
-        if (item.isDirectory && item.showElements) {
-          maker(item.elements, level + 1, treeBody)
+        if (item.isDirectory) {
+          maker({
+            dataArray: item.elements,
+            level: level + 1,
+            parentTree: treeBody,
+            parentDataPath: `${parentDataPath}[${item.index}].elements`
+          })
         }
       })
   }
   let result = []
-  maker(data, 1)
+  maker({
+    dataArray: data,
+    level: 1
+  })
   return result
 }

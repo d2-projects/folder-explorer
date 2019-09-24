@@ -7,7 +7,7 @@ import xmind from 'xmind'
 import XMLJS from 'xml-js'
 import width from 'string-width'
 import { remote, shell, ipcRenderer } from 'electron'
-import { groupBy, set, cloneDeep, isArray, isPlainObject } from 'lodash'
+import { groupBy, set, get, cloneDeep, isArray, isPlainObject } from 'lodash'
 import translateFlat from '@/util/translate.flat.js'
 import asciiBorder from '@/util/asciiBorder.js'
 import appInfo from '@root/package.json'
@@ -48,6 +48,20 @@ function removeElementsKey (obj) {
     }
   })
   return result
+}
+
+
+
+
+/**
+ * 根据 isShow 和 isShowElements 过滤数据
+ * @param {Array} elements 需要过滤的原数组
+ */
+function showFilter (els) {
+  return els.filter(el => el.isShow).map(el => ({
+    ...el,
+    elements: el.isShowElements ? showFilter(el.elements) : []
+  }))
 }
 
 
@@ -255,7 +269,15 @@ export default new Vuex.Store({
      * 数据更新 [ 扫描结果 ]
      */
     SCAN_RESULT_UPDATE (state, data) {
-      state.CACHE.SCAN_RESULT = data
+      // 为扫描结果的每一项增加固定索引
+      function addIndex (elements) {
+        return elements.map((e, index) => ({
+          index,
+          ...e,
+          elements: addIndex(e.elements)
+        }))
+      }
+      state.CACHE.SCAN_RESULT = addIndex(data)
       this.commit('SCAN_RESULT_FLAT_REFRESH')
     },
     /**
@@ -264,15 +286,15 @@ export default new Vuex.Store({
      */
     SCAN_RESULT_FLAT_REFRESH (state) {
       state.CACHE.SCAN_RESULT_FLAT = translateFlat({
-        data: state.CACHE.SCAN_RESULT,
+        data: showFilter(state.CACHE.SCAN_RESULT),
         notes: state.DB.NOTES
       })
     },
     /**
      * 数据更新 [ 扫描结果 一项 ]
      */
-    SCAN_RESULT_UPDATE_ITEM (state, { path, item }) {
-      state.CACHE.SCAN_RESULT = set(state.CACHE.SCAN_RESULT, path, item)
+    SCAN_RESULT_UPDATE_ITEM_PROP (state, { path, value }) {
+      state.CACHE.SCAN_RESULT = set(state.CACHE.SCAN_RESULT, path, value)
       this.commit('SCAN_RESULT_FLAT_REFRESH')
     },
     /**

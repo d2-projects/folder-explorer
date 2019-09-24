@@ -108,6 +108,37 @@ export default {
         click: () => { this.noteOnClear() }
       }))
       menu.append(new remote.MenuItem({ type: 'separator'}))
+      // 显示和隐藏
+      menu.append(new remote.MenuItem({
+        label: '隐藏',
+        click: () => {
+          this.$store.commit('SCAN_RESULT_UPDATE_ITEM_PROP', {
+            path: `${this.value.dataPath}.isShow`,
+            value: false
+          })
+        }
+      }))
+      menu.append(new remote.MenuItem({
+        label: '折叠',
+        enabled: this.value.isShowElements && this.value.isDirectory,
+        click: () => {
+          this.$store.commit('SCAN_RESULT_UPDATE_ITEM_PROP', {
+            path: `${this.value.dataPath}.isShowElements`,
+            value: false
+          })
+        }
+      }))
+      menu.append(new remote.MenuItem({
+        label: '展开',
+        enabled: (this.value.isShowElements === false) && this.value.isDirectory,
+        click: () => {
+          this.$store.commit('SCAN_RESULT_UPDATE_ITEM_PROP', {
+            path: `${this.value.dataPath}.isShowElements`,
+            value: true
+          })
+        }
+      }))
+      menu.append(new remote.MenuItem({ type: 'separator'}))
       // 扫描
       menu.append(new remote.MenuItem({
         label: '扫描',
