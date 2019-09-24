@@ -53,7 +53,7 @@
         }
       }
       &:hover {
-        background-color: rgba(#000, .1);
+        background-color: rgba(#000, .05);
         // 操作按钮变化
         .row-btn {
           border: 1px solid #909399;
