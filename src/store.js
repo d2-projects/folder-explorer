@@ -256,10 +256,24 @@ export default new Vuex.Store({
      */
     SCAN_RESULT_UPDATE (state, data) {
       state.CACHE.SCAN_RESULT = data
+      this.commit('SCAN_RESULT_FLAT_REFRESH')
+    },
+    /**
+     * 数据更新 根据 SCAN_RESULT 刷新 SCAN_RESULT_FLAT
+     * 应该在每次刷新 SCAN_RESULT 之后自动调用
+     */
+    SCAN_RESULT_FLAT_REFRESH (state) {
       state.CACHE.SCAN_RESULT_FLAT = translateFlat({
-        data,
+        data: state.CACHE.SCAN_RESULT,
         notes: state.DB.NOTES
       })
+    },
+    /**
+     * 数据更新 [ 扫描结果 一项 ]
+     */
+    SCAN_RESULT_UPDATE_ITEM (state, { path, item }) {
+      state.CACHE.SCAN_RESULT = set(state.CACHE.SCAN_RESULT, path, item)
+      this.commit('SCAN_RESULT_FLAT_REFRESH')
     },
     /**
      * 数据更新 [ 扫描结果 扁平化 一项 ]

@@ -54,6 +54,9 @@ async function scan ({
 		// 是文件的话 判断是否根文件类型忽略
 		if (isFile && ignoreExt.indexOf(filePathParsed.ext) >= 0) continue
 		result.push({
+			// editor
+			show: true,
+			showElements: true,
 			// stat
 			...stat,
 			isFile,

@@ -26,26 +26,28 @@ export default function ({
     return [...body, end]
   }
   function maker (dataArray, level, parentTree = []) {
-    dataArray.forEach((item, index) => {
-      // 文字前面的树枝
-      const treeBody = treeRowMaker({
-        level,
-        isFirst: index === 0,
-        isLast: index === dataArray.length - 1,
-        parentTree
+    dataArray
+      .filter(item => item.show)
+      .forEach((item, index) => {
+        // 文字前面的树枝
+        const treeBody = treeRowMaker({
+          level,
+          isFirst: index === 0,
+          isLast: index === dataArray.length - 1,
+          parentTree
+        })
+        // 添加一行
+        result.push({
+          id: item.filePathFull,
+          tree: treeBody.join(''),
+          note: notes[item.filePathFull] || '',
+          ...item
+        })
+        // 如果是文件夹的话，遍历文件夹内容
+        if (item.isDirectory && item.showElements) {
+          maker(item.elements, level + 1, treeBody)
+        }
       })
-      // 添加一行
-      result.push({
-        id: item.filePathFull,
-        tree: treeBody.join(''),
-        note: notes[item.filePathFull] || '',
-        ...item
-      })
-      // 如果是文件夹的话，遍历文件夹内容
-      if (item.isDirectory) {
-        maker(item.elements, level + 1, treeBody)
-      }
-    })
   }
   let result = []
   maker(data, 1)
