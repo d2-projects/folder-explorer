@@ -35,8 +35,9 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
-import reply from './ipc/reply'
+import { mapGetters, mapMutations } from 'vuex'
+import reply from '@/ipc/reply'
+import appInfo from '@root/package.json'
 export default {
   data () {
     return {
@@ -45,6 +46,19 @@ export default {
   },
   created () {
     reply(this)
+    if (appInfo.version !== this.VERSION) {
+      this.RESTORE([
+        'APP',
+        'CACHE',
+        'DB',
+        'SETTING'
+      ])
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'VERSION'
+    ])
   },
   mounted () {
     // 处理文件拖拽
@@ -71,6 +85,7 @@ export default {
   },
   methods: {
     ...mapMutations([
+      'RESTORE',
       'SCAN_FOLDER_PATH_UPDATE',
       'IPC_FOLDER_SCAN'
     ])

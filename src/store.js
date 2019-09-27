@@ -11,6 +11,7 @@ import { groupBy, set, get, cloneDeep, isArray, isPlainObject } from 'lodash'
 import translateFlat from '@/util/translate.flat.js'
 import asciiBorder from '@/util/asciiBorder.js'
 import appInfo from '@root/package.json'
+import path from 'path'
 
 Vue.use(Vuex)
 
@@ -67,6 +68,9 @@ function showFilter (els) {
 
 
 const stateDefault = {
+  APP: {
+    VERSION: appInfo.version
+  },
   CACHE: {
     // 扫描的文件夹地址
     SCAN_FOLDER_PATH: '',
@@ -171,7 +175,7 @@ const stateDefault = {
     // 扫描相关
     SCAN: {
       // 忽略的文件夹
-      IGNORE_PATH: [ '/node_modules', '/dist', '/.git' ],
+      IGNORE_PATH: [ 'node_modules', 'dist', '.git' ].map(e => path.sep + e),
       // 忽略的文件类型
       IGNORE_EXT: [  ],
       // 忽略文件
@@ -197,6 +201,7 @@ export default new Vuex.Store({
     SCAN_RESULT: state => state.CACHE.SCAN_RESULT,
     SCAN_RESULT_FLAT: state => state.CACHE.SCAN_RESULT_FLAT,
     SCAN_RESULT_FLAT_NOTE_NUM: state => state.CACHE.SCAN_RESULT_FLAT.filter(e => e.note).length,
+    VERSION: state => state.APP.VERSION,
     /**
      * 当前是否有扫描结果
      */
@@ -362,7 +367,7 @@ export default new Vuex.Store({
         'DB',
         'SETTING'
       ]
-    }) {
+    } = {}) {
       include.forEach(key => {
         state[key] = cloneDeep(stateDefault[key])
       })
