@@ -20,6 +20,8 @@
 
 ## 下载
 
+macOS | windows | Linux
+
 [releases](https://github.com/d2-projects/folder-explorer/releases)
 
 ## 功能
