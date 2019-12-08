@@ -1,12 +1,8 @@
 name: feedback
-
 on: [fork, watch, issues]
-
 jobs:
   feedback:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: feedback
       id: feedback
