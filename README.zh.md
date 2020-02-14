@@ -1,6 +1,6 @@
-![](https://qiniucdn.fairyever.com/20190926165444.png)
+![](https://cdn.d2.pub/files/image-hosting/20190926165444.png)
 
-![](https://qiniucdn.fairyever.com/20190926165500.png)
+![](https://cdn.d2.pub/files/image-hosting/20190926165500.png)
 
 扫描目录，分析文件结构和统计信息，给任意文件添加备注，导出带注释的树形文本和其它多种数据格式，大大方便书写技术文档。
 
@@ -10,7 +10,7 @@
 * 码云：[folder-explorer](https://gitee.com/fairyever/folder-explorer)
 * 介绍：[《使用可视化界面自定义输出带注释的项目文件树形结构》](https://juejin.im/post/5d8d83656fb9a04ddb3b6630)
 
-![](https://qiniucdn.fairyever.com/20190926165513.png)
+![](https://cdn.d2.pub/files/image-hosting/20190926165513.png)
 
 开发这个软件的初衷是为了方便我书写我的 [项目文档](https://d2.pub/zh/doc/d2-admin)，其中有一部分内容根据用户的反馈来看，需要详细展示项目的重要目录分别的作用。
 
@@ -26,7 +26,7 @@ macOS | windows | Linux
 
 ## 功能
 
-![](https://qiniucdn.fairyever.com/20190926165542.png)
+![](https://cdn.d2.pub/files/image-hosting/20190926165542.png)
 
 * 扫描指定的目录（支持拖拽）以及再次扫描当前结果中的指定目录
 * 展示文件结构的树形统计，支持添加注释，隐藏单个文件或者文件夹内容
@@ -91,15 +91,15 @@ macOS | windows | Linux
 
 #### 展开和折叠节点
 
-![](https://qiniucdn.fairyever.com/20190926165558.gif)
+![](https://cdn.d2.pub/files/image-hosting/20190926165558.gif)
 
 #### 移除节点
 
-![](https://qiniucdn.fairyever.com/20190926165703.gif)
+![](https://cdn.d2.pub/files/image-hosting/20190926165703.gif)
 
 #### 添加注释
 
-![](https://qiniucdn.fairyever.com/20190926165924.gif)
+![](https://cdn.d2.pub/files/image-hosting/20190926165924.gif)
 
 导出的结果：
 
@@ -139,51 +139,51 @@ macOS | windows | Linux
 
 #### 打开文件
 
-![](https://qiniucdn.fairyever.com/20190926170049.gif)
+![](https://cdn.d2.pub/files/image-hosting/20190926170049.gif)
 
 #### 打开目录
 
-![](https://qiniucdn.fairyever.com/20190926170058.gif)
+![](https://cdn.d2.pub/files/image-hosting/20190926170058.gif)
 
 #### 扫描子文件夹
 
-![](https://qiniucdn.fairyever.com/20190926170246.gif)
+![](https://cdn.d2.pub/files/image-hosting/20190926170246.gif)
 
 ### 统计
 
 #### 文件类型统计
 
-![](https://qiniucdn.fairyever.com/20190926170302.png)
+![](https://cdn.d2.pub/files/image-hosting/20190926170302.png)
 
 #### 文件大小统计
 
-![](https://qiniucdn.fairyever.com/20190926170319.png)
+![](https://cdn.d2.pub/files/image-hosting/20190926170319.png)
 
 ### 导出
 
-![](https://qiniucdn.fairyever.com/20190926170332.png)
+![](https://cdn.d2.pub/files/image-hosting/20190926170332.png)
 
 目前支持以下导出方式：
 
 #### 文本
 
-![](https://qiniucdn.fairyever.com/20190927113304.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113304.png)
 
 #### json
 
-![](https://qiniucdn.fairyever.com/20190927113313.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113313.png)
 
 #### xmind
 
-![](https://qiniucdn.fairyever.com/20190927113337.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113337.png)
 
 #### xml
 
-![](https://qiniucdn.fairyever.com/20190927113352.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113352.png)
 
 #### html
 
-![](https://qiniucdn.fairyever.com/20190927113402.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113402.png)
 
 ### 扫描
 
@@ -191,43 +191,43 @@ macOS | windows | Linux
 
 支持自定义扫描忽略的文件夹和文件，并可以指定忽略的文件类型。
 
-![](https://qiniucdn.fairyever.com/20190927113631.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113631.png)
 
 为方便快速设置，选项会自动根据当前的扫描结果改变。
 
-![](https://qiniucdn.fairyever.com/20190927113643.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113643.png)
 
-![](https://qiniucdn.fairyever.com/20190927113653.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113653.png)
 
 #### 自定义扫描深度
 
-![](https://qiniucdn.fairyever.com/20190927113703.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113703.png)
 
-![](https://qiniucdn.fairyever.com/20190927113709.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113709.png)
 
 #### 只扫描文件夹
 
-![](https://qiniucdn.fairyever.com/20190927142016.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927142016.png)
 
 #### 忽略隐藏文件
 
 支持设置忽略 `.` 开头的文件，因为这些文件在 macOS 和 Linux 上是隐藏的
 
-![](https://qiniucdn.fairyever.com/20190927113718.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113718.png)
 
 ### 预设文件名
 
 几乎所有的导出都支持自定义文件名，并支持多种占位符，请注意输入框右上角的提示：
 
-![](https://qiniucdn.fairyever.com/20190927113740.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113740.png)
 
 点击提示之后会弹出这个位置所有可用的占位符，点击占位符可以快速复制到剪贴板：
 
-![](https://qiniucdn.fairyever.com/20190927113747.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113747.png)
 
 占位符示例：
 
-![](https://qiniucdn.fairyever.com/20190927113752.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927113752.png)
 
 注：在一些其它的设置位置也支持占位符，例如设置备注的格式化，脑图的节点内容等。
 
@@ -235,14 +235,14 @@ macOS | windows | Linux
 
 如果觉得我的代码写的还不错，或者这个项目使你收益，欢迎小小的打赏支持开源。
 
-![](https://qiniucdn.fairyever.com/20190927144906.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927144906.png)
 
 ## 技术交流
 
-![](https://qiniucdn.fairyever.com/20190927144800.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927144800.png)
 
 ## 其它开源项目
 
 * [一个优雅的 vue.js 管理系统模板](https://github.com/d2-projects/d2-admin)
 
-![](https://qiniucdn.fairyever.com/20190927144750.png)
+![](https://cdn.d2.pub/files/image-hosting/20190927144750.png)
