@@ -16,7 +16,7 @@
 
 | 位置 | 链接 |
 | --- | --- |
-| 码云 | [https://gitee.com/fairyever/folder-explorer](https://gitee.com/fairyever/folder-explorer) |
+| 码云 | [https://gitee.com/d2-projects/folder-explorer](https://gitee.com/d2-projects/folder-explorer) |
 
 > 如果您在 github 仓库下载很慢，可以尝试使用我们的码云仓库克隆代码
 

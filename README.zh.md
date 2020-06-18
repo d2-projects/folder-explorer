@@ -7,7 +7,7 @@
 如果你需要它，你会很爱它。如果你不需要，可能永远不会需要。
 
 * Github：[folder-explorer](https://github.com/d2-projects/folder-explorer)
-* 码云：[folder-explorer](https://gitee.com/fairyever/folder-explorer)
+* 码云：[folder-explorer](https://gitee.com/d2-projects/folder-explorer)
 * 介绍：[《使用可视化界面自定义输出带注释的项目文件树形结构》](https://juejin.im/post/5d8d83656fb9a04ddb3b6630)
 
 ![](https://cdn.d2.pub/files/image-hosting/20190926165513.png)
