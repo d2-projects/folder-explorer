@@ -18,7 +18,7 @@
     "dayjs": "^1.8.16",
     "echarts": "^4.2.1",
     "flex.css": "^1.1.7",
-    "highlight.js": "^9.15.10",
+    "highlight.js": "^10.1.2",
     "lodash": "^4.17.15",
     "md5": "^2.2.1",
     "pretty-bytes": "^5.3.0",
